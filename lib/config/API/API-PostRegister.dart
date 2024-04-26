@@ -5,37 +5,37 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiRegister {
-  Future<bool> checkWhatsAppNumberAvailability(String whatsAppNumber) async {
-    final url = Uri.parse('https://api-arutmin.up.railway.app/users/register');
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'whatsAppNumber': whatsAppNumber}),
-    );
+  // Future<bool> checkWhatsAppNumberAvailability(String whatsAppNumber) async {
+  //   final url = Uri.parse('https://api-arutmin.up.railway.app/users/register');
+  //   final response = await http.post(
+  //     url,
+  //     headers: {'Content-Type': 'application/json'},
+  //     body: jsonEncode({'whatsAppNumber': whatsAppNumber}),
+  //   );
 
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      return data['available'];
-    } else {
-      throw Exception('Failed to check WhatsApp number availability');
-    }
-  }
+  //   if (response.statusCode == 200) {
+  //     final data = jsonDecode(response.body);
+  //     return data['available'];
+  //   } else {
+  //     throw Exception('Failed to check WhatsApp number availability');
+  //   }
+  // }
 
-  Future<bool> checkEmailAvailability(String email) async {
-    final url = Uri.parse('https://api-arutmin.up.railway.app/users/register');
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'email': email}),
-    );
+  // Future<bool> checkEmailAvailability(String email) async {
+  //   final url = Uri.parse('https://api-arutmin.up.railway.app/users/register');
+  //   final response = await http.post(
+  //     url,
+  //     headers: {'Content-Type': 'application/json'},
+  //     body: jsonEncode({'email': email}),
+  //   );
 
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      return data['available'];
-    } else {
-      throw Exception('Failed to check email availability');
-    }
-  }
+  //   if (response.statusCode == 200) {
+  //     final data = jsonDecode(response.body);
+  //     return data['available'];
+  //   } else {
+  //     throw Exception('Failed to check email availability');
+  //   }
+  // }
 
   Future<void> handleRegister(
     String fullName,

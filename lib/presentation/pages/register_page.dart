@@ -502,7 +502,7 @@ class _RegisterPage extends State<RegisterPage> {
         // Handle any errors in registration
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Registrasi gagal: $e'),
+            content: Text('$e'),
             backgroundColor: Colors.red,
           ),
         );

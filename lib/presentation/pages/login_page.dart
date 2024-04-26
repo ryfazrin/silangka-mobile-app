@@ -296,7 +296,7 @@ class _LoginPage extends State<LoginPage> {
   Future<void> _showDialogSuccess() async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Color(0xFFD4F3C4),
@@ -338,7 +338,7 @@ class _LoginPage extends State<LoginPage> {
   Future<void> _showDialogFailed(String errorMessage) async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Color(0xFFD4F3C4),
