@@ -27,7 +27,9 @@ class ApiService {
         return jsonDecode(response.body);
       } else {
         print('Failed to load user data. Status code: ${response.statusCode}');
-        throw Exception('Failed to load user data');
+        final error = jsonDecode(response.body);
+        throw Exception(error['message']);
+        // throw Exception('Failed to load user data');
       }
     } catch (error) {
       print('Error: $error');

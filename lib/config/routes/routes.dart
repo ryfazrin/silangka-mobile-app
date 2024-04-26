@@ -4,23 +4,24 @@ import 'package:silangka/presentation/pages/welcome_page.dart';
 import 'package:silangka/presentation/pages/login_page.dart';
 import 'package:silangka/presentation/pages/register_page.dart';
 import 'package:silangka/presentation/pages/home_page.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final sharedPreferences = await SharedPreferences.getInstance();
-  runApp(MyApp(sharedPreferences: sharedPreferences));
-}
+import 'package:silangka/main.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.sharedPreferences});
+  const MyApp({
+    Key? key,
+    required this.sharedPreferences,
+    required this.initialRoute,
+  }) : super(key: key);
+
   final SharedPreferences sharedPreferences;
+  final String initialRoute;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(useMaterial3: true),
       title: 'SiLangka',
-      initialRoute: WelcomePage.routeName,
+      initialRoute: initialRoute,
       routes: {
         WelcomePage.routeName: (context) => const WelcomePage(),
         RegisterPage.routeName: (context) => const RegisterPage(),

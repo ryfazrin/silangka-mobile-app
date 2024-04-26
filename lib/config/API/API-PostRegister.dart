@@ -69,7 +69,9 @@ class ApiRegister {
       } else {
         // Handle different response codes accordingly
         print('Failed to register user. Status code: ${response.statusCode}');
-        throw Exception('Failed to register user');
+        final error = jsonDecode(response.body);
+        throw Exception(error['message']);
+        // throw Exception('Failed to register user');
       }
     } catch (error) {
       print('Error: $error');

@@ -42,17 +42,17 @@ class _RegisterPage extends State<RegisterPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Align(
+            const Align(
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Text(
                   'Register',
                   style: TextStyle(
-                    fontFamily: 'Nexa-Heavy',
+                    fontFamily: 'Nexa',
                     fontSize: 45,
                     color: Color(0xFF58A356),
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -67,9 +67,9 @@ class _RegisterPage extends State<RegisterPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
+                    const Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Text(
+                      child: const Text(
                         'Nama Lengkap',
                         style: const TextStyle(
                           fontFamily: 'Lato',
@@ -121,7 +121,7 @@ class _RegisterPage extends State<RegisterPage> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
+                        const Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
                             'Email',
@@ -139,6 +139,7 @@ class _RegisterPage extends State<RegisterPage> {
                             width: 345,
                             child: TextFormField(
                               controller: _emailController,
+                              keyboardType: TextInputType.emailAddress,
                               onTap: () {
                                 setState(() {
                                   emailFocus = true;
@@ -190,7 +191,7 @@ class _RegisterPage extends State<RegisterPage> {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8),
-                              child: Text(
+                              child: const Text(
                                 'Whatsapp',
                                 style: const TextStyle(
                                   fontFamily: 'Lato',
@@ -206,6 +207,7 @@ class _RegisterPage extends State<RegisterPage> {
                                 width: 345,
                                 child: TextFormField(
                                   controller: _noHpController,
+                                  keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: Colors.white,
@@ -244,7 +246,7 @@ class _RegisterPage extends State<RegisterPage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
+                            const Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8),
                               child: Text(
@@ -309,7 +311,7 @@ class _RegisterPage extends State<RegisterPage> {
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8),
-                              child: Text(
+                              child: const Text(
                                 'Confirm Password',
                                 style: const TextStyle(
                                   fontFamily: 'Lato',
@@ -383,8 +385,8 @@ class _RegisterPage extends State<RegisterPage> {
                               child: Text(
                                 'Register',
                                 style: TextStyle(
-                                  fontFamily: 'Lato',
-                                  fontSize: 16,
+                                  fontFamily: 'Nexa',
+                                  fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
@@ -408,7 +410,7 @@ class _RegisterPage extends State<RegisterPage> {
                   'Sudah punya akun?',
                   style: TextStyle(
                     fontFamily: 'Lato',
-                    fontSize: 12,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF58A356),
                   ),
@@ -425,7 +427,7 @@ class _RegisterPage extends State<RegisterPage> {
                     style: TextStyle(
                       color: Color(0xFF074AF5),
                       fontFamily: 'Lato',
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -438,33 +440,51 @@ class _RegisterPage extends State<RegisterPage> {
     );
   }
 
+  Future<void> _showDialogSuccess() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Color(0xFFD4F3C4),
+          title: const Text(
+            'Sukses',
+            style: TextStyle(
+              color: Color(0xFF58A356),
+            ),
+          ),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  'Berhasil Register.',
+                  style: TextStyle(color: Color(0xFF58A356)),
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _handleRegister() async {
     if (formKey.currentState!.validate()) {
-      final email = _emailController.text.trim();
-      final whatsAppNumber = _noHpController.text.trim();
-
       try {
-        // Check if email and WhatsApp number are available
-        final isEmailAvailable =
-            await _apiService.checkEmailAvailability(email);
-        final isWhatsAppNumberAvailable =
-            await _apiService.checkWhatsAppNumberAvailability(whatsAppNumber);
-
-        setState(() {
-          _isEmailAvailable = isEmailAvailable;
-          _isWhatsAppNumberAvailable = isWhatsAppNumberAvailable;
-        });
-
-        if (!_isEmailAvailable || !_isWhatsAppNumberAvailable) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Email atau Nomor Whatssapp sudah digunakan'),
-              backgroundColor: Colors.red,
-            ),
-          );
-          return;
-        }
-        // Call the register API and await its completion
         await _apiService.handleRegister(
           _fullNameController.text.trim(),
           _emailController.text.trim(),
@@ -491,7 +511,7 @@ class _RegisterPage extends State<RegisterPage> {
       // Show a snackbar if the form is not valid
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Silakan isi semua kolom'),
+          content: Text('Silakan isi semua kolom dengan benar'),
           backgroundColor: Colors.red,
         ),
       );

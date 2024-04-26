@@ -42,10 +42,10 @@ class _LoginPage extends State<LoginPage> {
               child: Text(
                 'Login',
                 style: TextStyle(
-                  fontFamily: 'Nexa-Heavy',
+                  fontFamily: 'Nexa',
                   fontSize: 45,
+                  fontWeight: FontWeight.bold,
                   color: Color(0xFF58A356),
-                  fontWeight: FontWeight.w900,
                 ),
               ),
             ),
@@ -65,7 +65,7 @@ class _LoginPage extends State<LoginPage> {
                         Text(
                           'Kembali di SILANGKA, titik pertemuan,',
                           style: TextStyle(
-                            fontFamily: 'Nexa-Heavy',
+                            fontFamily: 'Nexa',
                             fontSize: 14,
                             color: Color(0xFF58A356),
                             fontWeight: FontWeight.w600,
@@ -74,7 +74,7 @@ class _LoginPage extends State<LoginPage> {
                         Text(
                           'kepedulian terhadap satwa liar.',
                           style: TextStyle(
-                            fontFamily: 'Nexa-Heavy',
+                            fontFamily: 'Nexa',
                             fontSize: 14,
                             color: Color(0xFF58A356),
                             fontWeight: FontWeight.w600,
@@ -108,6 +108,7 @@ class _LoginPage extends State<LoginPage> {
                             width: 345,
                             child: TextFormField(
                               controller: _emailController,
+                              keyboardType: TextInputType.emailAddress,
                               onTap: () {
                                 setState(() {
                                   emailFocus = true;
@@ -130,7 +131,7 @@ class _LoginPage extends State<LoginPage> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter your email!';
+                                  return 'Please enter your email';
                                 }
                                 if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                     .hasMatch(value)) {
@@ -238,10 +239,10 @@ class _LoginPage extends State<LoginPage> {
                             child: Text(
                               'Login',
                               style: TextStyle(
-                                fontFamily: 'Nexa-Heavy',
+                                fontFamily: 'Nexa',
                                 color: Colors.white,
                                 fontSize: 20,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -260,7 +261,7 @@ class _LoginPage extends State<LoginPage> {
                       'Belum punya akun?',
                       style: TextStyle(
                         fontFamily: 'Lato',
-                        fontSize: 12,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF58A356),
                       ),
@@ -277,7 +278,7 @@ class _LoginPage extends State<LoginPage> {
                         style: TextStyle(
                           color: Color(0xFF074AF5),
                           fontFamily: 'Lato',
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -292,6 +293,90 @@ class _LoginPage extends State<LoginPage> {
     );
   }
 
+  Future<void> _showDialogSuccess() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Color(0xFFD4F3C4),
+          title: const Text(
+            'Sukses',
+            style: TextStyle(
+              color: Color(0xFF58A356),
+            ),
+          ),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  'Berhasil Login.',
+                  style: TextStyle(color: Color(0xFF58A356)),
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showDialogFailed(String errorMessage) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Color(0xFFD4F3C4),
+          title: const Text(
+            'Gagal',
+            style: TextStyle(color: Colors.red),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  errorMessage,
+                  style: TextStyle(
+                    color: Color(0xFF58A356),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _handleLogin() async {
     if (formKey.currentState!.validate()) {
       try {
@@ -299,21 +384,23 @@ class _LoginPage extends State<LoginPage> {
           _emailController.text.trim(),
           _passwordController.text.trim(),
         );
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Login Berhasil'),
-            backgroundColor: Colors.green,
-          ),
-        );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   const SnackBar(
+        //     content: Text('Login Berhasil'),
+        //     backgroundColor: Colors.green,
+        //   ),
+        // );
+        await _showDialogSuccess();
         Navigator.pushReplacementNamed(context, '/homepage');
         print('User data: $userData');
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Gagal Login: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(
+        //     content: Text('Gagal Login: $e'),
+        //     backgroundColor: Colors.red,
+        //   ),
+        // );
+        await _showDialogFailed(e.toString());
         print('Error: $e');
       }
     } else {

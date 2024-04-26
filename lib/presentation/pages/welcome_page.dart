@@ -27,7 +27,7 @@ class WelcomePage extends StatelessWidget {
                     child: Container(
                       width: 400,
                       height: 550,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
                               'assets/images/hewan-removebg-preview.png'),
@@ -73,9 +73,9 @@ class WelcomePage extends StatelessWidget {
                             child: Text(
                               'Pelaporan satwa mudah',
                               style: TextStyle(
-                                fontFamily: 'Nexa-Heavy',
+                                fontFamily: 'Nexa',
                                 fontSize: 20,
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.bold,
                                 foreground: Paint()
                                   ..style = PaintingStyle.stroke
                                   ..strokeWidth = 3
@@ -90,13 +90,13 @@ class WelcomePage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text(
+                          const Text(
                             'Pelaporan satwa mudah',
                             style: TextStyle(
                               color: Color(0xFF58A356),
                               fontSize: 20,
-                              fontFamily: 'Nexa-Heavy',
-                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Nexa',
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
@@ -107,8 +107,9 @@ class WelcomePage extends StatelessWidget {
                             child: Text(
                               'dengan',
                               style: TextStyle(
-                                fontFamily: 'Nexa-Heavy',
+                                fontFamily: 'Nexa',
                                 fontSize: 20,
+                                fontWeight: FontWeight.bold,
                                 foreground: Paint()
                                   ..style = PaintingStyle.stroke
                                   ..strokeWidth = 3
@@ -123,13 +124,13 @@ class WelcomePage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text(
+                          const Text(
                             'dengan',
                             style: TextStyle(
                               color: Color(0xFF58A356),
                               fontSize: 20,
-                              fontFamily: 'Nexa-Heavy',
-                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Nexa',
+                              fontWeight: FontWeight.bold,
                             ),
                           )
                         ],
@@ -140,8 +141,9 @@ class WelcomePage extends StatelessWidget {
                             child: Text(
                               'SILANGKA',
                               style: TextStyle(
-                                fontFamily: 'Nexa-Heavy',
+                                fontFamily: 'Nexa',
                                 fontSize: 45,
+                                fontWeight: FontWeight.bold,
                                 foreground: Paint()
                                   ..style = PaintingStyle.stroke
                                   ..strokeWidth = 3
@@ -156,14 +158,13 @@ class WelcomePage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text(
+                          const Text(
                             'SILANGKA',
                             style: TextStyle(
-                              color: Color(0xFF58A356),
-                              fontSize: 45,
-                              fontFamily: 'Nexa-Heavy',
-                              fontWeight: FontWeight.w500,
-                            ),
+                                color: Color(0xFF58A356),
+                                fontSize: 45,
+                                fontFamily: 'Nexa',
+                                fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -173,8 +174,9 @@ class WelcomePage extends StatelessWidget {
                             child: Text(
                               'Sistem Informasi',
                               style: TextStyle(
-                                fontFamily: 'Nexa-Heavy',
+                                fontFamily: 'Nexa',
                                 fontSize: 16,
+                                fontWeight: FontWeight.bold,
                                 foreground: Paint()
                                   ..style = PaintingStyle.stroke
                                   ..strokeWidth = 3
@@ -189,14 +191,13 @@ class WelcomePage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text(
+                          const Text(
                             'Sistem Informasi',
                             style: TextStyle(
-                              color: Color(0xFF58A356),
-                              fontSize: 16,
-                              fontFamily: 'Nexa-Heavy',
-                              fontWeight: FontWeight.w500,
-                            ),
+                                color: Color(0xFF58A356),
+                                fontSize: 16,
+                                fontFamily: 'Nexa',
+                                fontWeight: FontWeight.bold),
                           )
                         ],
                       ),
@@ -206,8 +207,9 @@ class WelcomePage extends StatelessWidget {
                             child: Text(
                               'Laporan Satwa Langka',
                               style: TextStyle(
-                                fontFamily: 'Nexa-Heavy',
+                                fontFamily: 'Nexa',
                                 fontSize: 16,
+                                fontWeight: FontWeight.bold,
                                 foreground: Paint()
                                   ..style = PaintingStyle.stroke
                                   ..strokeWidth = 3
@@ -222,13 +224,13 @@ class WelcomePage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text(
+                          const Text(
                             'Laporan Satwa Langka',
                             style: TextStyle(
                               color: Color(0xFF58A356),
                               fontSize: 16,
-                              fontFamily: 'Nexa-Heavy',
-                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Nexa',
+                              fontWeight: FontWeight.bold,
                             ),
                           )
                         ],
@@ -257,12 +259,12 @@ class WelcomePage extends StatelessWidget {
                       backgroundColor:
                           MaterialStateProperty.all(Color(0xFF58A356)),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Register',
                       style: TextStyle(
-                        fontFamily: 'Nexa-Heavy',
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Nexa',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                         color: Color(0xFFFFFFFF),
                       ),
                     ),
@@ -281,12 +283,12 @@ class WelcomePage extends StatelessWidget {
                       backgroundColor:
                           MaterialStateProperty.all(Color(0xFF58A356)),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Login',
                       style: TextStyle(
-                        fontFamily: 'Nexa-Heavy',
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Nexa',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
                         color: Color(0xFFFFFFFF),
                       ),
                     ),
