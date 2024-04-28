@@ -32,7 +32,6 @@ class _RegisterPage extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return Scaffold(
       backgroundColor: Color(0xFFD4F3C4),
       appBar: AppBar(
@@ -162,11 +161,11 @@ class _RegisterPage extends State<RegisterPage> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter your email!';
+                                  return 'Silakan isi email Anda';
                                 }
                                 if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                     .hasMatch(value)) {
-                                  return 'Silakan isi email Anda';
+                                  return 'Email Anda tidak valid';
                                 }
                                 if (!_isEmailAvailable) {
                                   return 'Email sudah digunakan';

@@ -17,7 +17,7 @@ class ApiRegister {
       final data = jsonDecode(response.body);
       return data['available'];
     } else {
-      throw Exception('Failed to check WhatsApp number availability');
+      throw Exception('Gagal memeriksa ketersediaan nomor WhatsApp');
     }
   }
 
@@ -33,7 +33,7 @@ class ApiRegister {
       final data = jsonDecode(response.body);
       return data['available'];
     } else {
-      throw Exception('Failed to check email availability');
+      throw Exception('Gagal memeriksa ketersediaan email');
     }
   }
 
@@ -65,10 +65,11 @@ class ApiRegister {
       if (response.statusCode == 201) {
         // If the registration is successful, save the user data locally
         await prefs.setString('user', response.body);
-        print('Registration successful.');
+        print('Registrasi Berhasil.');
       } else {
         // Handle different response codes accordingly
-        print('Failed to register user. Status code: ${response.statusCode}');
+        print(
+            'Gagal mendaftarkan pengguna. Status code: ${response.statusCode}');
         final error = jsonDecode(response.body);
         throw Exception(error['message']);
         // throw Exception('Failed to register user');

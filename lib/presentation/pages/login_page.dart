@@ -27,7 +27,6 @@ class _LoginPage extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return Scaffold(
       backgroundColor: Color(0xFFD4F3C4),
       appBar: AppBar(
@@ -131,7 +130,7 @@ class _LoginPage extends State<LoginPage> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter your email';
+                                  return 'Masukkan email Anda';
                                 }
                                 if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                     .hasMatch(value)) {
@@ -201,7 +200,7 @@ class _LoginPage extends State<LoginPage> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter your password';
+                                  return 'Masukkan password Anda';
                                 }
                                 return null;
                               },
@@ -219,7 +218,7 @@ class _LoginPage extends State<LoginPage> {
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text('Silakan isi masukan'),
+                                    content: Text('Silakan isi kolom'),
                                   ),
                                 );
                               }
@@ -384,22 +383,10 @@ class _LoginPage extends State<LoginPage> {
           _emailController.text.trim(),
           _passwordController.text.trim(),
         );
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   const SnackBar(
-        //     content: Text('Login Berhasil'),
-        //     backgroundColor: Colors.green,
-        //   ),
-        // );
         await _showDialogSuccess();
         Navigator.pushReplacementNamed(context, '/homepage');
         print('User data: $userData');
       } catch (e) {
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   SnackBar(
-        //     content: Text('Gagal Login: $e'),
-        //     backgroundColor: Colors.red,
-        //   ),
-        // );
         await _showDialogFailed(e.toString());
         print('Error: $e');
       }
