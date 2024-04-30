@@ -4,6 +4,7 @@ import 'package:silangka/presentation/pages/welcome_page.dart';
 import 'package:silangka/presentation/pages/login_page.dart';
 import 'package:silangka/presentation/pages/register_page.dart';
 import 'package:silangka/presentation/pages/home_page.dart';
+import 'package:silangka/presentation/pages/contacts_page.dart';
 import 'package:silangka/main.dart';
 
 class MyApp extends StatelessWidget {
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         RegisterPage.routeName: (context) => const RegisterPage(),
         LoginPage.routeName: (context) => const LoginPage(),
         HomePage.routeName: (context) => const HomePage(),
+        ContactsPage.routeName: (context) => const ContactsPage(),
       },
     );
   }
