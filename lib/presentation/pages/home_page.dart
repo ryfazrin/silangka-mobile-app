@@ -1,11 +1,12 @@
 import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silangka/presentation/pages/contacts.dart';
 import 'package:silangka/constants/constant.dart';
+import 'package:silangka/config/API/API-GetAnimalsandImage.dart';
+import 'package:silangka/presentation/models/animals_model.dart';
+import 'package:silangka/presentation/pages/animal_detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -117,6 +118,42 @@ class _HomePage extends State<HomePage> {
               }
             },
           ),
+        ),
+        body: FutureBuilder<List<Animal>>(
+          future: ApiAnimal.fetchAnimals(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final animals = snapshot.data!;
+              return ListView.builder(
+                itemCount: animals.length,
+                itemBuilder: (context, index) {
+                  final animal = animals[index];
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              AnimalDetailPage(animal: animal),
+                        ),
+                      );
+                    },
+                    child: ListTile(
+                      title: Text(animal.name),
+                      subtitle: Text(animal.latinName),
+                    ),
+                  );
+                },
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('${snapshot.error}'),
+              );
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
         ),
       ),
     );

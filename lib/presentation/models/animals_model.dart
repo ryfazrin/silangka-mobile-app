@@ -8,6 +8,7 @@ class Animal {
   final String uniqueBehavior;
   final String gestationPeriod;
   final String imageUrl;
+  final List<EstimationAmount> estimationAmounts;
 
   Animal({
     required this.name,
@@ -19,6 +20,7 @@ class Animal {
     required this.uniqueBehavior,
     required this.gestationPeriod,
     required this.imageUrl,
+    required this.estimationAmounts,
   });
 
   factory Animal.fromJson(Map<String, dynamic> json) {
@@ -32,6 +34,34 @@ class Animal {
       uniqueBehavior: json['uniqueBehavior'],
       gestationPeriod: json['gestationPeriod'],
       imageUrl: json['imageUrl'],
+      estimationAmounts: List<EstimationAmount>.from(
+        json['estimationAmounts'].map(
+          (x) => EstimationAmount.fromJson(x),
+        ),
+      ),
+    );
+  }
+}
+
+class EstimationAmount {
+  final int id;
+  final String? area;
+  final String? year;
+  final String? total;
+
+  EstimationAmount({
+    required this.id,
+    this.area,
+    this.year,
+    this.total,
+  });
+
+  factory EstimationAmount.fromJson(Map<String, dynamic> json) {
+    return EstimationAmount(
+      id: json['id'],
+      area: json['area'],
+      year: json['year'],
+      total: json['total'],
     );
   }
 }
