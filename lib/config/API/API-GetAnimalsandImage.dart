@@ -28,7 +28,3 @@ class ApiAnimal {
     }
   }
 }
-
-class Image {
-  static const String baseUrl = '';
-}
