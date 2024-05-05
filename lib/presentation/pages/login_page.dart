@@ -384,7 +384,7 @@ class _LoginPage extends State<LoginPage> {
           _passwordController.text.trim(),
         );
         await _showDialogSuccess();
-        Navigator.pushReplacementNamed(context, '/contacts');
+        Navigator.pushReplacementNamed(context, '/homepage');
         print('User data: $userData');
       } catch (e) {
         await _showDialogFailed(e.toString());

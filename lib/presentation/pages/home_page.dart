@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silangka/presentation/pages/contacts.dart';
-import 'package:silangka/constants/constant.dart';
+import 'package:silangka/constants/theme.dart';
 import 'package:silangka/config/API/API-GetAnimalsandImage.dart';
 import 'package:silangka/presentation/models/animals_model.dart';
 import 'package:silangka/presentation/pages/animal_detail_page.dart';
@@ -81,42 +81,45 @@ class _HomePage extends State<HomePage> {
             ),
           ],
         ),
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
+        bottomNavigationBar: ClipRRect(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20.0),
           ),
-          child: BottomNavigationBar(
-            backgroundColor: ColorSeed.green.color,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.report_problem_outlined),
-                label: 'Lapor',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.contact_page_sharp),
-                label: 'Hubungi Kami',
-              )
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: const Color.fromARGB(255, 0, 0, 0),
-            onTap: (index) {
-              if (index == 0) {
-                // navigate home
-              } else if (index == 1) {
-                // navigate report
-              } else if (index == 2) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ContactsPage(),
-                  ),
-                );
-              }
-            },
+          child: SizedBox(
+            height: 58, // Sesuaikan dengan tinggi yang diinginkan
+            child: BottomNavigationBar(
+              backgroundColor: Colors.green,
+              selectedItemColor: Color(0xFFF8ED8E),
+              onTap: (index) {
+                if (index == 0) {
+                  // navigate home
+                } else if (index == 1) {
+                  // navigate report
+                } else if (index == 2) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ContactsPage(),
+                    ),
+                  );
+                }
+              },
+              currentIndex: _selectedIndex,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.note_add),
+                  label: 'Lapor',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.contacts),
+                  label: 'Hubungi Kami',
+                )
+              ],
+            ),
           ),
         ),
         body: FutureBuilder<List<Animal>>(
@@ -128,19 +131,60 @@ class _HomePage extends State<HomePage> {
                 itemCount: animals.length,
                 itemBuilder: (context, index) {
                   final animal = animals[index];
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              AnimalDetailPage(animal: animal),
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: 345,
+                          ),
+                          child: Container(
+                            width: 345,
+                            decoration: BoxDecoration(
+                                color: Color(0xFF58A356),
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3),
+                                  )
+                                ]),
+                            child: ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        AnimalDetailPage(animal: animal),
+                                  ),
+                                );
+                              },
+                              title: Text(
+                                animal.name,
+                                style: const TextStyle(
+                                  fontFamily: 'Nexa',
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFF8ED8E),
+                                  fontSize: 18,
+                                ),
+                              ),
+                              subtitle: Text(
+                                animal.latinName,
+                                style: const TextStyle(
+                                  fontFamily: 'Lato',
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFF8ED8E),
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                      );
-                    },
-                    child: ListTile(
-                      title: Text(animal.name),
-                      subtitle: Text(animal.latinName),
+                      ],
                     ),
                   );
                 },

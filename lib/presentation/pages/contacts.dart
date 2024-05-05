@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:silangka/config/API/API-GetContacts.dart';
 import 'package:silangka/presentation/models/contacts_model.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class ContactsPage extends StatefulWidget {
   const ContactsPage({Key? key}) : super(key: key);
@@ -75,18 +76,193 @@ class _ContactsPage extends State<ContactsPage> {
                           ),
                           child: SizedBox(
                             width: 346,
-                            height: 288,
+                            height: 320,
                             child: Padding(
                               padding: const EdgeInsets.all(16),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Fax: ${_contact!.fax}'),
-                                  Text('Phone: ${_contact!.phone}'),
-                                  Text('Email: ${_contact!.email}'),
-                                  Text('Instagram: ${_contact!.instagram}'),
-                                  Text('Facebook: ${_contact!.facebook}'),
-                                  Text('Address: ${_contact!.address}'),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            WidgetSpan(
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const Icon(
+                                                      BoxIcons.bx_photo_album,
+                                                      size: 25,
+                                                      color: Color(0xFFF8ED8E)),
+                                                  const SizedBox(width: 6),
+                                                  Text(
+                                                    '${_contact!.fax}',
+                                                    style: const TextStyle(
+                                                      fontFamily: 'Lato',
+                                                      fontSize: 13,
+                                                      color: Color(0xFFF8ED8E),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 14,
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            WidgetSpan(
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const Icon(BoxIcons.bx_phone,
+                                                      size: 25,
+                                                      color: Color(0xFFF8ED8E)),
+                                                  const SizedBox(width: 6),
+                                                  Text(
+                                                    '${_contact!.phone}',
+                                                    style: const TextStyle(
+                                                      fontFamily: 'Lato',
+                                                      fontSize: 13,
+                                                      color: Color(0xFFF8ED8E),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 14,
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            WidgetSpan(
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const Icon(
+                                                      BoxIcons.bx_envelope,
+                                                      size: 25,
+                                                      color: Color(0xFFF8ED8E)),
+                                                  const SizedBox(width: 6),
+                                                  Text(
+                                                    '${_contact!.email}',
+                                                    style: const TextStyle(
+                                                      fontFamily: 'Lato',
+                                                      fontSize: 13,
+                                                      color: Color(0xFFF8ED8E),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 14,
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            WidgetSpan(
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const Icon(
+                                                      BoxIcons.bxl_instagram,
+                                                      size: 25,
+                                                      color: Color(0xFFF8ED8E)),
+                                                  const SizedBox(width: 6),
+                                                  Text(
+                                                    '${_contact!.instagram}',
+                                                    style: const TextStyle(
+                                                      fontFamily: 'Lato',
+                                                      fontSize: 13,
+                                                      color: Color(0xFFF8ED8E),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 14,
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            WidgetSpan(
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const Icon(
+                                                      BoxIcons.bxl_facebook,
+                                                      size: 25,
+                                                      color: Color(0xFFF8ED8E)),
+                                                  const SizedBox(width: 6),
+                                                  Text(
+                                                    '${_contact!.facebook}',
+                                                    style: const TextStyle(
+                                                      fontFamily: 'Lato',
+                                                      fontSize: 13,
+                                                      color: Color(0xFFF8ED8E),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 14,
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            WidgetSpan(
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const Icon(BoxIcons.bx_home,
+                                                      size: 25,
+                                                      color: Color(0xFFF8ED8E)),
+                                                  SizedBox(width: 6),
+                                                  Expanded(
+                                                    child: Text(
+                                                      '${_contact!.address}',
+                                                      maxLines: 4,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: const TextStyle(
+                                                        fontFamily: 'Lato',
+                                                        fontSize: 13,
+                                                        color:
+                                                            Color(0xFFF8ED8E),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  )
                                 ],
                               ),
                             ),
