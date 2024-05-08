@@ -10,7 +10,18 @@ class AnimalDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(animal.name),
+        title: Text(
+          animal.name,
+          style: TextStyle(
+            fontFamily: 'Nexa',
+            fontWeight: FontWeight.bold,
+            // color: Color(0xFF58A356),
+            color: Color(0xFFF8ED8E),
+          ),
+        ),
+        // backgroundColor: const Color(0xFFD4F3C4),
+        backgroundColor: const Color(0xFF58A356),
+        foregroundColor:  Color(0xFFF8ED8E),
       ),
       body: SingleChildScrollView(
         child: Padding(
