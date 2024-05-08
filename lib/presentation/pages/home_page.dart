@@ -70,10 +70,12 @@ class _HomePage extends State<HomePage> {
             style: TextStyle(
               fontFamily: 'Nexa',
               fontWeight: FontWeight.bold,
-              color: Color(0xFF58A356),
+              // color: Color(0xFF58A356),
+              color: Color(0xFFF8ED8E),
             ),
           ),
-          backgroundColor: const Color(0xFFD4F3C4),
+          // backgroundColor: const Color(0xFFD4F3C4),
+          backgroundColor: const Color(0xFF58A356),
           actions: [
             IconButton(
               icon: const Icon(Icons.logout),
@@ -132,59 +134,73 @@ class _HomePage extends State<HomePage> {
                 itemBuilder: (context, index) {
                   final animal = animals[index];
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: 345,
-                          ),
-                          child: Container(
-                            width: 345,
-                            decoration: BoxDecoration(
-                                color: Color(0xFF58A356),
-                                borderRadius: BorderRadius.circular(8),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 5,
-                                    offset: Offset(0, 3),
-                                  )
-                                ]),
-                            child: ListTile(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        AnimalDetailPage(animal: animal),
-                                  ),
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: 345,
+                      ),
+                      child: Container(
+                        width: 345,
+                        decoration: BoxDecoration(
+                          // color: Color(0xFF58A356),
+                          color: Colors.white,
+                          border: Border.all(color: Color(0xFF58A356)),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            )
+                          ],
+                        ),
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    AnimalDetailPage(animal: animal),
+                              ),
+                            );
+                          },
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(8), // Border radius 8.0
+                            child: Image.network(
+                              'https://api-arutmin.up.railway.app/animals/images/${animal.imageUrl}',
+                              errorBuilder: (context, error, stackTrace) {
+                                // Gambar dari assets sebagai pengganti
+                                return Image.asset(
+                                  'assets/images/image-removebg-preview.png',
+                                  width: 80,
                                 );
                               },
-                              title: Text(
-                                animal.name,
-                                style: const TextStyle(
-                                  fontFamily: 'Nexa',
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFFF8ED8E),
-                                  fontSize: 18,
-                                ),
-                              ),
-                              subtitle: Text(
-                                animal.latinName,
-                                style: const TextStyle(
-                                  fontFamily: 'Lato',
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFFF8ED8E),
-                                  fontSize: 12,
-                                ),
-                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          title: Text(
+                            animal.name,
+                            style: const TextStyle(
+                              fontFamily: 'Nexa',
+                              fontWeight: FontWeight.bold,
+                              // color: Color(0xFF58A356),
+                              color: Color(0xFF58A356),
+                              fontSize: 18,
+                            ),
+                          ),
+                          subtitle: Text(
+                            animal.latinName,
+                            style: const TextStyle(
+                              fontFamily: 'Lato',
+                              fontWeight: FontWeight.bold,
+                              // color: Color(0xFF58A356),
+                              color: Color(0xFF58A356),
+                              fontSize: 12,
                             ),
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   );
                 },
