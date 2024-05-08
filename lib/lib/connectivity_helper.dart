@@ -40,7 +40,13 @@ class ConnectivityHelper {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('No Internet Connection'),
+          backgroundColor: const Color(0xFFD4F3C4),
+          title: Text(
+            'No Internet Connection',
+            style: TextStyle(
+              color: Color(0xFF58A356),
+            ),
+          ),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -55,7 +61,7 @@ class ConnectivityHelper {
               onPressed: () {
                 Navigator.of(context).pop();
                 if (_isOffline) {
-                  initConnectivity();  // Recheck connectivity
+                  initConnectivity(); // Recheck connectivity
                 }
               },
             ),
