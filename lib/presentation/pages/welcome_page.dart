@@ -17,9 +17,8 @@ class WelcomePage extends StatefulWidget {
   _WelcomePage createState() => _WelcomePage();
 }
 
-bool canPop = true;
-
 class _WelcomePage extends State<WelcomePage> {
+  bool canPop = true;
   late ConnectivityHelper _connectivityHelper;
 
   @override
