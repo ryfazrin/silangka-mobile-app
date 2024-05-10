@@ -44,6 +44,15 @@ class _HomePage extends State<HomePage> {
   }
 
   void _onItemTapped(int index) {
+    if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const ContactsPage(),
+        ),
+      );
+      return;
+    }
     setState(() {
       _selectedIndex = index;
     });
@@ -83,43 +92,34 @@ class _HomePage extends State<HomePage> {
             ),
           ],
         ),
-        bottomNavigationBar: ClipRRect(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(20.0),
-          ),
-          child: SizedBox(
-            height: 58, // Sesuaikan dengan tinggi yang diinginkan
-            child: BottomNavigationBar(
-              backgroundColor: Colors.green,
-              selectedItemColor: Color(0xFFF8ED8E),
-              onTap: (index) {
-                if (index == 0) {
-                  // navigate home
-                } else if (index == 1) {
-                  // navigate report
-                } else if (index == 2) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ContactsPage(),
-                    ),
-                  );
-                }
-              },
-              currentIndex: _selectedIndex,
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 20.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(16.0)),
+            child: NavigationBar(
+              // onDestinationSelected: (int index) {
+              //   setState(() {
+              //     currentPageIndex = index;
+              //   });
+              // },
+              onDestinationSelected: _onItemTapped,
+              selectedIndex: _selectedIndex,
+              backgroundColor: Color(0xFF58A356),
+              indicatorColor: Color(0xFFF8ED8E),
+              destinations: const <Widget>[
+                NavigationDestination(
+                  selectedIcon: Icon(Icons.home),
+                  icon: Icon(Icons.home_outlined),
                   label: 'Home',
                 ),
-                BottomNavigationBarItem(
+                NavigationDestination(
                   icon: Icon(Icons.note_add),
                   label: 'Lapor',
                 ),
-                BottomNavigationBarItem(
+                NavigationDestination(
                   icon: Icon(Icons.contacts),
                   label: 'Hubungi Kami',
-                )
+                ),
               ],
             ),
           ),
@@ -134,7 +134,8 @@ class _HomePage extends State<HomePage> {
                 itemBuilder: (context, index) {
                   final animal = animals[index];
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
                         maxWidth: 345,
@@ -166,7 +167,8 @@ class _HomePage extends State<HomePage> {
                             );
                           },
                           leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(8), // Border radius 8.0
+                            borderRadius:
+                                BorderRadius.circular(8), // Border radius 8.0
                             child: Image.network(
                               'https://api-arutmin.up.railway.app/animals/images/${animal.imageUrl}',
                               errorBuilder: (context, error, stackTrace) {
