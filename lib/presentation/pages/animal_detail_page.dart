@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:silangka/presentation/models/animals_model.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class AnimalDetailPage extends StatelessWidget {
   final Animal animal;
 
   const AnimalDetailPage({Key? key, required this.animal}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(animal.name),
+        scrolledUnderElevation: 0.0,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -18,8 +19,14 @@ class AnimalDetailPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(
-                  'https://api-arutmin.up.railway.app/animals/images/${animal.imageUrl}'),
+              if (animal.imageUrl.isNotEmpty)
+                Image.network(
+                  'https://arutmin-api.up.railway.app/animals/images/${animal.imageUrl}',
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const SizedBox.shrink();
+                  },
+                ),
               const SizedBox(height: 16.0),
               RichText(
                 textAlign: TextAlign.center,
@@ -36,7 +43,7 @@ class AnimalDetailPage extends StatelessWidget {
                     ),
                     TextSpan(
                       text: ': ${animal.name}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         fontFamily: 'Lato',
                         fontWeight: FontWeight.bold,
@@ -282,7 +289,7 @@ class AnimalDetailPage extends StatelessWidget {
                     }).toList(),
                   ],
                 ],
-              )
+              ),
             ],
           ),
         ),

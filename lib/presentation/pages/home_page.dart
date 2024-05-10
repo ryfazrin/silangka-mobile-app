@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silangka/presentation/pages/contacts.dart';
-import 'package:silangka/constants/theme.dart';
 import 'package:silangka/config/API/API-GetAnimalsandImage.dart';
 import 'package:silangka/presentation/models/animals_model.dart';
 import 'package:silangka/presentation/pages/animal_detail_page.dart';
+import 'package:silangka/presentation/pages/report_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -70,10 +70,10 @@ class _HomePage extends State<HomePage> {
             style: TextStyle(
               fontFamily: 'Nexa',
               fontWeight: FontWeight.bold,
-              color: Color(0xFF58A356),
+              color: Color(0xFFF8ED8E),
             ),
           ),
-          backgroundColor: const Color(0xFFD4F3C4),
+          backgroundColor: Colors.green,
           actions: [
             IconButton(
               icon: const Icon(Icons.logout),
@@ -82,19 +82,29 @@ class _HomePage extends State<HomePage> {
           ],
         ),
         bottomNavigationBar: ClipRRect(
-          borderRadius: BorderRadius.vertical(
+          borderRadius: const BorderRadius.vertical(
             top: Radius.circular(20.0),
           ),
           child: SizedBox(
-            height: 58, // Sesuaikan dengan tinggi yang diinginkan
+            height: 58,
             child: BottomNavigationBar(
               backgroundColor: Colors.green,
-              selectedItemColor: Color(0xFFF8ED8E),
+              selectedItemColor: const Color(0xFFF8ED8E),
               onTap: (index) {
                 if (index == 0) {
-                  // navigate home
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ReportPage(),
+                    ),
+                  );
                 } else if (index == 1) {
-                  // navigate report
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ReportPage(),
+                    ),
+                  );
                 } else if (index == 2) {
                   Navigator.push(
                     context,
@@ -137,20 +147,20 @@ class _HomePage extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         ConstrainedBox(
-                          constraints: BoxConstraints(
+                          constraints: const BoxConstraints(
                             maxWidth: 345,
                           ),
                           child: Container(
                             width: 345,
                             decoration: BoxDecoration(
-                                color: Color(0xFF58A356),
+                                color: const Color(0xFF58A356),
                                 borderRadius: BorderRadius.circular(8),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 2,
                                     blurRadius: 5,
-                                    offset: Offset(0, 3),
+                                    offset: const Offset(0, 3),
                                   )
                                 ]),
                             child: ListTile(
