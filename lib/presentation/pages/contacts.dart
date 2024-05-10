@@ -66,7 +66,7 @@ class _ContactsPage extends State<ContactsPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 85),
+              const SizedBox(height: 30),
               _isLoading
                   ? const CircularProgressIndicator()
                   : _contact != null
@@ -76,240 +76,312 @@ class _ContactsPage extends State<ContactsPage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          child: SizedBox(
-                            width: 346,
-                            height: 320,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            WidgetSpan(
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  const Icon(
-                                                      BoxIcons.bx_photo_album,
-                                                      size: 25,
-                                                      color: Color(0xFFF8ED8E)),
-                                                  const SizedBox(width: 6),
-                                                  InkWell(
-                                                    child: Text(
+                          margin: EdgeInsets.all(8),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          WidgetSpan(
+                                            child: Row(
+                                              // mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    const Icon(
+                                                        BoxIcons.bx_photo_album,
+                                                        size: 25,
+                                                        color: Color(0xFFF8ED8E)),
+                                                    const SizedBox(width: 6),
+                                                    Text(
                                                       '${_contact!.fax}',
                                                       style: const TextStyle(
                                                         fontFamily: 'Lato',
                                                         fontSize: 13,
                                                         color:
-                                                            Color(0xFFF8ED8E),
+                                                        Color(0xFFF8ED8E),
                                                       ),
                                                     ),
-                                                    onTap: () =>
-                                                        copyToClipboardAndShowSnackbar(
-                                                            context,
-                                                            _contact!.fax),
-                                                  ),
-                                                ],
-                                              ),
+                                                  ],
+                                                ),
+                                                IconButton(
+                                                  iconSize: 25,
+                                                  icon: const Icon(
+                                                      BoxIcons.bx_copy),
+                                                  color: Color(0xFFF8ED8E),
+                                                  onPressed: () {
+                                                    copyToClipboardAndShowSnackbar(
+                                                        context,
+                                                        _contact!
+                                                            .fax);
+                                                  },
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(
-                                        height: 14,
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            WidgetSpan(
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  const Icon(BoxIcons.bx_phone,
-                                                      size: 25,
-                                                      color: Color(0xFFF8ED8E)),
-                                                  const SizedBox(width: 6),
-                                                  InkWell(
-                                                    child: Text(
+                                    ),
+                                    const SizedBox(
+                                      height: 14,
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          WidgetSpan(
+                                            child: Row(
+                                              // mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    const Icon(BoxIcons.bx_phone,
+                                                        size: 25,
+                                                        color: Color(0xFFF8ED8E)),
+                                                    const SizedBox(width: 6),
+                                                    Text(
                                                       '${_contact!.phone}',
                                                       style: const TextStyle(
                                                         fontFamily: 'Lato',
                                                         fontSize: 13,
                                                         color:
-                                                            Color(0xFFF8ED8E),
+                                                        Color(0xFFF8ED8E),
                                                       ),
                                                     ),
-                                                    onTap: () =>
-                                                        copyToClipboardAndShowSnackbar(
-                                                            context,
-                                                            _contact!.phone),
-                                                  ),
-                                                ],
-                                              ),
+                                                  ],
+                                                ),
+                                                IconButton(
+                                                  iconSize: 25,
+                                                  icon: const Icon(
+                                                      BoxIcons.bx_copy),
+                                                  color: Color(0xFFF8ED8E),
+                                                  onPressed: () {
+                                                    copyToClipboardAndShowSnackbar(
+                                                        context,
+                                                        _contact!
+                                                            .phone);
+                                                  },
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(
-                                        height: 14,
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            WidgetSpan(
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  const Icon(
-                                                      BoxIcons.bx_envelope,
-                                                      size: 25,
-                                                      color: Color(0xFFF8ED8E)),
-                                                  const SizedBox(width: 6),
-                                                  InkWell(
-                                                    child: Text(
+                                    ),
+                                    const SizedBox(
+                                      height: 14,
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          WidgetSpan(
+                                            child: Row(
+                                              // mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    const Icon(
+                                                        BoxIcons.bx_envelope,
+                                                        size: 25,
+                                                        color: Color(
+                                                            0xFFF8ED8E)),
+                                                    const SizedBox(width: 6),
+                                                    Text(
                                                       '${_contact!.email}',
-                                                      style: const TextStyle(
+                                                      style:
+                                                          const TextStyle(
                                                         fontFamily: 'Lato',
                                                         fontSize: 13,
-                                                        color:
-                                                            Color(0xFFF8ED8E),
+                                                        color: Color(
+                                                            0xFFF8ED8E),
                                                       ),
                                                     ),
-                                                    onTap: () =>
-                                                        copyToClipboardAndShowSnackbar(
-                                                            context,
-                                                            _contact!.email),
-                                                  ),
-                                                ],
-                                              ),
+                                                  ],
+                                                ),
+                                                IconButton(
+                                                  iconSize: 25,
+                                                  icon: const Icon(
+                                                      BoxIcons.bx_copy),
+                                                  color: Color(0xFFF8ED8E),
+                                                  onPressed: () {
+                                                    copyToClipboardAndShowSnackbar(
+                                                        context,
+                                                        _contact!
+                                                            .email);
+                                                  },
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(
-                                        height: 14,
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            WidgetSpan(
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  const Icon(
-                                                    BoxIcons.bxl_instagram,
-                                                    size: 25,
-                                                    color: Color(0xFFF8ED8E),
-                                                  ),
-                                                  const SizedBox(width: 6),
-                                                  InkWell(
-                                                    child: Text(
+                                    ),
+                                    const SizedBox(
+                                      height: 14,
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          WidgetSpan(
+                                            child: Row(
+                                              // mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    const Icon(
+                                                      BoxIcons.bxl_instagram,
+                                                      size: 25,
+                                                      color: Color(0xFFF8ED8E),
+                                                    ),
+                                                    const SizedBox(width: 6),
+                                                    Text(
                                                       _contact!.instagram,
                                                       style: const TextStyle(
                                                         fontFamily: 'Lato',
                                                         fontSize: 13,
                                                         color:
-                                                            Color(0xFFF8ED8E),
+                                                        Color(0xFFF8ED8E),
                                                       ),
                                                     ),
-                                                    onTap: () =>
-                                                        copyToClipboardAndShowSnackbar(
-                                                            context,
-                                                            _contact!.instagram),
-                                                  ),
-                                                ],
-                                              ),
+                                                  ],
+                                                ),
+                                                IconButton(
+                                                  iconSize: 25,
+                                                  icon: const Icon(
+                                                      BoxIcons.bx_copy),
+                                                  color: Color(0xFFF8ED8E),
+                                                  onPressed: () {
+                                                    copyToClipboardAndShowSnackbar(
+                                                        context,
+                                                        _contact!
+                                                            .instagram);
+                                                  },
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(
-                                        height: 14,
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            WidgetSpan(
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  const Icon(
-                                                      BoxIcons.bxl_facebook,
-                                                      size: 25,
-                                                      color: Color(0xFFF8ED8E)),
-                                                  const SizedBox(width: 6),
-                                                  InkWell(
-                                                    child: Text(
+                                    ),
+                                    const SizedBox(
+                                      height: 14,
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          WidgetSpan(
+                                            child: Row(
+                                              // mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    const Icon(
+                                                        BoxIcons.bxl_facebook,
+                                                        size: 25,
+                                                        color: Color(0xFFF8ED8E)),
+                                                    const SizedBox(width: 6),
+                                                    Text(
                                                       '${_contact!.facebook}',
                                                       style: const TextStyle(
                                                         fontFamily: 'Lato',
                                                         fontSize: 13,
                                                         color:
-                                                            Color(0xFFF8ED8E),
+                                                        Color(0xFFF8ED8E),
                                                       ),
                                                     ),
-                                                    onTap: () =>
-                                                        copyToClipboardAndShowSnackbar(
-                                                            context,
-                                                            _contact!.facebook),
-                                                  ),
-                                                ],
-                                              ),
+                                                  ],
+                                                ),
+                                                IconButton(
+                                                  iconSize: 25,
+                                                  icon: const Icon(
+                                                      BoxIcons.bx_copy),
+                                                  color: Color(0xFFF8ED8E),
+                                                  onPressed: () {
+                                                    copyToClipboardAndShowSnackbar(
+                                                        context,
+                                                        _contact!
+                                                            .facebook);
+                                                  },
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(
-                                        height: 14,
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            WidgetSpan(
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  const Icon(BoxIcons.bx_home,
-                                                      size: 25,
-                                                      color: Color(0xFFF8ED8E)),
-                                                  SizedBox(width: 6),
-                                                  Expanded(
-                                                    child: InkWell(
-                                                      child: Text(
-                                                        '${_contact!.address}',
-                                                        maxLines: 4,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Lato',
-                                                          fontSize: 13,
-                                                          color:
-                                                              Color(0xFFF8ED8E),
-                                                        ),
-                                                      ),
-                                                      onTap: () =>
-                                                          copyToClipboardAndShowSnackbar(
-                                                              context,
-                                                              _contact!
-                                                                  .address),
+                                    ),
+                                    const SizedBox(
+                                      height: 14,
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          WidgetSpan(
+                                            child: Row(
+                                              // mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: [
+                                                const Icon(BoxIcons.bx_home,
+                                                    size: 25,
+                                                    color: Color(0xFFF8ED8E)),
+                                                SizedBox(width: 6),
+                                                Expanded(
+                                                  child: Text(
+                                                    '${_contact!.address}',
+                                                    maxLines: 4,
+                                                    overflow: TextOverflow
+                                                        .ellipsis,
+                                                    style: const TextStyle(
+                                                      fontFamily: 'Lato',
+                                                      fontSize: 13,
+                                                      color:
+                                                          Color(0xFFF8ED8E),
                                                     ),
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                                IconButton(
+                                                  iconSize: 25,
+                                                  icon: const Icon(
+                                                      BoxIcons.bx_copy),
+                                                  color: Color(0xFFF8ED8E),
+                                                  onPressed: () {
+                                                    copyToClipboardAndShowSnackbar(
+                                                        context,
+                                                        _contact!
+                                                            .address);
+                                                  },
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
                             ),
                           ),
                         )
