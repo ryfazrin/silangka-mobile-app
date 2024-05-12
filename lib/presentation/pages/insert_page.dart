@@ -24,6 +24,7 @@ class _InsertPage extends State<InsertPage> {
   final _lokasiController = TextEditingController();
   final _jumlahHewanController = TextEditingController();
   final _informasiLainlain = TextEditingController();
+
   int? selectedCategoryId;
   List<Animal> categories = [];
   Position? _currentPosition;
@@ -139,7 +140,7 @@ class _InsertPage extends State<InsertPage> {
       setState(() {
         _currentPosition = position;
         _lokasiController.text =
-            'Longitude: ${_currentPosition!.longitude}, Latitude: ${_currentPosition!.latitude}';
+            '${_currentPosition!.longitude},${_currentPosition!.latitude}';
       });
     }).catchError((e) {
       debugPrint(e);
@@ -389,7 +390,7 @@ class _InsertPage extends State<InsertPage> {
                         child: ElevatedButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
-                              _handleSendReport;
+                              _handleSendReport();
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
@@ -434,28 +435,36 @@ class _InsertPage extends State<InsertPage> {
       ),
     );
   }
-
+// desc tidak wajib
   void _handleSendReport() async {
     if (formKey.currentState!.validate()) {
-      try {
-        final reportData = await AddAnimal().handleReport(
-          image!.path,
-          _judulLaporanController.text,
-          _lokasiController.text,
-          int.parse(_jumlahHewanController.text),
-          '',
-          selectedCategoryId,
-        );
-        Navigator.pushNamed(
-          context,
-          ReportPage.routeName,
-          arguments: reportData,
-        );
-      } catch (e) {
-        print('Gagal mengirim laporan: $e');
+      if (image != null) {
+        try {
+          final reportData = await AddAnimal().handleReport(
+            image!,
+            _judulLaporanController.text,
+            _lokasiController.text,
+            int.parse(_jumlahHewanController.text),
+            _informasiLainlain.text,
+            selectedCategoryId,
+          );
+          Navigator.pushNamed(
+            context,
+            ReportPage.routeName,
+            arguments: reportData,
+          );
+        } catch (e) {
+          print('Gagal mengirim laporan: $e');
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Gagal mengirim laporan: $e'),
+            ),
+          );
+        }
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Gagal mengirim laporan: $e'),
+          const SnackBar(
+            content: Text('Silakan pilih gambar terlebih dahulu'),
           ),
         );
       }

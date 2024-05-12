@@ -1,17 +1,17 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:silangka/presentation/models/animals_model.dart';
+import 'package:silangka/presentation/models/report_model.dart';
 
-class ApiAnimal {
-  static const String baseUrl = 'https://api-arutmin.up.railway.app/animals';
+class GetReport {
+  static const String baseUrl = 'https://api-arutmin.up.railway.app/reports';
 
   static Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
   }
 
-  static Future<List<Animal>> fetchAnimals() async {
+  static Future<List<Report>> fetchReport() async {
     final String token = await getToken() ?? '';
     final String url = '$baseUrl';
     final response = await http.get(
@@ -23,9 +23,9 @@ class ApiAnimal {
 
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
-      final animals = List<Animal>.from(
+      final animals = List<Report>.from(
         jsonData['data'].map(
-          (x) => Animal.fromJson(x),
+          (x) => Report.fromJson(x),
         ),
       );
       return animals;

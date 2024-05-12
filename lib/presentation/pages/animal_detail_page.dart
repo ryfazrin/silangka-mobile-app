@@ -21,7 +21,7 @@ class AnimalDetailPage extends StatelessWidget {
             children: [
               if (animal.imageUrl.isNotEmpty)
                 Image.network(
-                  'https://arutmin-api.up.railway.app/animals/images/${animal.imageUrl}',
+                  'https://api-arutmin.up.railway.app/animals/images/${animal.imageUrl}',
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return const SizedBox.shrink();
