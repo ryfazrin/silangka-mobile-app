@@ -104,20 +104,26 @@ class _HomePage extends State<HomePage> {
               // },
               onDestinationSelected: _onItemTapped,
               selectedIndex: _selectedIndex,
-              backgroundColor: Color(0xFF58A356),
-              indicatorColor: Color(0xFFF8ED8E),
+              // backgroundColor: Color(0xFF58A356),
+              // indicatorColor: Color(0xFFF8ED8E),
+              indicatorColor:  Color(0xFF58A356),
+              // surfaceTintColor:  Color(0xFFF8ED8E),
+              // backgroundColor: Color(0xFFb7e8b9),
+              backgroundColor: Color(0xFFD4F3C4),
               destinations: const <Widget>[
                 NavigationDestination(
-                  selectedIcon: Icon(Icons.home),
+                  selectedIcon: Icon(Icons.home, color: Color(0xFFF8ED8E)),
                   icon: Icon(Icons.home_outlined),
                   label: 'Home',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.note_add),
+                  selectedIcon: Icon(Icons.note_add, color: Color(0xFFF8ED8E)),
+                  icon: Icon(Icons.note_add_outlined),
                   label: 'Lapor',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.contacts),
+                  selectedIcon: Icon(Icons.contacts, color: Color(0xFFF8ED8E)),
+                  icon: Icon(Icons.contacts_outlined),
                   label: 'Hubungi Kami',
                 ),
               ],
@@ -170,7 +176,7 @@ class _HomePage extends State<HomePage> {
                             borderRadius:
                                 BorderRadius.circular(8), // Border radius 8.0
                             child: Image.network(
-                              'https://api-arutmin.up.railway.app/animals/images/${animal.imageUrl}',
+                              'https://arutmin-api.up.railway.app/animals/images/${animal.imageUrl}',
                               errorBuilder: (context, error, stackTrace) {
                                 // Gambar dari assets sebagai pengganti
                                 return Image.asset(

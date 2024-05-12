@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silangka/presentation/models/animals_model.dart';
 
 class ApiAnimal {
-  static const String baseUrl = 'https://api-arutmin.up.railway.app/animals';
+  static const String baseUrl = 'https://arutmin-api.up.railway.app/animals';
 
   static Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

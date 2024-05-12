@@ -29,11 +29,13 @@ class AnimalDetailPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8), // Border radius 8.0
-                child: Image.network(
-                  'https://api-arutmin.up.railway.app/animals/images/${animal.imageUrl}',
-                  fit: BoxFit.cover,
+              Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8), // Border radius 8.0
+                  child: Image.network(
+                    'https://arutmin-api.up.railway.app/animals/images/${animal.imageUrl}',
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               const SizedBox(height: 16.0),
