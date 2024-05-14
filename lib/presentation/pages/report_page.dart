@@ -24,202 +24,125 @@ class _ReportPage extends State<ReportPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text(
-          'Daftar Laporan',
-          style: TextStyle(
-            fontFamily: 'Nexa',
-            fontWeight: FontWeight.bold,
-            color: Color(0xFFF8ED8E),
-          ),
-        ),
-        backgroundColor: Colors.green,
-      ),
-      body: FutureBuilder<List<Report>>(
-        future: GetReport.fetchReport(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final report = snapshot.data!;
-            return ListView.builder(
-              itemCount: report.length,
-              itemBuilder: (context, index) {
-                final reportDelete = report[index];
-                final animalName = reportDelete.animal.getName();
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxWidth: 345,
+    return FutureBuilder<List<Report>>(
+      future: GetReport.fetchReport(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final report = snapshot.data!;
+          return ListView.builder(
+            itemCount: report.length,
+            itemBuilder: (context, index) {
+              final reportDelete = report[index];
+              final animalName = reportDelete.animal.getName();
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          maxWidth: 345,
+                        ),
+                        child: Container(
+                          width: 345,
+                          height: 185,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF8ED8E),
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: const Offset(0, 3),
+                              )
+                            ],
                           ),
-                          child: Container(
-                            width: 345,
-                            height: 185,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF8ED8E),
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 2,
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 3),
-                                )
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ListTile(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 16),
-                                  title: Text(
-                                    reportDelete.animal.name,
-                                    style: const TextStyle(
-                                      fontFamily: 'Nexa',
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF9CA356),
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  trailing: IconButton(
-                                    icon: const Icon(
-                                        Icons.delete_outline_outlined),
-                                    onPressed: () {
-                                      _deleteReport(reportDelete.id.toString());
-                                    },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ListTile(
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16),
+                                title: Text(
+                                  reportDelete.animal.name,
+                                  style: const TextStyle(
+                                    fontFamily: 'Nexa',
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF9CA356),
+                                    fontSize: 16,
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 16),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 4),
-                                    decoration: BoxDecoration(
-                                      color: Colors.green,
-                                      borderRadius: BorderRadius.circular(4),
+                                trailing: IconButton(
+                                  icon: const Icon(
+                                      Icons.delete_outline_outlined),
+                                  onPressed: () {
+                                    _deleteReport(reportDelete.id.toString());
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 16),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: const Text(
+                                    'Terkirim',
+                                    style: TextStyle(
+                                      fontFamily: 'Lato',
+                                      fontSize: 12,
+                                      color: Colors.white,
                                     ),
-                                    child: const Text(
-                                      'Terkirim',
-                                      style: TextStyle(
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                const EdgeInsets.only(left: 16, top: 10),
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Judul Laporan: ${reportDelete.title}',
+                                      style: const TextStyle(
                                         fontFamily: 'Lato',
-                                        fontSize: 12,
-                                        color: Colors.white,
+                                        fontSize: 14,
+                                        color: Color(0xFF9CA356),
                                       ),
                                     ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 16, top: 10),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Judul Laporan: ${reportDelete.title}',
-                                        style: const TextStyle(
-                                          fontFamily: 'Lato',
-                                          fontSize: 14,
-                                          color: Color(0xFF9CA356),
-                                        ),
+                                    Text(
+                                      'Lokasi: ${reportDelete.location}',
+                                      style: const TextStyle(
+                                        fontFamily: 'Lato',
+                                        fontSize: 14,
+                                        color: Color(0xFF9CA356),
                                       ),
-                                      Text(
-                                        'Lokasi: ${reportDelete.location}',
-                                        style: const TextStyle(
-                                          fontFamily: 'Lato',
-                                          fontSize: 14,
-                                          color: Color(0xFF9CA356),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          )),
-                    ],
-                  ),
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('${snapshot.error}'),
-            );
-          }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      ),
-      bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(20.0),
-        ),
-        child: SizedBox(
-          height: 58,
-          child: BottomNavigationBar(
-            backgroundColor: Colors.green,
-            selectedItemColor: const Color(0xFFF8ED8E),
-            onTap: (index) {
-              if (index == 0) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomePage(),
-                  ),
-                );
-              } else if (index == 1) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ReportPage(),
-                  ),
-                );
-              } else if (index == 2) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ContactsPage(),
-                  ),
-                );
-              }
+                              ),
+                            ],
+                          ),
+                        )),
+                  ],
+                ),
+              );
             },
-            currentIndex: _selectedIndex,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.note_add),
-                label: 'Lapor',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.contacts),
-                label: 'Hubungi Kami',
-              )
-            ],
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const InsertPage(),
-            ),
           );
-        },
-        child: const Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('${snapshot.error}'),
+          );
+        }
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 

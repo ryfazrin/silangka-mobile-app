@@ -32,7 +32,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          animal.name,
+          widget.animal.name,
           style: TextStyle(
             fontFamily: 'Nexa',
             fontWeight: FontWeight.bold,
@@ -55,7 +55,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8), // Border radius 8.0
                   child: Image.network(
-                    'https://arutmin-api.up.railway.app/animals/images/${animal.imageUrl}',
+                    'https://arutmin-api.up.railway.app/animals/images/${widget.animal.imageUrl}',
                     fit: BoxFit.cover,
                   ),
                 ),
