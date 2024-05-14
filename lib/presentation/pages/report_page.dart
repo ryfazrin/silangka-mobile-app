@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:silangka/config/API/API-PostAddAnimal.dart';
 import 'package:silangka/presentation/pages/contacts.dart';
 import 'package:silangka/presentation/pages/home_page.dart';
 import 'package:silangka/presentation/pages/insert_page.dart';
@@ -19,9 +17,6 @@ class ReportPage extends StatefulWidget {
 
 class _ReportPage extends State<ReportPage> {
   final formKey = GlobalKey<FormState>();
-  final _judulLaporanController = TextEditingController();
-  final _lokasiController = TextEditingController();
-  final _jumlahHewanController = TextEditingController();
   String? selectedCategoryId;
 
   late XFile? image = null;
@@ -80,8 +75,8 @@ class _ReportPage extends State<ReportPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 ListTile(
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 16),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
                                   title: Text(
                                     reportDelete.animal.name,
                                     style: const TextStyle(
@@ -92,22 +87,23 @@ class _ReportPage extends State<ReportPage> {
                                     ),
                                   ),
                                   trailing: IconButton(
-                                    icon: Icon(Icons.delete_outline_outlined),
+                                    icon: const Icon(
+                                        Icons.delete_outline_outlined),
                                     onPressed: () {
                                       _deleteReport(reportDelete.id.toString());
                                     },
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(left: 16),
+                                  padding: const EdgeInsets.only(left: 16),
                                   child: Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 8, vertical: 4),
                                     decoration: BoxDecoration(
                                       color: Colors.green,
                                       borderRadius: BorderRadius.circular(4),
                                     ),
-                                    child: Text(
+                                    child: const Text(
                                       'Terkirim',
                                       style: TextStyle(
                                         fontFamily: 'Lato',
@@ -118,14 +114,15 @@ class _ReportPage extends State<ReportPage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(left: 16, top: 10),
+                                  padding:
+                                      const EdgeInsets.only(left: 16, top: 10),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Judul Laporan: ${reportDelete.title}',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontFamily: 'Lato',
                                           fontSize: 14,
                                           color: Color(0xFF9CA356),
@@ -133,7 +130,7 @@ class _ReportPage extends State<ReportPage> {
                                       ),
                                       Text(
                                         'Lokasi: ${reportDelete.location}',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontFamily: 'Lato',
                                           fontSize: 14,
                                           color: Color(0xFF9CA356),
