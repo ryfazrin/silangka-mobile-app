@@ -150,6 +150,7 @@ class _HomePage extends State<HomePage> {
         body: <Widget>[
           /// List Animal page
           ListAnimalPage(),
+          /// Report page
           ReportPage()
         ][_selectedIndex],
       ),
