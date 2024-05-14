@@ -31,7 +31,18 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.animal.name),
+        title: Text(
+          animal.name,
+          style: TextStyle(
+            fontFamily: 'Nexa',
+            fontWeight: FontWeight.bold,
+            // color: Color(0xFF58A356),
+            color: Color(0xFFF8ED8E),
+          ),
+        ),
+        // backgroundColor: const Color(0xFFD4F3C4),
+        backgroundColor: const Color(0xFF58A356),
+        foregroundColor:  Color(0xFFF8ED8E),
         scrolledUnderElevation: 0.0,
       ),
       body: SingleChildScrollView(
@@ -40,14 +51,15 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (widget.animal.imageUrl.isNotEmpty)
-                Image.network(
-                  'https://api-arutmin.up.railway.app/animals/images/${widget.animal.imageUrl}',
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return const SizedBox.shrink();
-                  },
+              if (widget.animal.imageUrl.isNotEmpty) Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8), // Border radius 8.0
+                  child: Image.network(
+                    'https://arutmin-api.up.railway.app/animals/images/${animal.imageUrl}',
+                    fit: BoxFit.cover,
+                  ),
                 ),
+              ),
               const SizedBox(height: 16.0),
               RichText(
                 textAlign: TextAlign.center,

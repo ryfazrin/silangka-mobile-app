@@ -44,6 +44,15 @@ class _HomePage extends State<HomePage> {
   }
 
   void _onItemTapped(int index) {
+    if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const ContactsPage(),
+        ),
+      );
+      return;
+    }
     setState(() {
       _selectedIndex = index;
     });
@@ -70,10 +79,12 @@ class _HomePage extends State<HomePage> {
             style: TextStyle(
               fontFamily: 'Nexa',
               fontWeight: FontWeight.bold,
+              // color: Color(0xFF58A356),
               color: Color(0xFFF8ED8E),
             ),
           ),
-          backgroundColor: Colors.green,
+          // backgroundColor: const Color(0xFFD4F3C4),
+          backgroundColor: const Color(0xFF58A356),
           actions: [
             IconButton(
               icon: const Icon(Icons.logout),
@@ -81,53 +92,40 @@ class _HomePage extends State<HomePage> {
             ),
           ],
         ),
-        bottomNavigationBar: ClipRRect(
-          borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(20.0),
-          ),
-          child: SizedBox(
-            height: 58,
-            child: BottomNavigationBar(
-              backgroundColor: Colors.green,
-              selectedItemColor: const Color(0xFFF8ED8E),
-              onTap: (index) {
-                if (index == 0) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ReportPage(),
-                    ),
-                  );
-                } else if (index == 1) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ReportPage(),
-                    ),
-                  );
-                } else if (index == 2) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ContactsPage(),
-                    ),
-                  );
-                }
-              },
-              currentIndex: _selectedIndex,
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 20.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(16.0)),
+            child: NavigationBar(
+              // onDestinationSelected: (int index) {
+              //   setState(() {
+              //     currentPageIndex = index;
+              //   });
+              // },
+              onDestinationSelected: _onItemTapped,
+              selectedIndex: _selectedIndex,
+              // backgroundColor: Color(0xFF58A356),
+              // indicatorColor: Color(0xFFF8ED8E),
+              indicatorColor:  Color(0xFF58A356),
+              // surfaceTintColor:  Color(0xFFF8ED8E),
+              // backgroundColor: Color(0xFFb7e8b9),
+              backgroundColor: Color(0xFFD4F3C4),
+              destinations: const <Widget>[
+                NavigationDestination(
+                  selectedIcon: Icon(Icons.home, color: Color(0xFFF8ED8E)),
+                  icon: Icon(Icons.home_outlined),
                   label: 'Home',
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.note_add),
+                NavigationDestination(
+                  selectedIcon: Icon(Icons.note_add, color: Color(0xFFF8ED8E)),
+                  icon: Icon(Icons.note_add_outlined),
                   label: 'Lapor',
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.contacts),
+                NavigationDestination(
+                  selectedIcon: Icon(Icons.contacts, color: Color(0xFFF8ED8E)),
+                  icon: Icon(Icons.contacts_outlined),
                   label: 'Hubungi Kami',
-                )
+                ),
               ],
             ),
           ),
@@ -142,59 +140,75 @@ class _HomePage extends State<HomePage> {
                 itemBuilder: (context, index) {
                   final animal = animals[index];
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxWidth: 345,
-                          ),
-                          child: Container(
-                            width: 345,
-                            decoration: BoxDecoration(
-                                color: const Color(0xFF58A356),
-                                borderRadius: BorderRadius.circular(8),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 5,
-                                    offset: const Offset(0, 3),
-                                  )
-                                ]),
-                            child: ListTile(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        AnimalDetailPage(animal: animal),
-                                  ),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: 345,
+                      ),
+                      child: Container(
+                        width: 345,
+                        decoration: BoxDecoration(
+                          // color: Color(0xFF58A356),
+                          color: Colors.white,
+                          border: Border.all(color: Color(0xFF58A356)),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            )
+                          ],
+                        ),
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    AnimalDetailPage(animal: animal),
+                              ),
+                            );
+                          },
+                          leading: ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(8), // Border radius 8.0
+                            child: Image.network(
+                              'https://arutmin-api.up.railway.app/animals/images/${animal.imageUrl}',
+                              errorBuilder: (context, error, stackTrace) {
+                                // Gambar dari assets sebagai pengganti
+                                return Image.asset(
+                                  'assets/images/image-removebg-preview.png',
+                                  width: 80,
                                 );
                               },
-                              title: Text(
-                                animal.name,
-                                style: const TextStyle(
-                                  fontFamily: 'Nexa',
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFFF8ED8E),
-                                  fontSize: 18,
-                                ),
-                              ),
-                              subtitle: Text(
-                                animal.latinName,
-                                style: const TextStyle(
-                                  fontFamily: 'Lato',
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFFF8ED8E),
-                                  fontSize: 12,
-                                ),
-                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          title: Text(
+                            animal.name,
+                            style: const TextStyle(
+                              fontFamily: 'Nexa',
+                              fontWeight: FontWeight.bold,
+                              // color: Color(0xFF58A356),
+                              color: Color(0xFF58A356),
+                              fontSize: 18,
+                            ),
+                          ),
+                          subtitle: Text(
+                            animal.latinName,
+                            style: const TextStyle(
+                              fontFamily: 'Lato',
+                              fontWeight: FontWeight.bold,
+                              // color: Color(0xFF58A356),
+                              color: Color(0xFF58A356),
+                              fontSize: 12,
                             ),
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   );
                 },
