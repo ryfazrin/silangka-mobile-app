@@ -32,7 +32,6 @@ class _RegisterPage extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return Scaffold(
       backgroundColor: Color(0xFFD4F3C4),
       appBar: AppBar(
@@ -68,10 +67,10 @@ class _RegisterPage extends State<RegisterPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: const Text(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
                         'Nama Lengkap',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontFamily: 'Lato',
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -117,15 +116,15 @@ class _RegisterPage extends State<RegisterPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          padding: EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
                             'Email',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontFamily: 'Lato',
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -135,7 +134,7 @@ class _RegisterPage extends State<RegisterPage> {
                         ),
                         Card(
                           elevation: emailFocus ? 10 : 5,
-                          child: Container(
+                          child: SizedBox(
                             width: 345,
                             child: TextFormField(
                               controller: _emailController,
@@ -162,11 +161,11 @@ class _RegisterPage extends State<RegisterPage> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter your email!';
+                                  return 'Silakan isi email Anda';
                                 }
                                 if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                     .hasMatch(value)) {
-                                  return 'Silakan isi email Anda';
+                                  return 'Email Anda tidak valid';
                                 }
                                 if (!_isEmailAvailable) {
                                   return 'Email sudah digunakan';
@@ -182,18 +181,17 @@ class _RegisterPage extends State<RegisterPage> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 16,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              child: const Text(
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              child: Text(
                                 'Whatsapp',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontFamily: 'Lato',
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -203,7 +201,7 @@ class _RegisterPage extends State<RegisterPage> {
                             ),
                             Card(
                               elevation: 4,
-                              child: Container(
+                              child: SizedBox(
                                 width: 345,
                                 child: TextFormField(
                                   controller: _noHpController,
@@ -240,18 +238,17 @@ class _RegisterPage extends State<RegisterPage> {
                             )
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 16,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
+                              padding: EdgeInsets.symmetric(horizontal: 8),
                               child: Text(
                                 'Password',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontFamily: 'Lato',
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -261,7 +258,7 @@ class _RegisterPage extends State<RegisterPage> {
                             ),
                             Card(
                               elevation: passwordFocus ? 10 : 5,
-                              child: Container(
+                              child: SizedBox(
                                 width: 345,
                                 child: TextFormField(
                                   controller: _passwordController,
@@ -305,15 +302,14 @@ class _RegisterPage extends State<RegisterPage> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 16,
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              child: const Text(
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              child: Text(
                                 'Confirm Password',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontFamily: 'Lato',
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -323,7 +319,7 @@ class _RegisterPage extends State<RegisterPage> {
                             ),
                             Card(
                               elevation: confirmPasswordFocus ? 10 : 5,
-                              child: Container(
+                              child: SizedBox(
                                 width: 345,
                                 child: TextFormField(
                                   controller: _confirmPasswordController,
@@ -367,7 +363,7 @@ class _RegisterPage extends State<RegisterPage> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 40,
                             ),
                             ElevatedButton(
@@ -375,14 +371,15 @@ class _RegisterPage extends State<RegisterPage> {
                                 _handleRegister();
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFF58A356),
+                                backgroundColor: const Color(0xFF58A356),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                minimumSize: Size(343, 60),
-                                padding: EdgeInsets.symmetric(horizontal: 24),
+                                minimumSize: const Size(343, 60),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 24),
                               ),
-                              child: Text(
+                              child: const Text(
                                 'Register',
                                 style: TextStyle(
                                   fontFamily: 'Nexa',
@@ -400,13 +397,13 @@ class _RegisterPage extends State<RegisterPage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'Sudah punya akun?',
                   style: TextStyle(
                     fontFamily: 'Lato',
@@ -422,7 +419,7 @@ class _RegisterPage extends State<RegisterPage> {
                       return const LoginPage();
                     }));
                   },
-                  child: Text(
+                  child: const Text(
                     'Login',
                     style: TextStyle(
                       color: Color(0xFF074AF5),
@@ -446,7 +443,7 @@ class _RegisterPage extends State<RegisterPage> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color(0xFFD4F3C4),
+          backgroundColor: const Color(0xFFD4F3C4),
           title: const Text(
             'Sukses',
             style: TextStyle(
@@ -465,7 +462,7 @@ class _RegisterPage extends State<RegisterPage> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text(
+              child: const Text(
                 'OK',
                 style: TextStyle(
                   color: Colors.black,

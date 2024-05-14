@@ -30,7 +30,7 @@ migrate_working_dir/
 /build/
 .dart_tool
 .idea
-
+.idx/
 # Symbolication related
 app.*.symbols
 

@@ -27,18 +27,17 @@ class _LoginPage extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return Scaffold(
-      backgroundColor: Color(0xFFD4F3C4),
+      backgroundColor: const Color(0xFFD4F3C4),
       appBar: AppBar(
-        backgroundColor: Color(0xFFD4F3C4),
+        backgroundColor: const Color(0xFFD4F3C4),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 40),
               child: Text(
                 'Login',
                 style: TextStyle(
@@ -49,16 +48,16 @@ class _LoginPage extends State<LoginPage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    padding: EdgeInsets.symmetric(horizontal: 40),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -84,7 +83,7 @@ class _LoginPage extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 25),
+                const SizedBox(height: 25),
                 Form(
                   key: formKey,
                   child: Padding(
@@ -92,19 +91,19 @@ class _LoginPage extends State<LoginPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Email',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontFamily: 'Lato',
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: Color(0xFF58A356),
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Card(
                           elevation: emailFocus ? 10 : 5,
-                          child: Container(
+                          child: SizedBox(
                             width: 345,
                             child: TextFormField(
                               controller: _emailController,
@@ -131,7 +130,7 @@ class _LoginPage extends State<LoginPage> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter your email';
+                                  return 'Masukkan email Anda';
                                 }
                                 if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                     .hasMatch(value)) {
@@ -148,14 +147,14 @@ class _LoginPage extends State<LoginPage> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 16),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 0),
+                        const SizedBox(height: 16),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 0),
                           child: Row(
                             children: [
                               Text(
                                 'Password',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontFamily: 'Lato',
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -165,10 +164,10 @@ class _LoginPage extends State<LoginPage> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Card(
                           elevation: passwordFocus ? 10 : 5,
-                          child: Container(
+                          child: SizedBox(
                             width: 345,
                             child: TextFormField(
                               controller: _passwordController,
@@ -201,14 +200,14 @@ class _LoginPage extends State<LoginPage> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter your password';
+                                  return 'Masukkan password Anda';
                                 }
                                 return null;
                               },
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
                         Center(
@@ -219,7 +218,7 @@ class _LoginPage extends State<LoginPage> {
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text('Silakan isi masukan'),
+                                    content: Text('Silakan isi kolom'),
                                   ),
                                 );
                               }
@@ -231,12 +230,12 @@ class _LoginPage extends State<LoginPage> {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                               ),
-                              fixedSize:
-                                  MaterialStateProperty.all(Size(345, 60)),
-                              backgroundColor:
-                                  MaterialStateProperty.all(Color(0xFF58A356)),
+                              fixedSize: MaterialStateProperty.all(
+                                  const Size(345, 60)),
+                              backgroundColor: MaterialStateProperty.all(
+                                  const Color(0xFF58A356)),
                             ),
-                            child: Text(
+                            child: const Text(
                               'Login',
                               style: TextStyle(
                                 fontFamily: 'Nexa',
@@ -251,13 +250,13 @@ class _LoginPage extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       'Belum punya akun?',
                       style: TextStyle(
                         fontFamily: 'Lato',
@@ -273,7 +272,7 @@ class _LoginPage extends State<LoginPage> {
                           return const RegisterPage();
                         }));
                       },
-                      child: Text(
+                      child: const Text(
                         'Register',
                         style: TextStyle(
                           color: Color(0xFF074AF5),
@@ -299,7 +298,7 @@ class _LoginPage extends State<LoginPage> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color(0xFFD4F3C4),
+          backgroundColor: const Color(0xFFD4F3C4),
           title: const Text(
             'Sukses',
             style: TextStyle(
@@ -318,7 +317,7 @@ class _LoginPage extends State<LoginPage> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text(
+              child: const Text(
                 'OK',
                 style: TextStyle(
                   color: Colors.black,
@@ -341,7 +340,7 @@ class _LoginPage extends State<LoginPage> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color(0xFFD4F3C4),
+          backgroundColor: const Color(0xFFD4F3C4),
           title: const Text(
             'Gagal',
             style: TextStyle(color: Colors.red),
@@ -351,7 +350,7 @@ class _LoginPage extends State<LoginPage> {
               children: <Widget>[
                 Text(
                   errorMessage,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xFF58A356),
                   ),
                 ),
@@ -360,7 +359,7 @@ class _LoginPage extends State<LoginPage> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text(
+              child: const Text(
                 'OK',
                 style: TextStyle(
                   color: Colors.black,
@@ -384,22 +383,10 @@ class _LoginPage extends State<LoginPage> {
           _emailController.text.trim(),
           _passwordController.text.trim(),
         );
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   const SnackBar(
-        //     content: Text('Login Berhasil'),
-        //     backgroundColor: Colors.green,
-        //   ),
-        // );
         await _showDialogSuccess();
         Navigator.pushReplacementNamed(context, '/homepage');
         print('User data: $userData');
       } catch (e) {
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   SnackBar(
-        //     content: Text('Gagal Login: $e'),
-        //     backgroundColor: Colors.red,
-        //   ),
-        // );
         await _showDialogFailed(e.toString());
         print('Error: $e');
       }
