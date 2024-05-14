@@ -280,37 +280,6 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                 ],
               ),
               const SizedBox(height: 16.0),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (widget.animal.estimationAmounts.isNotEmpty) ...[
-                    const Text(
-                      'Jumlah Sebaran:',
-                      style: TextStyle(
-                        fontFamily: 'Nexa',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF9CA356),
-                      ),
-                    ),
-                    const SizedBox(height: 8.0),
-                    ...widget.animal.estimationAmounts.map((estimationAmount) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'Area: ${estimationAmount.area ?? '-'}, Tahun: ${estimationAmount.year ?? '-'}, Total: ${estimationAmount.total ?? '-'}',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontFamily: 'Lato',
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF9CA356),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ],
-                ],
-              ),
               AspectRatio(
                 aspectRatio: 1.0,
                 child: PieChart(
