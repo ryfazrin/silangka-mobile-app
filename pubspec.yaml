@@ -14,12 +14,13 @@ dependencies:
   geocoding: ^3.0.0
   geolocator: ^11.0.0
   keyboard_dismisser: ^3.0.0
-  image_picker: ^1.0.7
+  image_picker: ^1.1.1
   shared_preferences: ^2.2.3
   cupertino_icons: ^1.0.6
   http: ^1.2.1
   icons_plus: ^5.0.0
   connectivity_plus: ^2.3.6
+  fl_chart: ^0.67.0
 
 dev_dependencies:
   flutter_test:

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silangka/presentation/pages/contacts.dart';
-import 'package:silangka/constants/theme.dart';
 import 'package:silangka/config/API/API-GetAnimalsandImage.dart';
 import 'package:silangka/presentation/models/animals_model.dart';
 import 'package:silangka/presentation/pages/animal_detail_page.dart';
+import 'package:silangka/presentation/pages/report_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

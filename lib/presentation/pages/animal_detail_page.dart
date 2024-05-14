@@ -1,10 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:silangka/presentation/models/animals_model.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:silangka/config/resources/app_colors.dart';
+import 'package:silangka/config/resources/app_resources.dart';
+import 'package:silangka/presentation/widgets/indicator.dart';
 
-class AnimalDetailPage extends StatelessWidget {
+class AnimalDetailPage extends StatefulWidget {
   final Animal animal;
 
-  const AnimalDetailPage({Key? key, required this.animal}) : super(key: key);
+  AnimalDetailPage({Key? key, required this.animal}) : super(key: key);
+
+  @override
+  _AnimalDetailPageState createState() => _AnimalDetailPageState();
+}
+
+class _AnimalDetailPageState extends State<AnimalDetailPage> {
+  int touchedIndex = -1;
+
+  final List<Color> pieColors = [
+    AppColors.contentColorPurple,
+    AppColors.contentColorYellow,
+    AppColors.contentColorBlue,
+    AppColors.contentColorGreen,
+    AppColors.contentColorRed,
+    AppColors.contentColorPink,
+    AppColors.contentColorCyan,
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +43,7 @@ class AnimalDetailPage extends StatelessWidget {
         // backgroundColor: const Color(0xFFD4F3C4),
         backgroundColor: const Color(0xFF58A356),
         foregroundColor:  Color(0xFFF8ED8E),
+        scrolledUnderElevation: 0.0,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -29,7 +51,7 @@ class AnimalDetailPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
+              if (widget.animal.imageUrl.isNotEmpty) Center(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8), // Border radius 8.0
                   child: Image.network(
@@ -53,8 +75,8 @@ class AnimalDetailPage extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: ': ${animal.name}',
-                      style: TextStyle(
+                      text: ': ${widget.animal.name}',
+                      style: const TextStyle(
                         fontSize: 14,
                         fontFamily: 'Lato',
                         fontWeight: FontWeight.bold,
@@ -78,7 +100,7 @@ class AnimalDetailPage extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: ': ${animal.latinName}',
+                      text: ': ${widget.animal.latinName}',
                       style: const TextStyle(
                         fontSize: 14,
                         fontFamily: 'Lato',
@@ -109,7 +131,7 @@ class AnimalDetailPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${animal.distribution}',
+                    '${widget.animal.distribution}',
                     style: const TextStyle(
                       fontSize: 14,
                       fontFamily: 'Lato',
@@ -139,7 +161,7 @@ class AnimalDetailPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${animal.characteristics}',
+                    '${widget.animal.characteristics}',
                     style: const TextStyle(
                       fontSize: 14,
                       fontFamily: 'Lato',
@@ -169,7 +191,7 @@ class AnimalDetailPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${animal.habitat}',
+                    '${widget.animal.habitat}',
                     style: const TextStyle(
                       fontSize: 14,
                       fontFamily: 'Lato',
@@ -199,7 +221,7 @@ class AnimalDetailPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${animal.foodType}',
+                    '${widget.animal.foodType}',
                     style: const TextStyle(
                       fontSize: 14,
                       fontFamily: 'Lato',
@@ -229,7 +251,7 @@ class AnimalDetailPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${animal.uniqueBehavior}',
+                    '${widget.animal.uniqueBehavior}',
                     style: const TextStyle(
                       fontSize: 14,
                       fontFamily: 'Lato',
@@ -259,7 +281,7 @@ class AnimalDetailPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${animal.gestationPeriod}',
+                    '${widget.animal.gestationPeriod}',
                     style: const TextStyle(
                       fontSize: 14,
                       fontFamily: 'Lato',
@@ -270,41 +292,80 @@ class AnimalDetailPage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16.0),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (animal.estimationAmounts.isNotEmpty) ...[
-                    const Text(
-                      'Jumlah Sebaran:',
-                      style: TextStyle(
-                        fontFamily: 'Nexa',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF9CA356),
-                      ),
+              AspectRatio(
+                aspectRatio: 1.0,
+                child: PieChart(
+                  PieChartData(
+                    sections: showingSections(widget.animal.estimationAmounts),
+                    centerSpaceRadius: 80,
+                    sectionsSpace: 0,
+                    pieTouchData: PieTouchData(
+                      touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                        setState(() {
+                          if (!event.isInterestedForInteractions ||
+                              pieTouchResponse == null ||
+                              pieTouchResponse.touchedSection == null) {
+                            touchedIndex = -1;
+                            return;
+                          }
+                          touchedIndex = pieTouchResponse
+                              .touchedSection!.touchedSectionIndex;
+                        });
+                      },
                     ),
-                    const SizedBox(height: 8.0),
-                    ...animal.estimationAmounts.map((estimationAmount) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'Area: ${estimationAmount.area ?? '-'}, Tahun: ${estimationAmount.year ?? '-'}, Total: ${estimationAmount.total ?? '-'}',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontFamily: 'Lato',
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF9CA356),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ],
-                ],
-              )
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              Column(
+                children: List.generate(widget.animal.estimationAmounts.length,
+                    (index) {
+                  return Indicator(
+                    color: pieColors[index % pieColors.length],
+                    text:
+                        'Area: ${widget.animal.estimationAmounts[index].area ?? '-'}',
+                    isSquare: true,
+                  );
+                }),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  List<PieChartSectionData> showingSections(
+      List<EstimationAmount> estimationAmounts) {
+    List<PieChartSectionData> sections = [];
+
+    for (int i = 0; i < estimationAmounts.length; i++) {
+      final estimationAmount = estimationAmounts[i];
+      final isTouched = i == touchedIndex;
+      final fontSize = isTouched ? 25.0 : 16.0;
+      final radius = isTouched ? 60.0 : 50.0;
+      const shadow = [Shadow(color: Colors.black, blurRadius: 2)];
+
+      if (estimationAmount.total != null) {
+        final double? totalValue = double.tryParse(estimationAmount.total!);
+        if (totalValue != null) {
+          sections.add(
+            PieChartSectionData(
+              color: pieColors[i % pieColors.length],
+              value: totalValue,
+              title: '${estimationAmount.total ?? '-'} ekor',
+              radius: radius,
+              titleStyle: TextStyle(
+                fontSize: fontSize,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                shadows: shadow,
+              ),
+            ),
+          );
+        }
+      }
+    }
+    return sections;
   }
 }

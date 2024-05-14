@@ -1,4 +1,5 @@
 class Animal {
+  final int id;
   final String name;
   final String latinName;
   final String distribution;
@@ -11,6 +12,7 @@ class Animal {
   final List<EstimationAmount> estimationAmounts;
 
   Animal({
+    required this.id,
     required this.name,
     required this.latinName,
     required this.distribution,
@@ -25,6 +27,7 @@ class Animal {
 
   factory Animal.fromJson(Map<String, dynamic> json) {
     return Animal(
+      id: json['id'],
       name: json['name'],
       latinName: json['latinName'],
       distribution: json['distribution'],
