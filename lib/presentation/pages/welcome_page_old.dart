@@ -98,7 +98,7 @@ class _WelcomePage extends State<WelcomePage> {
                                       shadows: [
                                         Shadow(
                                           color: Colors.black.withOpacity(0.5),
-                                          offset: Offset(2, 3),
+                                          offset: const Offset(2, 3),
                                           blurRadius: 4,
                                         ),
                                       ],
@@ -132,7 +132,7 @@ class _WelcomePage extends State<WelcomePage> {
                                       shadows: [
                                         Shadow(
                                           color: Colors.black.withOpacity(0.5),
-                                          offset: Offset(2, 3),
+                                          offset: const Offset(2, 3),
                                           blurRadius: 4,
                                         ),
                                       ],
@@ -166,7 +166,7 @@ class _WelcomePage extends State<WelcomePage> {
                                       shadows: [
                                         Shadow(
                                           color: Colors.black.withOpacity(0.5),
-                                          offset: Offset(2, 3),
+                                          offset: const Offset(2, 3),
                                           blurRadius: 5,
                                         ),
                                       ],
@@ -199,7 +199,7 @@ class _WelcomePage extends State<WelcomePage> {
                                       shadows: [
                                         Shadow(
                                           color: Colors.black.withOpacity(0.5),
-                                          offset: Offset(2, 3),
+                                          offset: const Offset(2, 3),
                                           blurRadius: 5,
                                         ),
                                       ],
@@ -232,7 +232,7 @@ class _WelcomePage extends State<WelcomePage> {
                                       shadows: [
                                         Shadow(
                                           color: Colors.black.withOpacity(0.5),
-                                          offset: Offset(2, 3),
+                                          offset: const Offset(2, 3),
                                           blurRadius: 5,
                                         ),
                                       ],
@@ -271,9 +271,10 @@ class _WelcomePage extends State<WelcomePage> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                            fixedSize: MaterialStateProperty.all(Size(130, 54)),
-                            backgroundColor:
-                                MaterialStateProperty.all(Color(0xFF58A356)),
+                            fixedSize:
+                                MaterialStateProperty.all(const Size(130, 54)),
+                            backgroundColor: MaterialStateProperty.all(
+                                const Color(0xFF58A356)),
                           ),
                           child: const Text(
                             'Register',
@@ -296,9 +297,10 @@ class _WelcomePage extends State<WelcomePage> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                            fixedSize: MaterialStateProperty.all(Size(130, 54)),
-                            backgroundColor:
-                                MaterialStateProperty.all(Color(0xFF58A356)),
+                            fixedSize:
+                                MaterialStateProperty.all(const Size(130, 54)),
+                            backgroundColor: MaterialStateProperty.all(
+                                const Color(0xFF58A356)),
                           ),
                           child: const Text(
                             'Login',
@@ -333,8 +335,9 @@ class _WelcomePage extends State<WelcomePage> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  fixedSize: MaterialStateProperty.all(Size(130, 54)),
-                  backgroundColor: MaterialStateProperty.all(Color(0xFF58A356)),
+                  fixedSize: MaterialStateProperty.all(const Size(130, 54)),
+                  backgroundColor:
+                      MaterialStateProperty.all(const Color(0xFF58A356)),
                 ),
                 child: const Text(
                   'Register',
@@ -356,8 +359,9 @@ class _WelcomePage extends State<WelcomePage> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  fixedSize: MaterialStateProperty.all(Size(130, 54)),
-                  backgroundColor: MaterialStateProperty.all(Color(0xFF58A356)),
+                  fixedSize: MaterialStateProperty.all(const Size(130, 54)),
+                  backgroundColor:
+                      MaterialStateProperty.all(const Color(0xFF58A356)),
                 ),
                 child: const Text(
                   'Login',

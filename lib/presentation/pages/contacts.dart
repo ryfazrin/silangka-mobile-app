@@ -83,8 +83,7 @@ class _ContactsPage extends State<ContactsPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     RichText(
                                       text: TextSpan(
@@ -93,15 +92,16 @@ class _ContactsPage extends State<ContactsPage> {
                                             child: Row(
                                               // mainAxisSize: MainAxisSize.min,
                                               mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Row(
                                                   children: [
                                                     const Icon(
                                                         BoxIcons.bx_photo_album,
                                                         size: 25,
-                                                        color: Color(0xFFF8ED8E)),
+                                                        color:
+                                                            Color(0xFFF8ED8E)),
                                                     const SizedBox(width: 6),
                                                     Text(
                                                       '${_contact!.fax}',
@@ -109,7 +109,7 @@ class _ContactsPage extends State<ContactsPage> {
                                                         fontFamily: 'Lato',
                                                         fontSize: 13,
                                                         color:
-                                                        Color(0xFFF8ED8E),
+                                                            Color(0xFFF8ED8E),
                                                       ),
                                                     ),
                                                   ],
@@ -121,9 +121,7 @@ class _ContactsPage extends State<ContactsPage> {
                                                   color: Color(0xFFF8ED8E),
                                                   onPressed: () {
                                                     copyToClipboardAndShowSnackbar(
-                                                        context,
-                                                        _contact!
-                                                            .fax);
+                                                        context, _contact!.fax);
                                                   },
                                                 ),
                                               ],
@@ -142,14 +140,16 @@ class _ContactsPage extends State<ContactsPage> {
                                             child: Row(
                                               // mainAxisSize: MainAxisSize.min,
                                               mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Row(
                                                   children: [
-                                                    const Icon(BoxIcons.bx_phone,
+                                                    const Icon(
+                                                        BoxIcons.bx_phone,
                                                         size: 25,
-                                                        color: Color(0xFFF8ED8E)),
+                                                        color:
+                                                            Color(0xFFF8ED8E)),
                                                     const SizedBox(width: 6),
                                                     Text(
                                                       '${_contact!.phone}',
@@ -157,7 +157,7 @@ class _ContactsPage extends State<ContactsPage> {
                                                         fontFamily: 'Lato',
                                                         fontSize: 13,
                                                         color:
-                                                        Color(0xFFF8ED8E),
+                                                            Color(0xFFF8ED8E),
                                                       ),
                                                     ),
                                                   ],
@@ -170,8 +170,7 @@ class _ContactsPage extends State<ContactsPage> {
                                                   onPressed: () {
                                                     copyToClipboardAndShowSnackbar(
                                                         context,
-                                                        _contact!
-                                                            .phone);
+                                                        _contact!.phone);
                                                   },
                                                 ),
                                               ],
@@ -198,17 +197,16 @@ class _ContactsPage extends State<ContactsPage> {
                                                     const Icon(
                                                         BoxIcons.bx_envelope,
                                                         size: 25,
-                                                        color: Color(
-                                                            0xFFF8ED8E)),
+                                                        color:
+                                                            Color(0xFFF8ED8E)),
                                                     const SizedBox(width: 6),
                                                     Text(
                                                       '${_contact!.email}',
-                                                      style:
-                                                          const TextStyle(
+                                                      style: const TextStyle(
                                                         fontFamily: 'Lato',
                                                         fontSize: 13,
-                                                        color: Color(
-                                                            0xFFF8ED8E),
+                                                        color:
+                                                            Color(0xFFF8ED8E),
                                                       ),
                                                     ),
                                                   ],
@@ -221,8 +219,7 @@ class _ContactsPage extends State<ContactsPage> {
                                                   onPressed: () {
                                                     copyToClipboardAndShowSnackbar(
                                                         context,
-                                                        _contact!
-                                                            .email);
+                                                        _contact!.email);
                                                   },
                                                 ),
                                               ],
@@ -241,8 +238,8 @@ class _ContactsPage extends State<ContactsPage> {
                                             child: Row(
                                               // mainAxisSize: MainAxisSize.min,
                                               mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Row(
                                                   children: [
@@ -258,7 +255,7 @@ class _ContactsPage extends State<ContactsPage> {
                                                         fontFamily: 'Lato',
                                                         fontSize: 13,
                                                         color:
-                                                        Color(0xFFF8ED8E),
+                                                            Color(0xFFF8ED8E),
                                                       ),
                                                     ),
                                                   ],
@@ -271,8 +268,7 @@ class _ContactsPage extends State<ContactsPage> {
                                                   onPressed: () {
                                                     copyToClipboardAndShowSnackbar(
                                                         context,
-                                                        _contact!
-                                                            .instagram);
+                                                        _contact!.instagram);
                                                   },
                                                 ),
                                               ],
@@ -291,15 +287,16 @@ class _ContactsPage extends State<ContactsPage> {
                                             child: Row(
                                               // mainAxisSize: MainAxisSize.min,
                                               mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Row(
                                                   children: [
                                                     const Icon(
                                                         BoxIcons.bxl_facebook,
                                                         size: 25,
-                                                        color: Color(0xFFF8ED8E)),
+                                                        color:
+                                                            Color(0xFFF8ED8E)),
                                                     const SizedBox(width: 6),
                                                     Text(
                                                       '${_contact!.facebook}',
@@ -307,7 +304,7 @@ class _ContactsPage extends State<ContactsPage> {
                                                         fontFamily: 'Lato',
                                                         fontSize: 13,
                                                         color:
-                                                        Color(0xFFF8ED8E),
+                                                            Color(0xFFF8ED8E),
                                                       ),
                                                     ),
                                                   ],
@@ -320,8 +317,7 @@ class _ContactsPage extends State<ContactsPage> {
                                                   onPressed: () {
                                                     copyToClipboardAndShowSnackbar(
                                                         context,
-                                                        _contact!
-                                                            .facebook);
+                                                        _contact!.facebook);
                                                   },
                                                 ),
                                               ],
@@ -340,24 +336,23 @@ class _ContactsPage extends State<ContactsPage> {
                                             child: Row(
                                               // mainAxisSize: MainAxisSize.min,
                                               mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 const Icon(BoxIcons.bx_home,
                                                     size: 25,
                                                     color: Color(0xFFF8ED8E)),
-                                                SizedBox(width: 6),
+                                                const SizedBox(width: 6),
                                                 Expanded(
                                                   child: Text(
                                                     '${_contact!.address}',
                                                     maxLines: 4,
-                                                    overflow: TextOverflow
-                                                        .ellipsis,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     style: const TextStyle(
                                                       fontFamily: 'Lato',
                                                       fontSize: 13,
-                                                      color:
-                                                          Color(0xFFF8ED8E),
+                                                      color: Color(0xFFF8ED8E),
                                                     ),
                                                   ),
                                                 ),
@@ -365,12 +360,12 @@ class _ContactsPage extends State<ContactsPage> {
                                                   iconSize: 25,
                                                   icon: const Icon(
                                                       BoxIcons.bx_copy),
-                                                  color: Color(0xFFF8ED8E),
+                                                  color:
+                                                      const Color(0xFFF8ED8E),
                                                   onPressed: () {
                                                     copyToClipboardAndShowSnackbar(
                                                         context,
-                                                        _contact!
-                                                            .address);
+                                                        _contact!.address);
                                                   },
                                                 ),
                                               ],

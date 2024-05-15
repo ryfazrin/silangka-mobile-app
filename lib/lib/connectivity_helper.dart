@@ -41,13 +41,13 @@ class ConnectivityHelper {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: const Color(0xFFD4F3C4),
-          title: Text(
+          title: const Text(
             'No Internet Connection',
             style: TextStyle(
               color: Color(0xFF58A356),
             ),
           ),
-          content: SingleChildScrollView(
+          content:const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 Text('You are not connected to the internet.'),

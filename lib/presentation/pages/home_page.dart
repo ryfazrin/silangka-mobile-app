@@ -53,6 +53,7 @@ class _HomePage extends State<HomePage> {
       );
       return;
     }
+
     setState(() {
       _selectedIndex = index;
     });
@@ -97,18 +98,9 @@ class _HomePage extends State<HomePage> {
           child: ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(16.0)),
             child: NavigationBar(
-              // onDestinationSelected: (int index) {
-              //   setState(() {
-              //     currentPageIndex = index;
-              //   });
-              // },
               onDestinationSelected: _onItemTapped,
               selectedIndex: _selectedIndex,
-              // backgroundColor: Color(0xFF58A356),
-              // indicatorColor: Color(0xFFF8ED8E),
-              indicatorColor:  Color(0xFF58A356),
-              // surfaceTintColor:  Color(0xFFF8ED8E),
-              // backgroundColor: Color(0xFFb7e8b9),
+              indicatorColor: Color(0xFF58A356),
               backgroundColor: Color(0xFFD4F3C4),
               destinations: const <Widget>[
                 NavigationDestination(

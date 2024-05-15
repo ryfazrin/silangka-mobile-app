@@ -33,9 +33,14 @@ class _RegisterPage extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFD4F3C4),
+      backgroundColor: const Color(0xFFD4F3C4),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            color: const Color(0xFFD4F3C4),
+          ),
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -164,7 +169,8 @@ class _RegisterPage extends State<RegisterPage> {
                                   if (value == null || value.isEmpty) {
                                     return 'Silakan isi email Anda';
                                   }
-                                  if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                  if (!RegExp(
+                                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                       .hasMatch(value)) {
                                     return 'Email Anda tidak valid';
                                   }
@@ -225,7 +231,8 @@ class _RegisterPage extends State<RegisterPage> {
                                       if (value == null || value.isEmpty) {
                                         return 'Masukan nomor Whatsapp Anda';
                                       }
-                                      if (!RegExp(r'^\+?[0-9]{1,3}[0-9]{10,13}$')
+                                      if (!RegExp(
+                                              r'^\+?[0-9]{1,3}[0-9]{10,13}$')
                                           .hasMatch(value)) {
                                         return 'Nomor Whatsapp tidak valid';
                                       }
@@ -377,8 +384,8 @@ class _RegisterPage extends State<RegisterPage> {
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   minimumSize: const Size(343, 60),
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 24),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 24),
                                 ),
                                 child: const Text(
                                   'Register',

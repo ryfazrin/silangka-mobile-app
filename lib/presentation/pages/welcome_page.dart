@@ -103,11 +103,11 @@ class _WelcomePage extends State<WelcomePage> {
                                   foreground: Paint()
                                     ..style = PaintingStyle.stroke
                                     ..strokeWidth = 3
-                                    ..color = Color(0xFF58A356),
+                                    ..color = const Color(0xFF58A356),
                                   shadows: [
                                     Shadow(
                                       color: Colors.black.withOpacity(0.5),
-                                      offset: Offset(2, 3),
+                                      offset: const Offset(2, 3),
                                       blurRadius: 4,
                                     ),
                                   ],
@@ -138,11 +138,11 @@ class _WelcomePage extends State<WelcomePage> {
                                   foreground: Paint()
                                     ..style = PaintingStyle.stroke
                                     ..strokeWidth = 3
-                                    ..color = Color(0xFF58A356),
+                                    ..color = const Color(0xFF58A356),
                                   shadows: [
                                     Shadow(
                                       color: Colors.black.withOpacity(0.5),
-                                      offset: Offset(2, 3),
+                                      offset: const Offset(2, 3),
                                       blurRadius: 4,
                                     ),
                                   ],
@@ -173,11 +173,11 @@ class _WelcomePage extends State<WelcomePage> {
                                   foreground: Paint()
                                     ..style = PaintingStyle.stroke
                                     ..strokeWidth = 3
-                                    ..color = Color(0xFF58A356),
+                                    ..color = const Color(0xFF58A356),
                                   shadows: [
                                     Shadow(
                                       color: Colors.black.withOpacity(0.5),
-                                      offset: Offset(2, 3),
+                                      offset: const Offset(2, 3),
                                       blurRadius: 5,
                                     ),
                                   ],
@@ -187,7 +187,7 @@ class _WelcomePage extends State<WelcomePage> {
                             const Text(
                               'SILANGKA',
                               style: TextStyle(
-                                // color: Color(0xFF58A356),
+                                  // color: Color(0xFF58A356),
                                   color: Colors.white,
                                   fontSize: 45,
                                   fontFamily: 'Nexa',
@@ -207,11 +207,11 @@ class _WelcomePage extends State<WelcomePage> {
                                   foreground: Paint()
                                     ..style = PaintingStyle.stroke
                                     ..strokeWidth = 3
-                                    ..color = Color(0xFF58A356),
+                                    ..color = const Color(0xFF58A356),
                                   shadows: [
                                     Shadow(
                                       color: Colors.black.withOpacity(0.5),
-                                      offset: Offset(2, 3),
+                                      offset: const Offset(2, 3),
                                       blurRadius: 5,
                                     ),
                                   ],
@@ -221,7 +221,7 @@ class _WelcomePage extends State<WelcomePage> {
                             const Text(
                               'Sistem Informasi',
                               style: TextStyle(
-                                // color: Color(0xFF58A356),
+                                  // color: Color(0xFF58A356),
                                   color: Colors.white,
                                   fontSize: 16,
                                   fontFamily: 'Nexa',
@@ -241,11 +241,11 @@ class _WelcomePage extends State<WelcomePage> {
                                   foreground: Paint()
                                     ..style = PaintingStyle.stroke
                                     ..strokeWidth = 3
-                                    ..color = Color(0xFF58A356),
+                                    ..color = const Color(0xFF58A356),
                                   shadows: [
                                     Shadow(
                                       color: Colors.black.withOpacity(0.5),
-                                      offset: Offset(2, 3),
+                                      offset: const Offset(2, 3),
                                       blurRadius: 5,
                                     ),
                                   ],
@@ -286,7 +286,8 @@ class _WelcomePage extends State<WelcomePage> {
                                 borderRadius: BorderRadius.circular(36),
                               ),
                             ),
-                            fixedSize: MaterialStateProperty.all(Size(130, 54)),
+                            fixedSize:
+                                MaterialStateProperty.all(const Size(130, 54)),
                             // backgroundColor: MaterialStateProperty.all(Color(0xFF58A356)),
                           ),
                           child: const Text(
@@ -311,7 +312,8 @@ class _WelcomePage extends State<WelcomePage> {
                                 borderRadius: BorderRadius.circular(36),
                               ),
                             ),
-                            fixedSize: MaterialStateProperty.all(Size(130, 54)),
+                            fixedSize:
+                                MaterialStateProperty.all(const Size(130, 54)),
                             // backgroundColor:
                             //     MaterialStateProperty.all(Color(0xFF58A356)),
                           ),

@@ -32,8 +32,8 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          animal.name,
-          style: TextStyle(
+          widget.animal.name,
+          style: const TextStyle(
             fontFamily: 'Nexa',
             fontWeight: FontWeight.bold,
             // color: Color(0xFF58A356),
@@ -42,7 +42,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
         ),
         // backgroundColor: const Color(0xFFD4F3C4),
         backgroundColor: const Color(0xFF58A356),
-        foregroundColor:  Color(0xFFF8ED8E),
+        foregroundColor: const Color(0xFFF8ED8E),
         scrolledUnderElevation: 0.0,
       ),
       body: SingleChildScrollView(
@@ -51,15 +51,16 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (widget.animal.imageUrl.isNotEmpty) Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8), // Border radius 8.0
-                  child: Image.network(
-                    'https://arutmin-api.up.railway.app/animals/images/${animal.imageUrl}',
-                    fit: BoxFit.cover,
+              if (widget.animal.imageUrl.isNotEmpty)
+                Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8), // Border radius 8.0
+                    child: Image.network(
+                      'https://arutmin-api.up.railway.app/animals/images/${widget.animal.imageUrl}',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
               const SizedBox(height: 16.0),
               RichText(
                 textAlign: TextAlign.center,
@@ -71,7 +72,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                         fontFamily: 'Nexa',
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF9CA356),
+                        color: const Color(0xFF9CA356),
                       ),
                     ),
                     TextSpan(
@@ -96,7 +97,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                         fontFamily: 'Nexa',
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF9CA356),
+                        color: const Color(0xFF9CA356),
                       ),
                     ),
                     TextSpan(
@@ -105,7 +106,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                         fontSize: 14,
                         fontFamily: 'Lato',
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF9CA356),
+                        color: const Color(0xFF9CA356),
                       ),
                     ),
                   ],

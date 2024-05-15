@@ -30,7 +30,12 @@ class _LoginPage extends State<LoginPage> {
     return Scaffold(
       backgroundColor: const Color(0xFFD4F3C4),
       appBar: AppBar(
-        backgroundColor: const Color(0xFFD4F3C4),
+        automaticallyImplyLeading: false,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            color: Color(0xFFD4F3C4),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
