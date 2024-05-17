@@ -9,7 +9,8 @@ import 'package:flutter/services.dart';
 import 'package:silangka/config/API/API-PostAddAnimal.dart';
 import 'package:silangka/presentation/models/animals_model.dart';
 import 'package:silangka/presentation/pages/report_page.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:silangka/lib/database_helper.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class InsertPage extends StatefulWidget {
   const InsertPage({Key? key}) : super(key: key);
@@ -104,7 +105,6 @@ class _InsertPage extends State<InsertPage> {
     }
   }
 
-//teks longtitude dan latitude-nya dihapus, dan latitude sebelah kiri dan longtitude sebalah kanan
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -166,8 +166,12 @@ class _InsertPage extends State<InsertPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF58A356),
-      ),
+          automaticallyImplyLeading: false,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              color: Color(0xFF58A356),
+            ),
+          )),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -437,10 +441,21 @@ class _InsertPage extends State<InsertPage> {
     );
   }
 
-// desc tidak wajib
   void _handleSendReport() async {
     if (formKey.currentState!.validate()) {
       if (image != null) {
+        final connectivity = await Connectivity().checkConnectivity();
+        //ketika perangkat offline
+        if (connectivity == ConnectivityResult.none) {
+          await _saveDraftReport();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Laporan berhasil disimpan di draft'),
+            ),
+          );
+          return;
+        }
+        //ketika perangkat online
         try {
           final reportData = await AddAnimal().handleReport(
             image!,
@@ -477,5 +492,31 @@ class _InsertPage extends State<InsertPage> {
         ),
       );
     }
+  }
+
+  // Future<void> _showDialogDraft(String errorMessage) async {
+  //   return showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: false,
+  //     builder: (BuildContext (context) {
+  //       return AlertDialog(
+  //         backgroundColor: const Color(0xFFD4F3C4),
+  //         title: const Text('Berhasil', style: TextStyle(color: Colors.))
+  //       );
+  //     })
+  //   );
+  // }
+
+  Future<void> _saveDraftReport() async {
+    final databaseHelper = DatabaseHelper();
+    final report = {
+      'title': _judulLaporanController.text,
+      'location': _lokasiController.text,
+      'animalCount': _jumlahHewanController.text,
+      'image': image?.path,
+      'categoryId': selectedCategoryId,
+      'desc': _informasiLainlain.text,
+    };
+    await databaseHelper.insert(report);
   }
 }

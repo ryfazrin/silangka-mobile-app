@@ -43,18 +43,18 @@ class _ReportPage extends State<ReportPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text(
-          'Daftar Laporan',
-          style: TextStyle(
-            fontFamily: 'Nexa',
-            fontWeight: FontWeight.bold,
-            color: Color(0xFFF8ED8E),
-          ),
-        ),
-        backgroundColor: Color(0xFF58A356),
-      ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   title: const Text(
+      //     'Daftar Laporan',
+      //     style: TextStyle(
+      //       fontFamily: 'Nexa',
+      //       fontWeight: FontWeight.bold,
+      //       color: Color(0xFFF8ED8E),
+      //     ),
+      //   ),
+      //   backgroundColor: Color(0xFF58A356),
+      // ),
       body: FutureBuilder<List<Report>>(
         future: GetReport.fetchReport(),
         builder: (context, snapshot) {
@@ -172,35 +172,7 @@ class _ReportPage extends State<ReportPage> {
           );
         },
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 20.0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(16.0)),
-          child: NavigationBar(
-            onDestinationSelected: _onItemTapped,
-            selectedIndex: _selectedIndex,
-            indicatorColor: const Color(0xFF58A356),
-            backgroundColor: const Color(0xFFD4F3C4),
-            destinations: const <Widget>[
-              NavigationDestination(
-                selectedIcon: Icon(Icons.home, color: Color(0xFFF8ED8E)),
-                icon: Icon(Icons.home_outlined),
-                label: 'Home',
-              ),
-              NavigationDestination(
-                selectedIcon: Icon(Icons.note_add, color: Color(0xFFF8ED8E)),
-                icon: Icon(Icons.note_add_outlined),
-                label: 'Lapor',
-              ),
-              NavigationDestination(
-                selectedIcon: Icon(Icons.contacts, color: Color(0xFFF8ED8E)),
-                icon: Icon(Icons.contacts_outlined),
-                label: 'Hubungi Kami',
-              ),
-            ],
-          ),
-        ),
-      ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

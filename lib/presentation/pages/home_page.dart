@@ -78,7 +78,7 @@ class _HomePage extends State<HomePage> {
           // Hewan Dilindungi appBar
           AppBar(
             automaticallyImplyLeading: false,
-            title: Text(
+            title: const Text(
               'Hewan Dilidungi',
               style: TextStyle(
                 fontFamily: 'Nexa',
@@ -98,17 +98,16 @@ class _HomePage extends State<HomePage> {
           ),
           // Daftar laporan appBar
           AppBar(
-            automaticallyImplyLeading: false,
-            title: const Text(
-              'Daftar Laporan',
-              style: TextStyle(
-                fontFamily: 'Nexa',
-                fontWeight: FontWeight.bold,
-                color: Color(0xFFF8ED8E),
+              automaticallyImplyLeading: false,
+              title: const Text(
+                'Daftar Laporan',
+                style: TextStyle(
+                  fontFamily: 'Nexa',
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFFF8ED8E),
+                ),
               ),
-            ),
-            backgroundColor: Colors.green,
-          ),
+              backgroundColor: Color(0xFF58A356)),
         ][_selectedIndex],
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 20.0),
@@ -142,6 +141,7 @@ class _HomePage extends State<HomePage> {
         body: <Widget>[
           /// List Animal page
           ListAnimalPage(),
+
           /// Report page
           ReportPage()
         ][_selectedIndex],
