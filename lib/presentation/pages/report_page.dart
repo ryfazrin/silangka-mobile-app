@@ -24,7 +24,7 @@ class _ReportPage extends State<ReportPage> {
 
   final List<Widget> _pages = [
     const HomePage(),
-    const ReportPage(),
+    // const ReportPage(),
     const ContactsPage(),
   ];
 
@@ -110,32 +110,13 @@ class _ReportPage extends State<ReportPage> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 16),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: const Text(
-                                    'Terkirim',
-                                    style: TextStyle(
-                                      fontFamily: 'Lato',
-                                      fontSize: 12,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
                                 padding:
                                     const EdgeInsets.only(left: 16, top: 10),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Judul Laporan: ${reportDelete.title}',
+                                      'Judul Laporan: ${reportDelete.title ?? ''}',
                                       style: const TextStyle(
                                         fontFamily: 'Lato',
                                         fontSize: 14,
@@ -143,7 +124,7 @@ class _ReportPage extends State<ReportPage> {
                                       ),
                                     ),
                                     Text(
-                                      'Lokasi: ${reportDelete.location}',
+                                      'Lokasi: ${reportDelete.location ?? ''}',
                                       style: const TextStyle(
                                         fontFamily: 'Lato',
                                         fontSize: 14,

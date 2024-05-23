@@ -2,12 +2,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:silangka/lib/database_helper.dart';
 import 'package:silangka/presentation/pages/contacts.dart';
 import 'package:silangka/config/API/API-GetAnimalsandImage.dart';
 import 'package:silangka/presentation/models/animals_model.dart';
 import 'package:silangka/presentation/pages/animal_detail_page.dart';
 import 'package:silangka/presentation/pages/list_animal_page.dart';
 import 'package:silangka/presentation/pages/report_page.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -21,6 +23,22 @@ class _HomePage extends State<HomePage> {
   List<Map<String, String>> _animals = [];
   String? _token;
   int _selectedIndex = 0;
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    SharedPreferences.getInstance().then((prefs) {
+      bool isDataFetched = prefs.getBool('isDataFetched') ?? false;
+
+      if (!isDataFetched) {
+        fetchDataAndSaveToDatabase().then((_) {
+          prefs.setBool('isDataFetched', true);
+        });
+      }
+    });
+  }
 
   Future<void> _loadToken() async {
     final prefs = await SharedPreferences.getInstance();
@@ -61,6 +79,12 @@ class _HomePage extends State<HomePage> {
   }
 
   bool canPop = true;
+  Future<void> fetchDataAndSaveToDatabase() async {
+    final databaseHelper = DatabaseHelper();
+    final dataAnimal = await ApiAnimal.fetchAnimals();
+    await databaseHelper.insertCategories(dataAnimal);
+  }
+
 
   @override
   Widget build(BuildContext context) {

@@ -11,6 +11,7 @@ import 'package:silangka/presentation/models/animals_model.dart';
 import 'package:silangka/presentation/pages/report_page.dart';
 import 'package:silangka/lib/database_helper.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:silangka/config/API/API-GetAnimalsandImage.dart';
 
 class InsertPage extends StatefulWidget {
   const InsertPage({Key? key}) : super(key: key);
@@ -31,12 +32,28 @@ class _InsertPage extends State<InsertPage> {
   List<Animal> categories = [];
   Position? _currentPosition;
   String? _currentAddress;
+  bool isOnline = true;
 
   @override
   void initState() {
     super.initState();
+    _loadCategories();
     fetchCategories();
     _getCurrentPosition();
+    _checkConnectivity();
+
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      setState(() {
+        isOnline = result != ConnectivityResult.none;
+      });
+    });
+  }
+
+  Future<void> _checkConnectivity() async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    setState(() {
+      isOnline = connectivityResult != ConnectivityResult.none;
+    });
   }
 
   File? image;
@@ -133,6 +150,14 @@ class _InsertPage extends State<InsertPage> {
     return true;
   }
 
+  void _loadCategories() async {
+    final dbHelper = DatabaseHelper();
+    final categoriesFromDb = await dbHelper.getCategories();
+    setState(() {
+      categories = categoriesFromDb;
+    });
+  }
+
   Future<void> _getCurrentPosition() async {
     final hasPermission = await _handleLocationPermission();
     if (!hasPermission) return;
@@ -161,6 +186,7 @@ class _InsertPage extends State<InsertPage> {
       debugPrint(e);
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -416,9 +442,9 @@ class _InsertPage extends State<InsertPage> {
                             backgroundColor: MaterialStateProperty.all(
                                 const Color(0xFF58A356)),
                           ),
-                          child: const Text(
-                            'Kirim',
-                            style: TextStyle(
+                          child: Text(
+                            isOnline ? 'Kirim' : 'Kirim ke Draft',
+                            style: const TextStyle(
                               fontFamily: 'Nexa',
                               color: Colors.white,
                               fontSize: 20,
@@ -493,19 +519,6 @@ class _InsertPage extends State<InsertPage> {
       );
     }
   }
-
-  // Future<void> _showDialogDraft(String errorMessage) async {
-  //   return showDialog<void>(
-  //     context: context,
-  //     barrierDismissible: false,
-  //     builder: (BuildContext (context) {
-  //       return AlertDialog(
-  //         backgroundColor: const Color(0xFFD4F3C4),
-  //         title: const Text('Berhasil', style: TextStyle(color: Colors.))
-  //       );
-  //     })
-  //   );
-  // }
 
   Future<void> _saveDraftReport() async {
     final databaseHelper = DatabaseHelper();

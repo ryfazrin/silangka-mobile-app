@@ -1,3 +1,5 @@
+import 'package:silangka/presentation/models/animals_model.dart';
+
 class Report {
   final int id;
   final String userId;
@@ -44,17 +46,17 @@ class Report {
   }
 }
 
-class Animal {
-  final String name;
+// class Animal {
+//   final String name;
 
-  Animal({required this.name});
-  String getName() {
-    return name;
-  }
+//   Animal({required this.name});
+//   String getName() {
+//     return name;
+//   }
 
-  factory Animal.fromJson(Map<String, dynamic> json) {
-    return Animal(
-      name: json['name'] as String,
-    );
-  }
-}
+//   factory Animal.fromJson(Map<String, dynamic> json) {
+//     return Animal(
+//       name: json['name'] as String,
+//     );
+//   }
+// }

@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'package:silangka/presentation/models/report_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
+import 'package:silangka/presentation/models/animals_model.dart';
 
 class DatabaseHelper {
   final String _databaseName = 'database_report.db';
@@ -40,14 +40,16 @@ class DatabaseHelper {
     await db.execute(
       'CREATE TABLE $table ($id INTEGER PRIMARY KEY, $title TEXT, $location TEXT, $animalCount TEXT, $image FILE, $categoryId INTEGER, $desc TEXT)',
     );
+    await db.execute(
+      'CREATE TABLE categories (id INTEGER PRIMARY KEY, name TEXT, latinName TEXT, distribution TEXT, characteristics TEXT, habitat TEXT, foodType TEXT, uniqueBehavior TEXT, gestationPeriod TEXT, imageUrl TEXT, estimationAmounts TEXT)',
+    );
   }
 
-  Future<List<Report>> all() async {
+  Future<List<Map<String, dynamic>>> all() async {
     final db = await database();
     final data = await db.query(table);
     print('Query result: $data');
-    List<Report> result = data.map((e) => Report.fromJson(e)).toList();
-    return result;
+    return data;
   }
 
   Future<int> insert(Map<String, dynamic> row) async {
@@ -55,5 +57,22 @@ class DatabaseHelper {
     final query = await db.insert(table, row);
     print('Inserted Row: $row with id: $query');
     return query;
+  }
+
+  Future<void> insertCategories(List<Animal> categories) async {
+    final db = await database();
+    for (Animal category in categories) {
+      Map<String, dynamic> categoryMap = category.toMap();
+      categoryMap.remove('estimationAmounts'); // Menghapus kunci 'estimationAmounts'
+      categoryMap['estimationAmounts'] = null; // Menetapkan nilainya menjadi null
+      await db.insert('categories', categoryMap);
+    }
+    print(categories);
+  }
+
+  Future<List<Animal>> getCategories() async {
+    final db = await database();
+    final List<Map<String, dynamic>> data = await db.query('categories');
+    return data.map((map) => Animal.fromJson(map)).toList();
   }
 }
