@@ -20,12 +20,19 @@ class GetReport {
         'Authorization': 'Bearer $token',
       },
     );
-
+    // print(response.body);
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
+      // print(jsonData['data']);
+
+
+      // make sure data report
+      print(jsonData['data'].map(
+            (x) => Report.fromJson(x),
+      ));
       final animals = List<Report>.from(
         jsonData['data'].map(
-          (x) => Report.fromJson(x),
+              (x) => Report.fromJson(x),
         ),
       );
       return animals;

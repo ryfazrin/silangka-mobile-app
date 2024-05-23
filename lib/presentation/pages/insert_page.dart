@@ -167,7 +167,7 @@ class _InsertPage extends State<InsertPage> {
       setState(() {
         _currentPosition = position;
         _lokasiController.text =
-            '${_currentPosition!.longitude},${_currentPosition!.latitude}';
+            '${_currentPosition!.latitude},${_currentPosition!.longitude}';
       });
     }).catchError((e) {
       debugPrint(e);
@@ -334,7 +334,7 @@ class _InsertPage extends State<InsertPage> {
                           width: 345,
                           child: TextFormField(
                             controller: _lokasiController,
-                            enabled: false,
+                            enabled: true,
                             style: const TextStyle(
                               fontWeight: FontWeight.w400,
                               color: Colors.black,

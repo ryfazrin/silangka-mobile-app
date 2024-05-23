@@ -18,9 +18,15 @@ class ReportPage extends StatefulWidget {
 class _ReportPage extends State<ReportPage> {
   final formKey = GlobalKey<FormState>();
   String? selectedCategoryId;
-
+  late Future<List<Report>> futureReport;
   late XFile? image = null;
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    futureReport = GetReport.fetchReport();
+  }
 
   final List<Widget> _pages = [
     const HomePage(),
@@ -42,9 +48,10 @@ class _ReportPage extends State<ReportPage> {
 
   @override
   Widget build(BuildContext context) {
+    // print(GetReport.fetchReport());
     return Scaffold(
       body: FutureBuilder<List<Report>>(
-        future: GetReport.fetchReport(),
+        future: futureReport,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final report = snapshot.data!;
@@ -161,6 +168,9 @@ class _ReportPage extends State<ReportPage> {
     try {
       final apiDelete = ApiDelete();
       await apiDelete.deleteReport(reportId);
+      setState(() {
+        futureReport = GetReport.fetchReport();
+      });
       print('Laporan berhasil dihapus');
     } catch (e) {
       print('Error saat menghapus laporan: $e');
