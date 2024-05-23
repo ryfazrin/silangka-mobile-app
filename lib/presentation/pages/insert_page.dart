@@ -8,6 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:flutter/services.dart';
 import 'package:silangka/config/API/API-PostAddAnimal.dart';
 import 'package:silangka/presentation/models/animals_model.dart';
+import 'package:silangka/presentation/pages/home_page.dart';
 import 'package:silangka/presentation/pages/report_page.dart';
 import 'package:silangka/lib/database_helper.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -483,7 +484,7 @@ class _InsertPage extends State<InsertPage> {
         }
         //ketika perangkat online
         try {
-          final reportData = await AddAnimal().handleReport(
+           await AddAnimal().handleReport(
             image!,
             _judulLaporanController.text,
             _lokasiController.text,
@@ -493,8 +494,8 @@ class _InsertPage extends State<InsertPage> {
           );
           Navigator.pushNamed(
             context,
-            ReportPage.routeName,
-            arguments: reportData,
+            HomePage.routeName,
+            arguments: 1,
           );
         } catch (e) {
           print('Gagal mengirim laporan: $e');

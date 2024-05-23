@@ -43,18 +43,6 @@ class _ReportPage extends State<ReportPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   title: const Text(
-      //     'Daftar Laporan',
-      //     style: TextStyle(
-      //       fontFamily: 'Nexa',
-      //       fontWeight: FontWeight.bold,
-      //       color: Color(0xFFF8ED8E),
-      //     ),
-      //   ),
-      //   backgroundColor: Color(0xFF58A356),
-      // ),
       body: FutureBuilder<List<Report>>(
         future: GetReport.fetchReport(),
         builder: (context, snapshot) {

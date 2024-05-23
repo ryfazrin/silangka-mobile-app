@@ -12,11 +12,13 @@ import 'package:silangka/presentation/pages/report_page.dart';
 
 
 class HomePage extends StatefulWidget {
+
   const HomePage({Key? key}) : super(key: key);
   static const String routeName = '/homepage';
 
   @override
   _HomePage createState() => _HomePage();
+
 }
 
 class _HomePage extends State<HomePage> {
@@ -24,6 +26,18 @@ class _HomePage extends State<HomePage> {
   String? _token;
   int _selectedIndex = 0;
 
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Fetch the arguments passed via Navigator.pushNamed
+    final args = ModalRoute.of(context)!.settings.arguments;
+    if (args != null && args is int) {
+      _selectedIndex = args;
+    } else {
+      _selectedIndex = 0; // Set a default value if no arguments are passed
+    }
+  }
 
   @override
   void initState() {
@@ -169,6 +183,8 @@ class _HomePage extends State<HomePage> {
           /// Report page
           ReportPage()
         ][_selectedIndex],
+        // angka = [1,2,3];
+        // body = angka[0];
       ),
     );
   }
