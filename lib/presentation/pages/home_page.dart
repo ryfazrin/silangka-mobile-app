@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silangka/lib/database_helper.dart';
+import 'package:silangka/lib/location_service.dart';
 import 'package:silangka/presentation/pages/contacts.dart';
 import 'package:silangka/config/API/API-GetAnimalsandImage.dart';
 import 'package:silangka/presentation/models/animals_model.dart';
@@ -22,10 +23,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
+  final LocationService _locationService = LocationService();
+
   List<Map<String, String>> _animals = [];
   String? _token;
   int _selectedIndex = 0;
-
 
   @override
   void didChangeDependencies() {
@@ -43,6 +45,8 @@ class _HomePage extends State<HomePage> {
   void initState() {
     super.initState();
 
+    _checkLocationPermission();
+
     SharedPreferences.getInstance().then((prefs) {
       bool isDataFetched = prefs.getBool('isDataFetched') ?? false;
 
@@ -52,6 +56,10 @@ class _HomePage extends State<HomePage> {
         });
       }
     });
+  }
+
+  Future<void> _checkLocationPermission() async {
+    await _locationService.handleLocationPermission(context);
   }
 
   Future<void> _loadToken() async {
