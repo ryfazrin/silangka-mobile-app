@@ -1,5 +1,7 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:silangka/lib/database_helper.dart';
 import 'package:silangka/presentation/pages/contacts.dart';
 import 'package:silangka/presentation/pages/home_page.dart';
 import 'package:silangka/presentation/pages/insert_page.dart';
@@ -18,14 +20,58 @@ class ReportPage extends StatefulWidget {
 class _ReportPage extends State<ReportPage> {
   final formKey = GlobalKey<FormState>();
   String? selectedCategoryId;
-  late Future<List<Report>> futureReport;
+  Future<List<Report>>? futureReport;
   late XFile? image = null;
   int _selectedIndex = 0;
 
   @override
   void initState() {
+
     super.initState();
-    futureReport = GetReport.fetchReport();
+    checkInternetConnection();
+  }
+
+  Future<void> checkInternetConnection() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult != ConnectivityResult.none) {
+      setState(() {
+        futureReport = GetReport.fetchReport();
+      });
+      fetchAndSyncReports();
+    } else {
+      setState(() {
+        futureReport = DatabaseHelper().fetchReports();
+      });
+    }
+  }
+  Future<void> fetchAndSyncReports() async {
+    try {
+      final databaseHelper = DatabaseHelper();
+    List<Report> apiReports = await GetReport.fetchReport();
+
+        // delete all by status terkirim
+      databaseHelper.deleteReportByStatusTerkirim();
+        // Insert API data into SQLite
+        for (var report in apiReports) {
+          await databaseHelper.insert({
+            'idBE': report.id,
+          'title': report.title,
+          'location': report.location,
+          'animalCount': report.animalCount,
+          'image': report.imageUrl,
+          'categoryId': '',
+          'desc': report.desc,
+            'status': 'Terkirim',
+          });
+        }
+        // Fetch combined data from SQLite
+        setState(() {
+          futureReport = DatabaseHelper().fetchReports();
+        });
+
+    } catch (e) {
+      print(e);
+    }
   }
 
   final List<Widget> _pages = [
@@ -58,7 +104,8 @@ class _ReportPage extends State<ReportPage> {
             return ListView.builder(
               itemCount: report.length,
               itemBuilder: (context, index) {
-                final reportDelete = report[index];
+                final detailReport = report[index];
+                print(detailReport);
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Row(
@@ -88,7 +135,7 @@ class _ReportPage extends State<ReportPage> {
                                 contentPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
                                 title: Text(
-                                  reportDelete.animal.name,
+                                  detailReport.idBE != null ? detailReport.idBE.toString() : 'N/A',
                                   style: const TextStyle(
                                     fontFamily: 'Nexa',
                                     fontWeight: FontWeight.bold,
@@ -100,8 +147,28 @@ class _ReportPage extends State<ReportPage> {
                                   icon:
                                       const Icon(Icons.delete_outline_outlined),
                                   onPressed: () {
-                                    _deleteReport(reportDelete.id.toString());
+                                    _deleteReport(detailReport.idBE.toString());
                                   },
+                                ),
+                              ),
+
+                              Padding(
+                                padding: EdgeInsets.only(left: 16),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: detailReport.status == 'Terkirim' ? Colors.green : Colors.blue,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(
+                                    detailReport.status ?? '',
+                                    style:const TextStyle(
+                                      fontFamily: 'Lato',
+                                      fontSize: 12,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ),
                               Padding(
@@ -111,7 +178,7 @@ class _ReportPage extends State<ReportPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Judul Laporan: ${reportDelete.title ?? ''}',
+                                      'Judul Laporan: ${detailReport.title ?? ''}',
                                       style: const TextStyle(
                                         fontFamily: 'Lato',
                                         fontSize: 14,
@@ -119,7 +186,7 @@ class _ReportPage extends State<ReportPage> {
                                       ),
                                     ),
                                     Text(
-                                      'Lokasi: ${reportDelete.location ?? ''}',
+                                      'Lokasi: ${detailReport.location ?? ''}',
                                       style: const TextStyle(
                                         fontFamily: 'Lato',
                                         fontSize: 14,
@@ -164,13 +231,24 @@ class _ReportPage extends State<ReportPage> {
     );
   }
 
-  Future<void> _deleteReport(String reportId) async {
+
+
+  Future<void> _deleteReport(String reportIdBE) async {
     try {
-      final apiDelete = ApiDelete();
-      await apiDelete.deleteReport(reportId);
-      setState(() {
-        futureReport = GetReport.fetchReport();
-      });
+      // final connectivity = await Connectivity().checkConnectivity();
+      // //ketika perangkat online
+      // if (connectivity != ConnectivityResult.none) {
+      //   final apiDelete = ApiDelete();
+      //   await apiDelete.deleteReport(reportId);
+      // }
+      // await DatabaseHelper().deleteReportById(reportId);
+      // _showDeleteSuccess();
+        final apiDelete = ApiDelete();
+        await apiDelete.deleteReport(reportIdBE);
+      fetchAndSyncReports();
+      // setState(()  {
+      //   futureReport =  DatabaseHelper().fetchReports();
+      // });
       // print('Laporan berhasil dihapus');
       _showDeleteSuccess();
     } catch (e) {

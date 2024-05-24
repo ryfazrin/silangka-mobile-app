@@ -535,6 +535,7 @@ class _InsertPage extends State<InsertPage> {
       'image': image?.path,
       'categoryId': selectedCategoryId,
       'desc': _informasiLainlain.text,
+      'status': 'Draft',
     };
     await databaseHelper.insert(report);
   }
