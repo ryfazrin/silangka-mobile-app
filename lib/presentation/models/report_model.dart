@@ -10,7 +10,7 @@ class Report {
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime? deletedAt; // nullable DateTime
-
+  final String? status;
   Report({
     required this.id,
     required this.userId,
@@ -23,6 +23,7 @@ class Report {
     required this.createdAt,
     required this.updatedAt,
     this.deletedAt, // nullable parameter
+    this.status,
   });
 
   factory Report.fromJson(Map<String, dynamic> json) {
@@ -38,6 +39,7 @@ class Report {
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
       deletedAt: json['deletedAt'] != null ? DateTime.parse(json['deletedAt'] as String) : null,
+      status: json['status'] as String? ?? '',
     );
   }
 }

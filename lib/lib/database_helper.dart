@@ -16,6 +16,7 @@ class DatabaseHelper {
   final String image = 'image';
   final String desc = 'desc';
   final String categoryId = 'categoryId';
+  final String status = 'status';
 
   Database? _database;
 
@@ -38,7 +39,7 @@ class DatabaseHelper {
 
   Future _onCreate(Database db, int version) async {
     await db.execute(
-      'CREATE TABLE $table ($id INTEGER PRIMARY KEY, $title TEXT, $location TEXT, $animalCount TEXT, $image FILE, $categoryId INTEGER, $desc TEXT)',
+      'CREATE TABLE $table ($id INTEGER PRIMARY KEY, $title TEXT, $location TEXT, $animalCount TEXT, $image FILE, $categoryId INTEGER, $desc TEXT, $status TEXT)',
     );
     await db.execute(
       'CREATE TABLE categories (id INTEGER PRIMARY KEY, name TEXT, latinName TEXT, distribution TEXT, characteristics TEXT, habitat TEXT, foodType TEXT, uniqueBehavior TEXT, gestationPeriod TEXT, imageUrl TEXT, estimationAmounts TEXT)',
@@ -48,13 +49,14 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> all() async {
     final db = await database();
     final data = await db.query(table);
-    print('Query result: $data');
+
+    // print('Query result: $data');
     return data;
   }
 
   Future<int> insert(Map<String, dynamic> row) async {
     final db = await database();
-    final query = await db.insert(table, row);
+    final query = await db.insert(table, row, conflictAlgorithm: ConflictAlgorithm.replace);
     print('Inserted Row: $row with id: $query');
     return query;
   }

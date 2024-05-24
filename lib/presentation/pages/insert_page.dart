@@ -188,17 +188,25 @@ class _InsertPage extends State<InsertPage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          automaticallyImplyLeading: false,
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              color: Color(0xFF58A356),
-            ),
-          )),
+        automaticallyImplyLeading: true,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            color: Color(0xFF58A356),
+          ),
+        ),
+        title: const Text(
+          'Masukan Laporan',
+          style: TextStyle(
+            fontFamily: 'Nexa',
+            fontWeight: FontWeight.bold,
+            color: Color(0xFFF8ED8E),
+          ),
+        ),
+      ),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -475,16 +483,12 @@ class _InsertPage extends State<InsertPage> {
         //ketika perangkat offline
         if (connectivity == ConnectivityResult.none) {
           await _saveDraftReport();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Laporan berhasil disimpan di draft'),
-            ),
-          );
+          _showDialogSuccessSendtoDraft();
           return;
         }
         //ketika perangkat online
         try {
-           await AddAnimal().handleReport(
+          await AddAnimal().handleReport(
             image!,
             _judulLaporanController.text,
             _lokasiController.text,
@@ -492,11 +496,12 @@ class _InsertPage extends State<InsertPage> {
             _informasiLainlain.text,
             selectedCategoryId,
           );
-          Navigator.pushNamed(
-            context,
-            HomePage.routeName,
-            arguments: 1,
-          );
+          _showDialogSuccessSend();
+          // Navigator.pushNamed(
+          //   context,
+          //   HomePage.routeName,
+          //   arguments: 1,
+          // );
         } catch (e) {
           print('Gagal mengirim laporan: $e');
           ScaffoldMessenger.of(context).showSnackBar(
@@ -532,5 +537,97 @@ class _InsertPage extends State<InsertPage> {
       'desc': _informasiLainlain.text,
     };
     await databaseHelper.insert(report);
+  }
+
+  Future<void> _showDialogSuccessSendtoDraft() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFFD4F3C4),
+          title: const Text(
+            'Sukses',
+            style: TextStyle(
+              color: Color(0xFF58A356),
+            ),
+          ),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  'Data Berhasil Dikirim di Draft.',
+                  style: TextStyle(color: Color(0xFF58A356)),
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  HomePage.routeName,
+                  arguments: 1,
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showDialogSuccessSend() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFFD4F3C4),
+          title: const Text(
+            'Sukses',
+            style: TextStyle(
+              color: Color(0xFF58A356),
+            ),
+          ),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  'Data Berhasil Dikirim.',
+                  style: TextStyle(color: Color(0xFF58A356)),
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  HomePage.routeName,
+                  arguments: 1,
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

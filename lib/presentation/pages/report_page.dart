@@ -148,8 +148,8 @@ class _ReportPage extends State<ReportPage> {
           );
         },
       ),
-
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFF58A356),
         onPressed: () {
           Navigator.push(
             context,
@@ -158,7 +158,7 @@ class _ReportPage extends State<ReportPage> {
             ),
           );
         },
-        child: const Icon(Icons.add),
+        child: Image.asset('assets/images/add-report.png'),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
@@ -171,9 +171,52 @@ class _ReportPage extends State<ReportPage> {
       setState(() {
         futureReport = GetReport.fetchReport();
       });
-      print('Laporan berhasil dihapus');
+      // print('Laporan berhasil dihapus');
+      _showDeleteSuccess();
     } catch (e) {
       print('Error saat menghapus laporan: $e');
     }
+  }
+
+  Future<void> _showDeleteSuccess() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFFD4F3C4),
+          title: const Text(
+            'Sukses',
+            style: TextStyle(
+              color: Color(0xFF58A356),
+            ),
+          ),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  'Data Berhasil Dihapus.',
+                  style: TextStyle(color: Color(0xFF58A356)),
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
