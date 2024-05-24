@@ -55,6 +55,7 @@ class DatabaseHelper {
     return List.generate(data.length, (i) {
       return Report(
         id: int.parse(data[i]['id'].toString()),
+        idBE: int.parse(data[i]['idBE'].toString()),
         userId: data[i]['userId'].toString(),
         title: data[i]['title'].toString(),
         // animal: AnimalReport(name: data[i]['animalName']),

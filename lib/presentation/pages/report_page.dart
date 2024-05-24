@@ -55,12 +55,12 @@ class _ReportPage extends State<ReportPage> {
         for (var report in apiReports) {
           await databaseHelper.insert({
             'idBE': report.id,
-          'title': report.title,
-          'location': report.location,
-          'animalCount': report.animalCount,
-          'image': report.imageUrl,
-          'categoryId': '',
-          'desc': report.desc,
+            'title': report.title,
+            'location': report.location,
+            'animalCount': report.animalCount,
+            'image': report.imageUrl,
+            'categoryId': '',
+            'desc': report.desc,
             'status': 'Terkirim',
           });
         }
@@ -105,7 +105,6 @@ class _ReportPage extends State<ReportPage> {
               itemCount: report.length,
               itemBuilder: (context, index) {
                 final detailReport = report[index];
-                print(detailReport);
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Row(
@@ -135,7 +134,7 @@ class _ReportPage extends State<ReportPage> {
                                 contentPadding:
                                     const EdgeInsets.symmetric(horizontal: 16),
                                 title: Text(
-                                  detailReport.idBE != null ? detailReport.idBE.toString() : 'N/A',
+                                  detailReport.animal.name,
                                   style: const TextStyle(
                                     fontFamily: 'Nexa',
                                     fontWeight: FontWeight.bold,
