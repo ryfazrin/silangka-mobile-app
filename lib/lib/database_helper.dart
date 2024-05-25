@@ -69,7 +69,7 @@ class DatabaseHelper {
             id: int.parse(data[i]['animalId'].toString()),
             name: data[i]['animalName'].toString(),
         ),
-        imageUrl: data[i]['imageUrl'].toString(),
+        imageUrl: data[i]['image'].toString(),
         location: data[i]['location'].toString(),
         animalCount: int.parse(data[i]["animalCount"].toString()),
         desc: data[i]['desc'].toString(),
