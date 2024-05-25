@@ -11,15 +11,12 @@ import 'package:silangka/presentation/pages/animal_detail_page.dart';
 import 'package:silangka/presentation/pages/list_animal_page.dart';
 import 'package:silangka/presentation/pages/report_page.dart';
 
-
 class HomePage extends StatefulWidget {
-
   const HomePage({Key? key}) : super(key: key);
   static const String routeName = '/homepage';
 
   @override
   _HomePage createState() => _HomePage();
-
 }
 
 class _HomePage extends State<HomePage> {
@@ -36,8 +33,6 @@ class _HomePage extends State<HomePage> {
     final args = ModalRoute.of(context)!.settings.arguments;
     if (args != null && args is int) {
       _selectedIndex = args;
-    } else {
-      _selectedIndex = 0; // Set a default value if no arguments are passed
     }
   }
 
@@ -106,7 +101,6 @@ class _HomePage extends State<HomePage> {
     final dataAnimal = await ApiAnimal.fetchAnimals();
     await databaseHelper.insertCategories(dataAnimal);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -184,15 +178,13 @@ class _HomePage extends State<HomePage> {
             ),
           ),
         ),
-        body: <Widget>[
-          /// List Animal page
-          ListAnimalPage(),
-
-          /// Report page
-          ReportPage()
-        ][_selectedIndex],
-        // angka = [1,2,3];
-        // body = angka[0];
+        body: IndexedStack(
+          index: _selectedIndex,
+          children: <Widget>[
+            ListAnimalPage(),
+            ReportPage(),
+          ],
+        ),
       ),
     );
   }

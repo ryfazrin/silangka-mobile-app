@@ -19,6 +19,7 @@ class DatabaseHelper {
   final String desc = 'desc';
   final String categoryId = 'categoryId';
   final String status = 'status';
+  final String createdAt = 'createdAt';
 
   Database? _database;
 
@@ -41,7 +42,7 @@ class DatabaseHelper {
 
   Future _onCreate(Database db, int version) async {
     await db.execute(
-      'CREATE TABLE $table ($id INTEGER PRIMARY KEY, $idBE INTEGER, $title TEXT, $location TEXT, $animalCount TEXT, $image FILE, $categoryId INTEGER, $desc TEXT, $status TEXT)',
+      'CREATE TABLE $table ($id INTEGER PRIMARY KEY, $idBE INTEGER, $title TEXT, $location TEXT, $animalCount TEXT, $image FILE, $categoryId INTEGER, $desc TEXT, $status TEXT, $createdAt TEXT)',
     );
     await db.execute(
       'CREATE TABLE categories (id INTEGER PRIMARY KEY, name TEXT, latinName TEXT, distribution TEXT, characteristics TEXT, habitat TEXT, foodType TEXT, uniqueBehavior TEXT, gestationPeriod TEXT, imageUrl TEXT, estimationAmounts TEXT)',
@@ -59,7 +60,9 @@ class DatabaseHelper {
         userId: data[i]['userId'].toString(),
         title: data[i]['title'].toString(),
         // animal: AnimalReport(name: data[i]['animalName']),
-        animal:AnimalReport (name: 'Dummy Bekantan'),
+        animal:AnimalReport (
+            id: int.parse(data[i]['categoryId'].toString()),
+            name: 'Dummy Bekantan'),
         imageUrl: data[i]['imageUrl'].toString(),
         location: data[i]['location'].toString(),
         animalCount: int.parse(data[i]["animalCount"].toString()),

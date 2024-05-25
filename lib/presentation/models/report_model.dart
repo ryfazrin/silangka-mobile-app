@@ -47,12 +47,14 @@ class Report {
   }
 }
 class AnimalReport {
+  final int id;
   final String name;
 
-  AnimalReport({required this.name});
+  AnimalReport({required this.name, required this.id});
 
   factory AnimalReport.fromJson(Map<String, dynamic> json) {
     return AnimalReport(
+      id: json['id'] as int,
       name: json['name'] as String,
     );
   }

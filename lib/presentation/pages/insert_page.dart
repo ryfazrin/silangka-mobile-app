@@ -342,7 +342,7 @@ class _InsertPage extends State<InsertPage> {
                           width: 345,
                           child: TextFormField(
                             controller: _lokasiController,
-                            enabled: true,
+                            enabled: false,
                             style: const TextStyle(
                               fontWeight: FontWeight.w400,
                               color: Colors.black,

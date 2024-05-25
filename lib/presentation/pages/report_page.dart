@@ -53,15 +53,17 @@ class _ReportPage extends State<ReportPage> {
       databaseHelper.deleteReportByStatusTerkirim();
       // Insert API data into SQLite
       for (var report in apiReports) {
+        print(report.animal.id);
         await databaseHelper.insert({
           'idBE': report.id,
           'title': report.title,
           'location': report.location,
           'animalCount': report.animalCount,
           'image': report.imageUrl,
-          'categoryId': '',
+          'categoryId': report.animal.id,
           'desc': report.desc,
           'status': 'Terkirim',
+          'createdAt': report.createdAt.toString(),
         });
       }
       // Fetch combined data from SQLite
@@ -129,6 +131,193 @@ class _ReportPage extends State<ReportPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               ListTile(
+                                  onTap: () {
+                                    showModalBottomSheet<void>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return ConstrainedBox(
+                                          constraints:
+                                              BoxConstraints(minHeight: 400),
+                                          child: Wrap(
+                                            children: [
+                                              Center(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  mainAxisSize: MainAxisSize
+                                                      .min, // Use min to let the content dictate the size
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 20),
+                                                      child: Align(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Text(
+                                                          '${detailReport.title}',
+                                                          style:
+                                                              const TextStyle(
+                                                            fontFamily: 'Nexa',
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Color(
+                                                                0xFF9CA356),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 15),
+                                                      child: Table(
+                                                        children: [
+                                                          TableRow(
+                                                            children: [
+                                                              const Text(
+                                                                'Jumlah Hewan: ',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontFamily:
+                                                                      'Nexa',
+                                                                  fontSize: 18,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Color(
+                                                                      0xFF9CA356),
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                '${detailReport.animalCount}',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style:
+                                                                    const TextStyle(
+                                                                  fontFamily:
+                                                                      'Lato',
+                                                                  fontSize: 14,
+                                                                  color: Color(
+                                                                      0xFF9CA356),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          const TableRow(
+                                                            children: [
+                                                              SizedBox(
+                                                                  height:
+                                                                      20), // Adding space between rows
+                                                              SizedBox(
+                                                                  height:
+                                                                      20), // Adding space between rows
+                                                            ],
+                                                          ),
+                                                          TableRow(
+                                                            children: [
+                                                              const Text(
+                                                                'Lokasi: ',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontFamily:
+                                                                      'Nexa',
+                                                                  fontSize: 18,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Color(
+                                                                      0xFF9CA356),
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                '${detailReport.location}',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style:
+                                                                    const TextStyle(
+                                                                  fontFamily:
+                                                                      'Lato',
+                                                                  fontSize: 14,
+                                                                  color: Color(
+                                                                      0xFF9CA356),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 15),
+                                                      child: Align(
+                                                        alignment:
+                                                            Alignment.topLeft,
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            const Text(
+                                                              'Informasi lain-lain: ',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'Nexa',
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Color(
+                                                                    0xFF9CA356),
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              '${detailReport.desc}',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontFamily:
+                                                                    'Lato',
+                                                                fontSize: 14,
+                                                                color: Color(
+                                                                    0xFF9CA356),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
                                   contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 16),
                                   title: Text(
@@ -151,7 +340,7 @@ class _ReportPage extends State<ReportPage> {
                               Padding(
                                 padding: EdgeInsets.only(left: 16),
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 4),
                                   decoration: BoxDecoration(
                                     color: detailReport.status == 'Terkirim'
