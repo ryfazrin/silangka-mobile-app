@@ -147,17 +147,17 @@ class _HomePage extends State<HomePage> {
                   color: Color(0xFFF8ED8E),
                 ),
               ),
-              backgroundColor: Color(0xFF58A356)),
+              backgroundColor: const Color(0xFF58A356)),
         ][_selectedIndex],
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 20.0),
           child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(16.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(16.0)),
             child: NavigationBar(
               onDestinationSelected: _onItemTapped,
               selectedIndex: _selectedIndex,
-              indicatorColor: Color(0xFF58A356),
-              backgroundColor: Color(0xFFD4F3C4),
+              indicatorColor: const Color(0xFF58A356),
+              backgroundColor: const Color(0xFFD4F3C4),
               destinations: const <Widget>[
                 NavigationDestination(
                   selectedIcon: Icon(Icons.home, color: Color(0xFFF8ED8E)),
@@ -180,7 +180,7 @@ class _HomePage extends State<HomePage> {
         ),
         body: IndexedStack(
           index: _selectedIndex,
-          children: <Widget>[
+          children: const <Widget>[
             ListAnimalPage(),
             ReportPage(),
           ],

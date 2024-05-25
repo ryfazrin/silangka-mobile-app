@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:silangka/config/API/API-PostAddAnimal.dart';
@@ -12,7 +13,6 @@ import 'package:silangka/presentation/pages/insert_page.dart';
 import 'package:silangka/presentation/models/report_model.dart';
 import 'package:silangka/config/API/API-GetReport.dart';
 import 'package:silangka/config/API/API-DeleteReport.dart';
-
 
 class ReportPage extends StatefulWidget {
   const ReportPage({Key? key}) : super(key: key);
@@ -118,306 +118,363 @@ class _ReportPage extends State<ReportPage> {
                     children: <Widget>[
                       ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 345),
-                        child: Container(
-                          width: 345,
-                          height: 185,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF8ED8E),
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: const Offset(0, 3),
-                              )
-                            ],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ListTile(
-                                  onTap: () {
-                                    showModalBottomSheet<void>(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return ConstrainedBox(
-                                          constraints:
-                                              BoxConstraints(minHeight: 700),
-                                          child: SingleChildScrollView(
-                                            child: Wrap(
-                                              children: [
-                                                Center(
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    mainAxisSize: MainAxisSize
-                                                        .min, // Use min to let the content dictate the size
-                                                    children: <Widget>[
-                                                                                    
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(top: 20),
-                                                        child: Center(
-                                                          child: ClipRRect(
-                                                            borderRadius: BorderRadius.circular(8), // Border radius 8.0
-                                                            child: detailReport.imageUrl.startsWith('/data') // Jika gambar dari internet
-                                                                ? Image.file(
-                                                              width: 300,
-                                                              File(detailReport.imageUrl), // Jika gambar dari local cache
-                                                            )
-                                                                : Image.network(
-                                                              width: 300,
-                                                              'https://api-arutmin.up.railway.app/reports/images/${detailReport.imageUrl}',
-                                                            ),
+                        child: GestureDetector(
+                          onTap: () {
+                            showModalBottomSheet<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return ConstrainedBox(
+                                  constraints:
+                                      const BoxConstraints(minHeight: 700),
+                                  child: SingleChildScrollView(
+                                    child: Wrap(
+                                      children: [
+                                        Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize
+                                                .min, // Use min to let the content dictate the size
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 20),
+                                                child: Center(
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8), // Border radius 8.0
+                                                    child: detailReport.imageUrl
+                                                            .startsWith(
+                                                                '/data') // Jika gambar dari internet
+                                                        ? Image.file(
+                                                            width: 300,
+                                                            File(detailReport
+                                                                .imageUrl), // Jika gambar dari local cache
+                                                          )
+                                                        : Image.network(
+                                                            width: 300,
+                                                            'https://api-arutmin.up.railway.app/reports/images/${detailReport.imageUrl}',
                                                           ),
-                                                        ),
-                                                      ),
-                                                                                    
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets.only(
-                                                                top: 20),
-                                                        child: Align(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          child: Text(
-                                                            '${detailReport.title}',
-                                                            style:
-                                                                const TextStyle(
-                                                              fontFamily: 'Nexa',
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 20),
+                                                child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    '${detailReport.title}',
+                                                    style: const TextStyle(
+                                                      fontFamily: 'Nexa',
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Color(0xFF9CA356),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                              Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 15),
+                                                  child: Table(
+                                                    children: [
+                                                      TableRow(
+                                                        children: [
+                                                          const Text(
+                                                            'Jumlah Hewan: ',
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'Nexa',
                                                               fontSize: 18,
                                                               fontWeight:
-                                                                  FontWeight.bold,
+                                                                  FontWeight
+                                                                      .bold,
                                                               color: Color(
                                                                   0xFF9CA356),
                                                             ),
                                                           ),
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 20,
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets
-                                                            .symmetric(
-                                                            horizontal: 15),
-                                                        child: Table(
-                                                          children: [
-                                                            TableRow(
-                                                              children: [
-                                                                const Text(
-                                                                  'Jumlah Hewan: ',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontFamily:
-                                                                        'Nexa',
-                                                                    fontSize: 18,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    color: Color(
-                                                                        0xFF9CA356),
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  '${detailReport.animalCount}',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontFamily:
-                                                                        'Lato',
-                                                                    fontSize: 14,
-                                                                    color: Color(
-                                                                        0xFF9CA356),
-                                                                  ),
-                                                                ),
-                                                              ],
+                                                          Text(
+                                                            '${detailReport.animalCount}',
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            style:
+                                                                const TextStyle(
+                                                              fontFamily:
+                                                                  'Lato',
+                                                              fontSize: 14,
+                                                              color: Color(
+                                                                  0xFF9CA356),
                                                             ),
-                                                            const TableRow(
-                                                              children: [
-                                                                SizedBox(
-                                                                    height:
-                                                                        20), // Adding space between rows
-                                                                SizedBox(
-                                                                    height:
-                                                                        20), // Adding space between rows
-                                                              ],
-                                                            ),
-                                                            TableRow(
-                                                              children: [
-                                                                const Text(
-                                                                  'Lokasi: ',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontFamily:
-                                                                        'Nexa',
-                                                                    fontSize: 18,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    color: Color(
-                                                                        0xFF9CA356),
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  '${detailReport.location}',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontFamily:
-                                                                        'Lato',
-                                                                    fontSize: 14,
-                                                                    color: Color(
-                                                                        0xFF9CA356),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 20,
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets
-                                                            .only(
-                                                            right: 15, left:15, bottom: 10),
-                                                        child: Align(
-                                                          alignment:
-                                                              Alignment.topLeft,
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              const Text(
-                                                                'Informasi lain-lain: ',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style: TextStyle(
-                                                                  fontFamily:
-                                                                      'Nexa',
-                                                                  fontSize: 18,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Color(
-                                                                      0xFF9CA356),
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                '${detailReport.desc}',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style:
-                                                                    const TextStyle(
-                                                                  fontFamily:
-                                                                      'Lato',
-                                                                  fontSize: 14,
-                                                                  color: Color(
-                                                                      0xFF9CA356),
-                                                                ),
-                                                              ),
-                                                            ],
                                                           ),
+                                                        ],
+                                                      ),
+                                                      const TableRow(
+                                                        children: [
+                                                          SizedBox(
+                                                              height:
+                                                                  20), // Adding space between rows
+                                                          SizedBox(
+                                                              height:
+                                                                  20), // Adding space between rows
+                                                        ],
+                                                      ),
+                                                      TableRow(
+                                                        children: [
+                                                          const Text(
+                                                            'Lokasi: ',
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'Nexa',
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: Color(
+                                                                  0xFF9CA356),
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            '${detailReport.location}',
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            style:
+                                                                const TextStyle(
+                                                              fontFamily:
+                                                                  'Lato',
+                                                              fontSize: 14,
+                                                              color: Color(
+                                                                  0xFF9CA356),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const TableRow(
+                                                        children: [
+                                                          SizedBox(
+                                                              height:
+                                                                  20), // Adding space between rows
+                                                          SizedBox(
+                                                              height:
+                                                                  20), // Adding space between rows
+                                                        ],
+                                                      ),
+                                                      TableRow(
+                                                        children: [
+                                                          const Text(
+                                                            'Tanggal: ',
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  'Nexa',
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: Color(
+                                                                  0xFF9CA356),
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            '${detailReport.createdAt}',
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            style:
+                                                                const TextStyle(
+                                                              fontFamily:
+                                                                  'Lato',
+                                                              fontSize: 14,
+                                                              color: Color(
+                                                                  0xFF9CA356),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  )),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 15,
+                                                    left: 15,
+                                                    bottom: 10),
+                                                child: Align(
+                                                  alignment: Alignment.topLeft,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      const Text(
+                                                        'Informasi lain-lain: ',
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: TextStyle(
+                                                          fontFamily: 'Nexa',
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Color(0xFF9CA356),
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        '${detailReport.desc}',
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: const TextStyle(
+                                                          fontFamily: 'Lato',
+                                                          fontSize: 14,
+                                                          color:
+                                                              Color(0xFF9CA356),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 16),
-                                  title: Text(
-                                    detailReport.animal.name,
-                                    style: const TextStyle(
-                                      fontFamily: 'Nexa',
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF9CA356),
-                                      fontSize: 16,
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  trailing: IconButton(
-                                    icon: const Icon(
-                                        Icons.delete_outline_outlined),
-                                    onPressed: () {
-                                      _showDeleteDialog(context, detailReport);
-                                    },
-                                  )),
-                              if(detailReport.status == 'Draft')
-                                IconButton(
-                                  icon: const Icon(Icons.send_and_archive_outlined),
-                                  onPressed: (){
-                                    _sendDraftReport(detailReport);
-                                  },
-                                ),
-
-                              Padding(
-                                padding: EdgeInsets.only(left: 16),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color: detailReport.status == 'Terkirim'
-                                        ? Colors.green
-                                        : Colors.blue,
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: Text(
-                                    detailReport.status ?? '',
-                                    style: const TextStyle(
-                                      fontFamily: 'Lato',
-                                      fontSize: 12,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 16, top: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                );
+                              },
+                            );
+                          },
+                          child: Container(
+                            width: 345,
+                            height: 215,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF8ED8E),
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 2,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3),
+                                )
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
                                   children: [
-                                    Text(
-                                      'Judul Laporan: ${detailReport.title ?? ''}',
-                                      style: const TextStyle(
-                                        fontFamily: 'Lato',
-                                        fontSize: 14,
-                                        color: Color(0xFF9CA356),
-                                      ),
-                                    ),
-                                    Text(
-                                      'Lokasi: ${detailReport.location ?? ''}',
-                                      style: const TextStyle(
-                                        fontFamily: 'Lato',
-                                        fontSize: 14,
-                                        color: Color(0xFF9CA356),
+                                    Expanded(
+                                      child: ListTile(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 16),
+                                        title: Text(
+                                          detailReport.animal.name,
+                                          style: const TextStyle(
+                                            fontFamily: 'Nexa',
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF9CA356),
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        trailing: Row(
+                                          mainAxisSize: MainAxisSize
+                                              .min, // Ensure minimum space for the Row
+                                          children: [
+                                            // Conditional IconButton for sending the draft
+                                            if (detailReport.status == 'Draft')
+                                              IconButton(
+                                                icon: const Icon(Icons
+                                                    .send_and_archive_outlined),
+                                                onPressed: () {
+                                                  _sendDraftReport(
+                                                      detailReport);
+                                                },
+                                              ),
+                                            IconButton(
+                                              icon: const Icon(Icons
+                                                  .delete_outline_outlined),
+                                              onPressed: () {
+                                                _showDeleteDialog(
+                                                    context, detailReport);
+                                              },
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-                            ],
+                                Padding(
+                                  padding: EdgeInsets.only(left: 16),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: detailReport.status == 'Terkirim'
+                                          ? Colors.green
+                                          : Colors.blue,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Text(
+                                      detailReport.status ?? '',
+                                      style: const TextStyle(
+                                        fontFamily: 'Lato',
+                                        fontSize: 12,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 16, top: 10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Judul Laporan: ${detailReport.title ?? ''}',
+                                        style: const TextStyle(
+                                          fontFamily: 'Lato',
+                                          fontSize: 14,
+                                          color: Color(0xFF9CA356),
+                                        ),
+                                      ),
+                                      Text(
+                                        'Lokasi: ${detailReport.location ?? ''}',
+                                        style: const TextStyle(
+                                          fontFamily: 'Lato',
+                                          fontSize: 14,
+                                          color: Color(0xFF9CA356),
+                                        ),
+                                      ),
+                                      Text(
+                                        'Tanggal & Waktu: ${detailReport.createdAt ?? ''}',
+                                        style: const TextStyle(
+                                          fontFamily: 'Lato',
+                                          fontSize: 14,
+                                          color: Color(0xFF9CA356),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -437,7 +494,8 @@ class _ReportPage extends State<ReportPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xFF58A356),
+        backgroundColor: const Color(0xFF58A356),
+        shape: CircleBorder(),
         onPressed: () {
           Navigator.push(
             context,
@@ -446,27 +504,44 @@ class _ReportPage extends State<ReportPage> {
             ),
           );
         },
-        child: Image.asset('assets/images/add-report.png'),
+        child: Image.asset('assets/images/plus.png'),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
+
   void _showDeleteDialog(BuildContext context, Report detailReport) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirm Deletion'),
-          content: Text('Are you sure you want to delete this report?'),
+          backgroundColor: const Color(0xFFD4F3C4),
+          title: const Text(
+            'Hapus Data Lapor',
+            style: TextStyle(
+              color: Color(0xFF58A356),
+            ),
+          ),
+          content: const Text('Apakah Anda yakin ingin menghapus laporan ini?'),
           actions: <Widget>[
             TextButton(
-              child: Text('Cancel'),
+              child: const Text(
+                'Batalkan',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Delete'),
+              child: const Text(
+                'Hapus',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
                 if (detailReport.idBE != null) {
@@ -484,8 +559,8 @@ class _ReportPage extends State<ReportPage> {
     );
   }
 
-  Future<void> _sendDraftReport(Report report) async{
-    try{
+  Future<void> _sendDraftReport(Report report) async {
+    try {
       await AddAnimal().handleReport(
         File(report.imageUrl),
         report.title,
@@ -501,7 +576,7 @@ class _ReportPage extends State<ReportPage> {
       });
 
       _showDialogSuccessSend();
-    }catch(e){
+    } catch (e) {
       print('Gagal mengirim laporan: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -510,6 +585,7 @@ class _ReportPage extends State<ReportPage> {
       );
     }
   }
+
   Future<void> _showDialogSuccessSend() async {
     return showDialog<void>(
       context: context,
@@ -555,14 +631,15 @@ class _ReportPage extends State<ReportPage> {
       },
     );
   }
-  Future<void> _deleteReportDatabase(String reportId) async{
-    try{
+
+  Future<void> _deleteReportDatabase(String reportId) async {
+    try {
       await DatabaseHelper().deleteReportById(reportId);
       _showDeleteSuccess();
       setState(() {
         futureReport = DatabaseHelper().fetchReports();
       });
-    }catch (e){
+    } catch (e) {
       print('Error saat menghapus draft laporan: $e');
     }
   }
