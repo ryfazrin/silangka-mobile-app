@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:silangka/config/API/API-GetAnimalsandImage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:geocoding/geocoding.dart';
@@ -488,6 +489,8 @@ class _InsertPage extends State<InsertPage> {
         }
         //ketika perangkat online
         try {
+          DateTime now = DateTime.now().toUtc();
+          String formattedDate = DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(now);
           await AddAnimal().handleReport(
             image!,
             _judulLaporanController.text,
@@ -495,6 +498,7 @@ class _InsertPage extends State<InsertPage> {
             int.parse(_jumlahHewanController.text),
             _informasiLainlain.text,
             selectedCategoryId,
+            formattedDate,
           );
           _showDialogSuccessSend();
           // Navigator.pushNamed(
@@ -528,6 +532,9 @@ class _InsertPage extends State<InsertPage> {
 
   Future<void> _saveDraftReport() async {
     final databaseHelper = DatabaseHelper();
+    DateTime now = DateTime.now().toUtc();
+    String formattedDate = DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(now);
+    print('debug:$formattedDate');
     final report = {
       'title': _judulLaporanController.text,
       'location': _lokasiController.text,
@@ -536,7 +543,7 @@ class _InsertPage extends State<InsertPage> {
       'categoryId': selectedCategoryId,
       'desc': _informasiLainlain.text,
       'status': 'Draft',
-      'createdAt': DateTime.now().toIso8601String(),
+      'createdAt':formattedDate,
     };
     await databaseHelper.insert(report);
   }

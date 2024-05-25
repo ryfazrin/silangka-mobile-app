@@ -10,7 +10,7 @@ class AddAnimal {
   }
 
   Future<dynamic> handleReport(File image, String title, String location,
-      int animalCount, String desc, int? animalId) async {
+      int animalCount, String desc, int? animalId, String? createdAt) async {
     final token = await getToken();
     if (token == null) {
       throw Exception('Token tidak ditemukan');
@@ -29,6 +29,9 @@ class AddAnimal {
       request.fields['desc'] = desc;
       if (animalId != null) {
         request.fields['animalId'] = animalId.toString();
+      }
+      if(createdAt != null){
+        request.fields['created_at'] = createdAt;
       }
 
       if (image != null) {

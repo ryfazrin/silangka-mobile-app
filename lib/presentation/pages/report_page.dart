@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:silangka/config/API/API-PostAddAnimal.dart';
 import 'package:silangka/lib/database_helper.dart';
 import 'package:silangka/presentation/pages/contacts.dart';
 import 'package:silangka/presentation/pages/home_page.dart';
@@ -10,6 +12,7 @@ import 'package:silangka/presentation/pages/insert_page.dart';
 import 'package:silangka/presentation/models/report_model.dart';
 import 'package:silangka/config/API/API-GetReport.dart';
 import 'package:silangka/config/API/API-DeleteReport.dart';
+
 
 class ReportPage extends StatefulWidget {
   const ReportPage({Key? key}) : super(key: key);
@@ -354,13 +357,20 @@ class _ReportPage extends State<ReportPage> {
                                     ),
                                   ),
                                   trailing: IconButton(
-
                                     icon: const Icon(
                                         Icons.delete_outline_outlined),
                                     onPressed: () {
                                       _showDeleteDialog(context, detailReport);
                                     },
                                   )),
+                              if(detailReport.status == 'Draft')
+                                IconButton(
+                                  icon: const Icon(Icons.send_and_archive_outlined),
+                                  onPressed: (){
+                                    _sendDraftReport(detailReport);
+                                  },
+                                ),
+
                               Padding(
                                 padding: EdgeInsets.only(left: 16),
                                 child: Container(
@@ -474,6 +484,77 @@ class _ReportPage extends State<ReportPage> {
     );
   }
 
+  Future<void> _sendDraftReport(Report report) async{
+    try{
+      await AddAnimal().handleReport(
+        File(report.imageUrl),
+        report.title,
+        report.location,
+        report.animalCount,
+        report.desc,
+        report.animal.id,
+        report.createdAt,
+      );
+      _deleteReportDatabase(report.id.toString());
+      setState(() {
+        futureReport = DatabaseHelper().fetchReports();
+      });
+
+      _showDialogSuccessSend();
+    }catch(e){
+      print('Gagal mengirim laporan: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Gagal mengirim laporan: $e'),
+        ),
+      );
+    }
+  }
+  Future<void> _showDialogSuccessSend() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFFD4F3C4),
+          title: const Text(
+            'Sukses',
+            style: TextStyle(
+              color: Color(0xFF58A356),
+            ),
+          ),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  'Data Berhasil Dikirim.',
+                  style: TextStyle(color: Color(0xFF58A356)),
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  HomePage.routeName,
+                  arguments: 1,
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
   Future<void> _deleteReportDatabase(String reportId) async{
     try{
       await DatabaseHelper().deleteReportById(reportId);
