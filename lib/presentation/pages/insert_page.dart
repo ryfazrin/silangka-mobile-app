@@ -536,6 +536,7 @@ class _InsertPage extends State<InsertPage> {
       'categoryId': selectedCategoryId,
       'desc': _informasiLainlain.text,
       'status': 'Draft',
+      'createdAt': DateTime.now().toIso8601String(),
     };
     await databaseHelper.insert(report);
   }

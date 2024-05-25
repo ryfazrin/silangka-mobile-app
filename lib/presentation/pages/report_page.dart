@@ -63,7 +63,7 @@ class _ReportPage extends State<ReportPage> {
           'categoryId': report.animal.id,
           'desc': report.desc,
           'status': 'Terkirim',
-          'createdAt': report.createdAt.toString(),
+          'createdAt': report.createdAt,
         });
       }
       // Fetch combined data from SQLite

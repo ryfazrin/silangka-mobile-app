@@ -8,9 +8,12 @@ class Report {
   final String location;
   final int animalCount;
   final String desc;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final DateTime? deletedAt; // nullable DateTime
+  final String? createdAt;
+  final String? updatedAt;
+  final String? deletedAt;
+  // final DateTime? createdAt;
+  // final DateTime? updatedAt;
+  // final DateTime? deletedAt; // nullable DateTime
   final String? status;
   Report({
     required this.id,
@@ -39,9 +42,12 @@ class Report {
       location: json['location'] as String? ?? '',
       animalCount: json['animalCount'] as int,
       desc: json['desc'] as String? ?? '',
-      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt'] as String) : null,
-      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt'] as String) : null,
-      deletedAt: json['deletedAt'] != null ? DateTime.parse(json['deletedAt'] as String) : null,
+      createdAt:json['createdAt'] != null ? json['createdAt'] as String : null,
+        updatedAt:json['updatedAt'] != null ? json['updatedAt'] as String : null,
+        deletedAt:json['deletedAt'] != null ? json['deletedAt'] as String : null,
+      // createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt'] as String) : null,
+      // updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt'] as String) : null,
+      // deletedAt: json['deletedAt'] != null ? DateTime.parse(json['deletedAt'] as String) : null,
       // status: json['status'] as String? ?? '',
     );
   }
