@@ -48,34 +48,66 @@ class DatabaseHelper {
       'CREATE TABLE categories (id INTEGER PRIMARY KEY, name TEXT, latinName TEXT, distribution TEXT, characteristics TEXT, habitat TEXT, foodType TEXT, uniqueBehavior TEXT, gestationPeriod TEXT, imageUrl TEXT, estimationAmounts TEXT)',
     );
   }
-
   Future<List<Report>> fetchReports() async {
     final db = await database();
-    final data = await db.query(table);
 
-    return List.generate(data.length, (i) {
+    final data = await db.rawQuery('''
+    SELECT report.*, categories.name as animalName, categories.id as animalId
+    FROM report
+    INNER JOIN categories ON report.categoryId = categories.id
+    ''');
+
+    return List.generate(data.length, (i)
+    {
       return Report(
         id: int.parse(data[i]['id'].toString()),
-        idBE: int.parse(data[i]['idBE'].toString()),
+        idBE: data[i]['idBE'] != null ? int.tryParse(data[i]['idBE'].toString()) : null,
         userId: data[i]['userId'].toString(),
         title: data[i]['title'].toString(),
         // animal: AnimalReport(name: data[i]['animalName']),
-        animal:AnimalReport (
-            id: int.parse(data[i]['categoryId'].toString()),
-            name: 'Dummy Bekantan'),
+        animal: AnimalReport(
+            id: int.parse(data[i]['animalId'].toString()),
+            name: data[i]['animalName'].toString(),
+        ),
         imageUrl: data[i]['imageUrl'].toString(),
         location: data[i]['location'].toString(),
         animalCount: int.parse(data[i]["animalCount"].toString()),
         desc: data[i]['desc'].toString(),
-        createdAt: null,
-        updatedAt: null,
-        deletedAt: null,
+        createdAt:  data[i]['createdAt'].toString(),
+        updatedAt:  data[i]['updatedAt'].toString(),
+        deletedAt:  data[i]['deletedAt'].toString(),
         status: data[i]['status'].toString(),
       );
     });
-    // print('Query result: $data');
-    // return data;
   }
+
+  // Future<List<Report>> fetchReports() async {
+  //   final db = await database();
+  //   final data = await db.query(table);
+  //
+  //   return List.generate(data.length, (i) {
+  //     return Report(
+  //       id: int.parse(data[i]['id'].toString()),
+  //       idBE: int.parse(data[i]['idBE'].toString()),
+  //       userId: data[i]['userId'].toString(),
+  //       title: data[i]['title'].toString(),
+  //       // animal: AnimalReport(name: data[i]['animalName']),
+  //       animal:AnimalReport (
+  //           id: int.parse(data[i]['categoryId'].toString()),
+  //           name: 'Dummy Bekantan'),
+  //       imageUrl: data[i]['imageUrl'].toString(),
+  //       location: data[i]['location'].toString(),
+  //       animalCount: int.parse(data[i]["animalCount"].toString()),
+  //       desc: data[i]['desc'].toString(),
+  //       createdAt: null,
+  //       updatedAt: null,
+  //       deletedAt: null,
+  //       status: data[i]['status'].toString(),
+  //     );
+  //   });
+  //   // print('Query result: $data');
+  //   // return data;
+  // }
 
   Future<int> insert(Map<String, dynamic> row) async {
     final db = await database();

@@ -330,11 +330,11 @@ class _ReportPage extends State<ReportPage> {
                                     ),
                                   ),
                                   trailing: IconButton(
+
                                     icon: const Icon(
                                         Icons.delete_outline_outlined),
                                     onPressed: () {
-                                      _deleteReport(
-                                          detailReport.idBE.toString());
+                                      _showDeleteDialog(context, detailReport);
                                     },
                                   )),
                               Padding(
@@ -416,6 +416,50 @@ class _ReportPage extends State<ReportPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
+  }
+  void _showDeleteDialog(BuildContext context, Report detailReport) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Deletion'),
+          content: Text('Are you sure you want to delete this report?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Delete'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                if (detailReport.idBE != null) {
+                  _deleteReport(detailReport.idBE.toString());
+                } else if (detailReport.id != null) {
+                  _deleteReportDatabase(detailReport.id.toString());
+                } else {
+                  print('Invalid IDs');
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _deleteReportDatabase(String reportId) async{
+    try{
+      await DatabaseHelper().deleteReportById(reportId);
+      _showDeleteSuccess();
+      setState(() {
+        futureReport = DatabaseHelper().fetchReports();
+      });
+    }catch (e){
+      print('Error saat menghapus draft laporan: $e');
+    }
   }
 
   Future<void> _deleteReport(String reportIdBE) async {
