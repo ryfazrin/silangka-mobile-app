@@ -26,7 +26,6 @@ class _ReportPage extends State<ReportPage> {
 
   @override
   void initState() {
-
     super.initState();
     checkInternetConnection();
   }
@@ -44,31 +43,31 @@ class _ReportPage extends State<ReportPage> {
       });
     }
   }
+
   Future<void> fetchAndSyncReports() async {
     try {
       final databaseHelper = DatabaseHelper();
-    List<Report> apiReports = await GetReport.fetchReport();
+      List<Report> apiReports = await GetReport.fetchReport();
 
-        // delete all by status terkirim
+      // delete all by status terkirim
       databaseHelper.deleteReportByStatusTerkirim();
-        // Insert API data into SQLite
-        for (var report in apiReports) {
-          await databaseHelper.insert({
-            'idBE': report.id,
-            'title': report.title,
-            'location': report.location,
-            'animalCount': report.animalCount,
-            'image': report.imageUrl,
-            'categoryId': '',
-            'desc': report.desc,
-            'status': 'Terkirim',
-          });
-        }
-        // Fetch combined data from SQLite
-        setState(() {
-          futureReport = DatabaseHelper().fetchReports();
+      // Insert API data into SQLite
+      for (var report in apiReports) {
+        await databaseHelper.insert({
+          'idBE': report.id,
+          'title': report.title,
+          'location': report.location,
+          'animalCount': report.animalCount,
+          'image': report.imageUrl,
+          'categoryId': '',
+          'desc': report.desc,
+          'status': 'Terkirim',
         });
-
+      }
+      // Fetch combined data from SQLite
+      setState(() {
+        futureReport = DatabaseHelper().fetchReports();
+      });
     } catch (e) {
       print(e);
     }
@@ -94,7 +93,6 @@ class _ReportPage extends State<ReportPage> {
 
   @override
   Widget build(BuildContext context) {
-    // print(GetReport.fetchReport());
     return Scaffold(
       body: FutureBuilder<List<Report>>(
         future: futureReport,
@@ -131,38 +129,39 @@ class _ReportPage extends State<ReportPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               ListTile(
-                                contentPadding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                                title: Text(
-                                  detailReport.animal.name,
-                                  style: const TextStyle(
-                                    fontFamily: 'Nexa',
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF9CA356),
-                                    fontSize: 16,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  title: Text(
+                                    detailReport.animal.name,
+                                    style: const TextStyle(
+                                      fontFamily: 'Nexa',
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF9CA356),
+                                      fontSize: 16,
+                                    ),
                                   ),
-                                ),
-                                trailing: IconButton(
-                                  icon:
-                                      const Icon(Icons.delete_outline_outlined),
-                                  onPressed: () {
-                                    _deleteReport(detailReport.idBE.toString());
-                                  },
-                                ),
-                              ),
-
+                                  trailing: IconButton(
+                                    icon: const Icon(
+                                        Icons.delete_outline_outlined),
+                                    onPressed: () {
+                                      _deleteReport(
+                                          detailReport.idBE.toString());
+                                    },
+                                  )),
                               Padding(
                                 padding: EdgeInsets.only(left: 16),
                                 child: Container(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 4),
                                   decoration: BoxDecoration(
-                                    color: detailReport.status == 'Terkirim' ? Colors.green : Colors.blue,
+                                    color: detailReport.status == 'Terkirim'
+                                        ? Colors.green
+                                        : Colors.blue,
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: Text(
                                     detailReport.status ?? '',
-                                    style:const TextStyle(
+                                    style: const TextStyle(
                                       fontFamily: 'Lato',
                                       fontSize: 12,
                                       color: Colors.white,
@@ -230,8 +229,6 @@ class _ReportPage extends State<ReportPage> {
     );
   }
 
-
-
   Future<void> _deleteReport(String reportIdBE) async {
     try {
       // final connectivity = await Connectivity().checkConnectivity();
@@ -242,8 +239,8 @@ class _ReportPage extends State<ReportPage> {
       // }
       // await DatabaseHelper().deleteReportById(reportId);
       // _showDeleteSuccess();
-        final apiDelete = ApiDelete();
-        await apiDelete.deleteReport(reportIdBE);
+      final apiDelete = ApiDelete();
+      await apiDelete.deleteReport(reportIdBE);
       fetchAndSyncReports();
       // setState(()  {
       //   futureReport =  DatabaseHelper().fetchReports();

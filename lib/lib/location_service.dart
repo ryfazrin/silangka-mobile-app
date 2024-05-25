@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
 
 class LocationService {
   Future<bool> handleLocationPermission(BuildContext context) async {
-    Location location = new Location();
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
+    bool serviceEnabled;
+    LocationPermission permission;
 
     // Periksa apakah layanan lokasi aktif
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      // Jika tidak aktif, tampilkan dialog untuk mengaktifkan
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return false;
-      }
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Jika tidak aktif, arahkan pengguna ke pengaturan lokasi
+      await Geolocator.openLocationSettings();
+      return false;
     }
 
     // Periksa status izin lokasi
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
         // Jika izin masih ditolak, tampilkan pesan
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Location permissions are denied')),
@@ -30,7 +27,7 @@ class LocationService {
       }
     }
 
-    if (_permissionGranted == PermissionStatus.deniedForever) {
+    if (permission == LocationPermission.deniedForever) {
       // Jika izin ditolak selamanya, tampilkan pesan
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(
