@@ -55,6 +55,12 @@ class DatabaseHelper {
     SELECT report.*, categories.name as animalName, categories.id as animalId
     FROM report
     INNER JOIN categories ON report.categoryId = categories.id
+    ORDER BY 
+      CASE 
+        WHEN status = 'Draft' THEN 1
+        ELSE 2
+      END,
+      createdAt DESC
     ''');
 
     return List.generate(data.length, (i)
