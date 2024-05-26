@@ -6,12 +6,12 @@ class LocationService {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Periksa apakah layanan lokasi aktif
+    // Periksa status layanan lokasi dan izin
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      // Jika tidak aktif, arahkan pengguna ke pengaturan lokasi
-      await Geolocator.openLocationSettings();
-      return false;
+    while (!serviceEnabled) {
+      // Jika layanan lokasi tidak aktif, tampilkan dialog
+      await _showDialogOpenLocationSettings(context);
+      serviceEnabled = await Geolocator.isLocationServiceEnabled();
     }
 
     // Periksa status izin lokasi
@@ -30,13 +30,50 @@ class LocationService {
     if (permission == LocationPermission.deniedForever) {
       // Jika izin ditolak selamanya, tampilkan pesan
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(
-            'Location permissions are permanently denied, we cannot request permissions.')),
+        SnackBar(
+          content: Text(
+            'Location permissions are permanently denied, we cannot request permissions.',
+          ),
+        ),
       );
       return false;
     }
 
     // Jika izin diberikan dan layanan aktif
     return true;
+  }
+
+  Future<void> _showDialogOpenLocationSettings(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // Dialog tidak bisa ditutup dengan klik di luar
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Location Services Disabled'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Location services are disabled. Please enable the services.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Open Settings'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Geolocator.openLocationSettings();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

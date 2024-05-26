@@ -29,6 +29,7 @@ class _HomePage extends State<HomePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _checkLocationPermission();
     // Fetch the arguments passed via Navigator.pushNamed
     final args = ModalRoute.of(context)!.settings.arguments;
     if (args != null && args is int) {
@@ -39,8 +40,6 @@ class _HomePage extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
-    _checkLocationPermission();
 
     SharedPreferences.getInstance().then((prefs) {
       bool isDataFetched = prefs.getBool('isDataFetched') ?? false;
