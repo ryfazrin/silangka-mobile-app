@@ -99,7 +99,9 @@ class _HomePage extends State<HomePage> {
   Future<void> fetchDataAndSaveToDatabase() async {
     final databaseHelper = DatabaseHelper();
     final dataAnimal = await ApiAnimal.fetchAnimals();
-    await databaseHelper.insertCategories(dataAnimal);
+    if (mounted) {
+      await databaseHelper.insertCategories(dataAnimal);
+    }
   }
 
   @override

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,7 @@ class _InsertPage extends State<InsertPage> {
   Position? _currentPosition;
   String? _currentAddress;
   bool isOnline = true;
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   @override
   void initState() {
@@ -44,18 +46,28 @@ class _InsertPage extends State<InsertPage> {
     _getCurrentPosition();
     _checkConnectivity();
 
-    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-      setState(() {
-        isOnline = result != ConnectivityResult.none;
-      });
+    _connectivitySubscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (mounted) {
+        setState(() {
+          isOnline = result != ConnectivityResult.none;
+        });
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
   }
 
   Future<void> _checkConnectivity() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
-    setState(() {
-      isOnline = connectivityResult != ConnectivityResult.none;
-    });
+    if (mounted) {
+      setState(() {
+        isOnline = connectivityResult != ConnectivityResult.none;
+      });
+    }
   }
 
   File? image;
@@ -64,7 +76,9 @@ class _InsertPage extends State<InsertPage> {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
       final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
+      if (mounted) {
+        setState(() => this.image = imageTemp);
+      }
     } on PlatformException catch (e) {
       print('Gagal memuat gambar');
     }
@@ -75,7 +89,9 @@ class _InsertPage extends State<InsertPage> {
       final image = await ImagePicker().pickImage(source: ImageSource.camera);
       if (image == null) return;
       final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
+      if (mounted) {
+        setState(() => this.image = imageTemp);
+      }
     } on PlatformException catch (e) {
       print('Gagal memuat gambar dari kamera');
     }
@@ -115,10 +131,11 @@ class _InsertPage extends State<InsertPage> {
     try {
       final animals = await ApiAnimal.fetchAnimals();
       final List<Animal> animalCategories = animals;
-      setState(() {
-        print(categories);
-        categories = animalCategories;
-      });
+      if (mounted) {
+        setState(() {
+          categories = animalCategories;
+        });
+      }
     } catch (e) {
       print('Error fetching categories: $e');
     }
@@ -155,9 +172,11 @@ class _InsertPage extends State<InsertPage> {
   void _loadCategories() async {
     final dbHelper = DatabaseHelper();
     final categoriesFromDb = await dbHelper.getCategories();
-    setState(() {
-      categories = categoriesFromDb;
-    });
+    if (mounted) {
+      setState(() {
+        categories = categoriesFromDb;
+      });
+    }
   }
 
   Future<void> _getCurrentPosition() async {
@@ -165,29 +184,31 @@ class _InsertPage extends State<InsertPage> {
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-        _lokasiController.text =
-            '${_currentPosition!.latitude},${_currentPosition!.longitude}';
-      });
+      if (mounted) {
+        setState(() {
+          _currentPosition = position;
+          _lokasiController.text =
+          '${_currentPosition!.latitude},${_currentPosition!.longitude}';
+        });
+      }
     }).catchError((e) {
       debugPrint(e);
     });
   }
 
-  Future<void> _getAddressFromLatLng(Position position) async {
-    await placemarkFromCoordinates(
-            _currentPosition!.latitude, _currentPosition!.longitude)
-        .then((List<Placemark> placemarks) {
-      Placemark place = placemarks[0];
-      setState(() {
-        _currentAddress =
-            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
-      });
-    }).catchError((e) {
-      debugPrint(e);
-    });
-  }
+  // Future<void> _getAddressFromLatLng(Position position) async {
+  //   await placemarkFromCoordinates(
+  //           _currentPosition!.latitude, _currentPosition!.longitude)
+  //       .then((List<Placemark> placemarks) {
+  //     Placemark place = placemarks[0];
+  //     setState(() {
+  //       _currentAddress =
+  //           '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+  //     });
+  //   }).catchError((e) {
+  //     debugPrint(e);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
