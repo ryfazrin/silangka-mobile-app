@@ -2,15 +2,31 @@
 
 A new Flutter project.
 
-## Getting Started
+## Development
 
-This project is a starting point for a Flutter application.
+- **Mode Development** (default):
 
-A few resources to get you started if this is your first Flutter project:
+  ```sh
+  flutter run
+  ```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Mode Production**:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+  ```sh
+  flutter run --release
+  ```
+
+## Build APK
+
+- **Mode Production**:
+
+  ```sh
+  flutter build apk --release
+  ```
+
+
+### Penjelasan
+
+- **`_devBaseUrl` dan `_prodBaseUrl`**: URL untuk mode development dan produksi.
+- **`baseUrl` getter**: Mengembalikan URL yang sesuai berdasarkan mode aplikasi.
+- **`bool.fromEnvironment('dart.vm.product')`**: Menggunakan variabel lingkungan untuk menentukan apakah aplikasi sedang berjalan dalam mode produksi (`true`) atau tidak (`false`).
