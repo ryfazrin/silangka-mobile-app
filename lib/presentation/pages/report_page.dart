@@ -31,6 +31,7 @@ class _ReportPage extends State<ReportPage> {
   late XFile? image = null;
   int _selectedIndex = 0;
   bool isLandscape = false;
+  bool _isLoadingImage = true;
 
   @override
   void initState() {
@@ -483,9 +484,14 @@ class _ReportPage extends State<ReportPage> {
   void viewBottomSheet(BuildContext context, Report detailReport) {
     showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       builder: (BuildContext context) {
+        final screenHeight = MediaQuery.of(context).size.height;
         return ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 700),
+          constraints: BoxConstraints(
+            maxHeight: screenHeight * 0.75,
+            minHeight: screenHeight * 0.5,
+          ),
           child: SingleChildScrollView(
             child: Wrap(
               children: [
@@ -502,37 +508,75 @@ class _ReportPage extends State<ReportPage> {
                             child: detailReport.imageUrl.startsWith('/data')
                                 ? Stack(
                               children: [
-                                Shimmer.fromColors(
-                                  baseColor: Colors.grey[300]!,
-                                  highlightColor: Colors.grey[100]!,
-                                  child: Container(
-                                    width: 300,
-                                    height: 200,
-                                    color: Colors.white,
+                                if (_isLoadingImage)
+                                  Shimmer.fromColors(
+                                    baseColor: Colors.grey[300]!,
+                                    highlightColor: Colors.grey[100]!,
+                                    child: Container(
+                                      width: 300,
+                                      height: 100,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                ),
                                 Image.file(
                                   File(detailReport.imageUrl),
                                   width: 300,
                                   fit: BoxFit.cover,
+                                  frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                    if (wasSynchronouslyLoaded || frame != null) {
+                                      setState(() {
+                                        _isLoadingImage = false;
+                                      });
+                                    }
+                                    return child;
+                                  },
                                 ),
                               ],
                             )
                                 : Stack(
                               children: [
-                                Shimmer.fromColors(
-                                  baseColor: Colors.grey[300]!,
-                                  highlightColor: Colors.grey[100]!,
-                                  child: Container(
-                                    width: 300,
-                                    height: 200,
-                                    color: Colors.white,
+                                if (_isLoadingImage)
+                                  Shimmer.fromColors(
+                                    baseColor: Colors.grey[300]!,
+                                    highlightColor: Colors.grey[100]!,
+                                    child: Container(
+                                      width: 300,
+                                      height: 100,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                ),
                                 Image.network(
                                   'https://api-arutmin.up.railway.app/reports/images/${detailReport.imageUrl}',
                                   width: 300,
                                   fit: BoxFit.cover,
+                                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                    if (loadingProgress == null) {
+                                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                                        if (mounted) {
+                                          setState(() {
+                                            _isLoadingImage = false;
+                                          });
+                                        }
+                                      });
+                                      return child;
+                                    } else {
+                                      return Stack(
+                                        children: [
+                                          if (_isLoadingImage)
+                                            Shimmer.fromColors(
+                                              baseColor: Colors.grey[300]!,
+                                              highlightColor: Colors.grey[100]!,
+                                              child: Container(
+                                                width: 300,
+                                                height: 200,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          child,
+                                        ],
+                                      );
+                                    }
+                                  },
                                   errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
                                     return Image.asset(
                                       'assets/images/image-not-found.jpg', // Path to your placeholder image
@@ -689,6 +733,8 @@ class _ReportPage extends State<ReportPage> {
           ),
         );
       },
-    );
+    ).whenComplete(() => setState(() {
+      _isLoadingImage = true;
+    }));
   }
 }
