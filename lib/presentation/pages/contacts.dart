@@ -380,10 +380,53 @@ class _ContactsPage extends State<ContactsPage> {
                             ),
                           ),
                         )
-                      : const Text('Tidak ada data kontak'),
+                      : _buildNoConnectionMessage(),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildNoConnectionMessage() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            'Internet disconnected',
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: 20,
+            ),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _fetchContacts,
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all<
+                  RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(36),
+                ),
+              ),
+              fixedSize:
+              MaterialStateProperty.all(const Size(130, 54)),
+              // backgroundColor:
+              //     MaterialStateProperty.all(Color(0xFF58A356)),
+            ),
+            child: const Text(
+              'Refresh',
+              style: TextStyle(
+                fontFamily: 'Nexa',
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                // color: Color(0xFFFFFFFF),
+                color: Color(0xFF58A356),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
