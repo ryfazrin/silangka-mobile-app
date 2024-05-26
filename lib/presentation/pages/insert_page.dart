@@ -214,6 +214,7 @@ class _InsertPage extends State<InsertPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        foregroundColor: const Color(0xFFF8ED8E),
         automaticallyImplyLeading: true,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
