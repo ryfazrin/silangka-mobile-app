@@ -35,7 +35,7 @@ class _RegisterPage extends State<RegisterPage> {
     return Scaffold(
       backgroundColor: const Color(0xFFD4F3C4),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             color: const Color(0xFFD4F3C4),

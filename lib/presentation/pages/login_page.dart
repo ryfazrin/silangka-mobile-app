@@ -30,7 +30,7 @@ class _LoginPage extends State<LoginPage> {
     return Scaffold(
       backgroundColor: const Color(0xFFD4F3C4),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             color: Color(0xFFD4F3C4),
