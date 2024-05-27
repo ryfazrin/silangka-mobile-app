@@ -472,10 +472,10 @@ class _InsertPage extends State<InsertPage> {
                             fixedSize:
                                 MaterialStateProperty.all(const Size(345, 60)),
                             backgroundColor: MaterialStateProperty.all(
-                                const Color(0xFF58A356)),
+                                isOnline ? Color(0xFF58A356) : Colors.blue),
                           ),
                           child: Text(
-                            isOnline ? 'Kirim' : 'Kirim ke Draft',
+                            isOnline ? 'Kirim' : 'Simpan ke Draft',
                             style: const TextStyle(
                               fontFamily: 'Nexa',
                               color: Colors.white,

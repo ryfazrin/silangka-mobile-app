@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -108,7 +107,68 @@ class _ReportPage extends State<ReportPage> {
       body: FutureBuilder<List<Report>>(
         future: futureReport,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('${snapshot.error}'),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        futureReport = DatabaseHelper().fetchReports();// Replace with your actual method to reload data
+                      });
+                    },
+                    child: Text("Reload"),
+                  ),
+                ],
+              ),
+            );
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Tidak ada data laporan.'),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        futureReport = DatabaseHelper().fetchReports(); // Replace with your actual method to reload data
+                      });
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<
+                          RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(36),
+                        ),
+                      ),
+                      fixedSize:
+                      MaterialStateProperty.all(const Size(130, 54)),
+                      // backgroundColor:
+                      //     MaterialStateProperty.all(Color(0xFF58A356)),
+                    ),
+                    child: const Text(
+                      'Refresh',
+                      style: TextStyle(
+                        fontFamily: 'Nexa',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        // color: Color(0xFFFFFFFF),
+                        color: Color(0xFF58A356),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
             final report = snapshot.data!;
             return ListView.builder(
               itemCount: report.length,
@@ -148,8 +208,8 @@ class _ReportPage extends State<ReportPage> {
                                     Expanded(
                                       child: ListTile(
                                         contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 16),
+                                        const EdgeInsets.symmetric(
+                                            horizontal: 16),
                                         title: Text(
                                           detailReport.animal.name,
                                           style: const TextStyle(
@@ -210,10 +270,10 @@ class _ReportPage extends State<ReportPage> {
                                 ),
                                 Padding(
                                   padding:
-                                      const EdgeInsets.only(left: 16, top: 10),
+                                  const EdgeInsets.only(left: 16, top: 10),
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         '${detailReport.title ?? ''}',
@@ -233,7 +293,7 @@ class _ReportPage extends State<ReportPage> {
                                         ),
                                       ),
                                       Text(
-                                        'Tanggal ditemukan: ${detailReport.createdAt ?? ''}',
+                                        'Tanggal ditemukan: ${DateFormat.yMMMMEEEEd('id_ID').add_Hms().format(DateTime.parse(detailReport.createdAt!).toLocal()) ?? ''}',
                                         style: const TextStyle(
                                           fontFamily: 'Lato',
                                           fontSize: 14,
@@ -253,14 +313,7 @@ class _ReportPage extends State<ReportPage> {
                 );
               },
             );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('${snapshot.error}'),
-            );
           }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -524,8 +577,12 @@ class _ReportPage extends State<ReportPage> {
                                   fit: BoxFit.cover,
                                   frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
                                     if (wasSynchronouslyLoaded || frame != null) {
-                                      setState(() {
-                                        _isLoadingImage = false;
+                                      WidgetsBinding.instance!.addPostFrameCallback((_) {
+                                        if (mounted) {
+                                          setState(() {
+                                            _isLoadingImage = false;
+                                          });
+                                        }
                                       });
                                     }
                                     return child;
@@ -681,7 +738,7 @@ class _ReportPage extends State<ReportPage> {
                                   ),
                                 ),
                                 Text(
-                                  '${detailReport.createdAt}',
+                                  '${DateFormat.yMMMMEEEEd('id_ID').add_Hms().format(DateTime.parse(detailReport.createdAt!).toLocal())}',
                                   textAlign: TextAlign.left,
                                   style: const TextStyle(
                                     fontFamily: 'Lato',
