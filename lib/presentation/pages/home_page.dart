@@ -27,17 +27,6 @@ class _HomePage extends State<HomePage> {
   int _selectedIndex = 0;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _checkLocationPermission();
-    // Fetch the arguments passed via Navigator.pushNamed
-    final args = ModalRoute.of(context)!.settings.arguments;
-    if (args != null && args is int) {
-      _selectedIndex = args;
-    }
-  }
-
-  @override
   void initState() {
     super.initState();
 

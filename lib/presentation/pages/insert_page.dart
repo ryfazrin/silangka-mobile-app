@@ -603,11 +603,12 @@ class _InsertPage extends State<InsertPage> {
                 ),
               ),
               onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  HomePage.routeName,
-                  arguments: 1,
-                );
+                Navigator.of(context)..pop()..pop();
+                // Navigator.pushNamed(
+                //   context,
+                //   HomePage.routeName,
+                //   arguments: 1,
+                // );
               },
             ),
           ],
@@ -649,11 +650,12 @@ class _InsertPage extends State<InsertPage> {
                 ),
               ),
               onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  HomePage.routeName,
-                  arguments: 1,
-                );
+                Navigator.of(context)..pop()..pop();
+                // Navigator.pushNamed(
+                //   context,
+                //   HomePage.routeName,
+                //   arguments: 1,
+                // );
               },
             ),
           ],
