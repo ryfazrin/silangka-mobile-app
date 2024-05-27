@@ -2,8 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:silangka/config/config.dart';
 
 class AddAnimal {
+  static String baseUrl = Config.baseUrl;
+
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
@@ -18,7 +21,7 @@ class AddAnimal {
     try {
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse('https://api-arutmin.up.railway.app/reports/add-report'),
+        Uri.parse('$baseUrl/reports/add-report'),
       );
       request.headers.addAll({
         'Authorization': 'Bearer $token',

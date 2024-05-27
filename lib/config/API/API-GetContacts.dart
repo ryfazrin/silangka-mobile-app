@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:silangka/config/config.dart';
 import 'package:silangka/presentation/models/contacts_model.dart';
 
 class ApiContacts {
-  static const String _baseUrl = 'https://api-arutmin.up.railway.app';
+  static String baseUrl = Config.baseUrl;
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -18,7 +19,7 @@ class ApiContacts {
     }
 
     final response = await http.get(
-      Uri.parse('$_baseUrl/contacts'),
+      Uri.parse('$baseUrl/contacts'),
       headers: {'Authorization': 'Bearer $token'},
     );
 

@@ -14,6 +14,7 @@ import 'package:silangka/presentation/pages/insert_page.dart';
 import 'package:silangka/presentation/models/report_model.dart';
 import 'package:silangka/config/API/API-GetReport.dart';
 import 'package:silangka/config/API/API-DeleteReport.dart';
+import 'package:silangka/config/config.dart';
 
 class ReportPage extends StatefulWidget {
   const ReportPage({Key? key}) : super(key: key);
@@ -24,6 +25,7 @@ class ReportPage extends StatefulWidget {
 }
 
 class _ReportPage extends State<ReportPage> {
+  final String baseUrl = Config.baseUrl;
   final formKey = GlobalKey<FormState>();
   String? selectedCategoryId;
   Future<List<Report>>? futureReport;
@@ -603,7 +605,7 @@ class _ReportPage extends State<ReportPage> {
                                     ),
                                   ),
                                 Image.network(
-                                  'https://api-arutmin.up.railway.app/reports/images/${detailReport.imageUrl}',
+                                  '$baseUrl/reports/images/${detailReport.imageUrl}',
                                   width: 300,
                                   fit: BoxFit.cover,
                                   loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {

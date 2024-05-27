@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:silangka/config/API/API-GetAnimalsandImage.dart';
 import 'package:silangka/presentation/models/animals_model.dart';
 import 'package:silangka/presentation/pages/animal_detail_page.dart';
+import 'package:silangka/config/config.dart';
 
 class ListAnimalPage extends StatefulWidget {
   const ListAnimalPage({super.key});
@@ -13,6 +14,7 @@ class ListAnimalPage extends StatefulWidget {
 }
 
 class _ListAnimalPageState extends State<ListAnimalPage> {
+  final String baseUrl = Config.baseUrl;
   Future<List<Animal>>? _futureAnimals;
   bool _isConnected = true;
 
@@ -99,7 +101,7 @@ class _ListAnimalPageState extends State<ListAnimalPage> {
                         leading: ClipRRect(
                           borderRadius: BorderRadius.circular(8), // Border radius 8.0
                           child: Image.network(
-                            'https://arutmin-api.up.railway.app/animals/images/${animal.imageUrl}',
+                            '$baseUrl/animals/images/${animal.imageUrl}',
                             errorBuilder: (context, error, stackTrace) {
                               // Gambar dari assets sebagai pengganti
                               return Image.asset(

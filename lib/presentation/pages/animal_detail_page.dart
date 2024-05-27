@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:silangka/config/resources/app_colors.dart';
 import 'package:silangka/config/resources/app_resources.dart';
 import 'package:silangka/presentation/widgets/indicator.dart';
+import 'package:silangka/config/config.dart';
 
 class AnimalDetailPage extends StatefulWidget {
   final Animal animal;
@@ -15,6 +16,7 @@ class AnimalDetailPage extends StatefulWidget {
 }
 
 class _AnimalDetailPageState extends State<AnimalDetailPage> {
+  final String baseUrl = Config.baseUrl;
   int touchedIndex = -1;
 
   final List<Color> pieColors = [
@@ -54,7 +56,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8), // Border radius 8.0
                     child: Image.network(
-                      'https://arutmin-api.up.railway.app/animals/images/${widget.animal.imageUrl}',
+                      '$baseUrl/animals/images/${widget.animal.imageUrl}',
                       fit: BoxFit.cover,
                       errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
                         return Image.asset(

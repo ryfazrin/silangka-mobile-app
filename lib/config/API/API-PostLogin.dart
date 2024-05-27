@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:silangka/config/config.dart';
 
 class ApiService {
+  static String baseUrl = Config.baseUrl;
+
   Future<dynamic> handleLogin(String email, String password) async {
     try {
       var response = await http.post(
-        Uri.parse('https://api-arutmin.up.railway.app/users/login'),
+        Uri.parse('$baseUrl/users/login'),
         body: jsonEncode({
           'email': email,
           'password': password,

@@ -3,10 +3,13 @@ import 'dart:ffi';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:silangka/config/config.dart';
 
 class ApiRegister {
+  static String baseUrl = Config.baseUrl;
+
   Future<bool> checkWhatsAppNumberAvailability(String whatsAppNumber) async {
-    final url = Uri.parse('https://api-arutmin.up.railway.app/users/register');
+    final url = Uri.parse('$baseUrl/users/register');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -22,7 +25,7 @@ class ApiRegister {
   }
 
   Future<bool> checkEmailAvailability(String email) async {
-    final url = Uri.parse('https://api-arutmin.up.railway.app/users/register');
+    final url = Uri.parse('$baseUrl/users/register');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -52,7 +55,7 @@ class ApiRegister {
         'password': password,
       }));
       var response = await http.post(
-        Uri.parse('https://api-arutmin.up.railway.app/users/register'),
+        Uri.parse('$baseUrl/users/register'),
         body: jsonEncode({
           'fullName': fullName,
           'email': email,
