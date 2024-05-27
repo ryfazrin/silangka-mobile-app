@@ -27,6 +27,12 @@ class _HomePage extends State<HomePage> {
   int _selectedIndex = 0;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _checkLocationPermission();
+  }
+
+  @override
   void initState() {
     super.initState();
 

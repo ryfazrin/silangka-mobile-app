@@ -8,6 +8,7 @@ class ApiService {
 
   Future<dynamic> handleLogin(String email, String password) async {
     try {
+      print('login: $baseUrl/users/login');
       var response = await http.post(
         Uri.parse('$baseUrl/users/login'),
         body: jsonEncode({

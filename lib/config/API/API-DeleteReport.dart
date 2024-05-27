@@ -13,7 +13,7 @@ class ApiDelete {
 
   Future<void> deleteReport(String reportId) async {
     final String token = await getToken() ?? '';
-    final String url = '$baseUrl/soft-delete/$reportId'; // Menambahkan ID laporan ke URL
+    final String url = '$baseUrl/reports/soft-delete/$reportId'; // Menambahkan ID laporan ke URL
     try {
       final response = await http.patch(
         Uri.parse(url),
