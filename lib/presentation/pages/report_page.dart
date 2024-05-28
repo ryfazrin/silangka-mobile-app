@@ -37,10 +37,10 @@ class _ReportPage extends State<ReportPage> {
   @override
   void initState() {
     super.initState();
-    checkInternetConnection();
+    checkInternetConnectionAndSaveData();
   }
 
-  Future<void> checkInternetConnection() async {
+  Future<void> checkInternetConnectionAndSaveData() async {
     var connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult != ConnectivityResult.none) {
       setState(() {
@@ -106,228 +106,233 @@ class _ReportPage extends State<ReportPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<List<Report>>(
-        future: futureReport,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('${snapshot.error}'),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        futureReport = DatabaseHelper().fetchReports();// Replace with your actual method to reload data
-                      });
-                    },
-                    child: Text("Reload"),
-                  ),
-                ],
-              ),
-            );
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Tidak ada data laporan.'),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        futureReport = DatabaseHelper().fetchReports(); // Replace with your actual method to reload data
-                      });
-                    },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<
-                          RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(36),
+      body: RefreshIndicator(
+        onRefresh: checkInternetConnectionAndSaveData,
+        child: FutureBuilder<List<Report>>(
+          future: futureReport,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('${snapshot.error}'),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          futureReport = DatabaseHelper().fetchReports();// Replace with your actual method to reload data
+                        });
+                      },
+                      child: Text("Reload"),
+                    ),
+                  ],
+                ),
+              );
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Tidak ada data laporan.'),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        checkInternetConnectionAndSaveData();
+                      },
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all<
+                            RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(36),
+                          ),
+                        ),
+                        fixedSize:
+                        MaterialStateProperty.all(const Size(130, 54)),
+                        // backgroundColor:
+                        //     MaterialStateProperty.all(Color(0xFF58A356)),
+                      ),
+                      child: const Text(
+                        'Refresh',
+                        style: TextStyle(
+                          fontFamily: 'Nexa',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          // color: Color(0xFFFFFFFF),
+                          color: Color(0xFF58A356),
                         ),
                       ),
-                      fixedSize:
-                      MaterialStateProperty.all(const Size(130, 54)),
-                      // backgroundColor:
-                      //     MaterialStateProperty.all(Color(0xFF58A356)),
                     ),
-                    child: const Text(
-                      'Refresh',
-                      style: TextStyle(
-                        fontFamily: 'Nexa',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        // color: Color(0xFFFFFFFF),
-                        color: Color(0xFF58A356),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          } else {
-            final report = snapshot.data!;
-            return ListView.builder(
-              itemCount: report.length,
-              itemBuilder: (context, index) {
-                final detailReport = report[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 345),
-                        child: GestureDetector(
-                          onTap: () {
-                            viewBottomSheet(context, detailReport);
-                          },
-                          child: Container(
-                            width: 345,
-                            height: 215,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF8ED8E),
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 2,
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 3),
-                                )
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: ListTile(
-                                        contentPadding:
-                                        const EdgeInsets.symmetric(
-                                            horizontal: 16),
-                                        title: Text(
-                                          detailReport.animal.name,
-                                          style: const TextStyle(
-                                            fontFamily: 'Nexa',
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF9CA356),
-                                            fontSize: 16,
+                  ],
+                ),
+              );
+            } else {
+              final report = snapshot.data!;
+              return ListView.builder(
+                itemCount: report.length,
+                itemBuilder: (context, index) {
+                  final detailReport = report[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 345),
+                          child: GestureDetector(
+                            onTap: () {
+                              viewBottomSheet(context, detailReport);
+                            },
+                            child: Container(
+                              width: 345,
+                              height: 215,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF8ED8E),
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 3),
+                                  )
+                                ],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: ListTile(
+                                          contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 16),
+                                          title: Text(
+                                            detailReport.animal.name,
+                                            style: const TextStyle(
+                                              fontFamily: 'Nexa',
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xFF9CA356),
+                                              fontSize: 16,
+                                            ),
                                           ),
-                                        ),
-                                        trailing: Row(
-                                          mainAxisSize: MainAxisSize
-                                              .min, // Ensure minimum space for the Row
-                                          children: [
-                                            // Conditional IconButton for sending the draft
-                                            if (detailReport.status == 'Draft')
+                                          trailing: Row(
+                                            mainAxisSize: MainAxisSize
+                                                .min, // Ensure minimum space for the Row
+                                            children: [
+                                              // Conditional IconButton for sending the draft
+                                              if (detailReport.status == 'Draft')
+                                                IconButton(
+                                                  icon: const Icon(Icons
+                                                      .send_and_archive_outlined),
+                                                  onPressed: () {
+                                                    _sendDraftReport(
+                                                        detailReport);
+                                                  },
+                                                ),
                                               IconButton(
                                                 icon: const Icon(Icons
-                                                    .send_and_archive_outlined),
+                                                    .delete_outline_outlined),
                                                 onPressed: () {
-                                                  _sendDraftReport(
-                                                      detailReport);
+                                                  _showDeleteDialog(
+                                                      context, detailReport);
                                                 },
                                               ),
-                                            IconButton(
-                                              icon: const Icon(Icons
-                                                  .delete_outline_outlined),
-                                              onPressed: () {
-                                                _showDeleteDialog(
-                                                    context, detailReport);
-                                              },
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 16),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 4),
-                                    decoration: BoxDecoration(
-                                      color: detailReport.status == 'Terkirim'
-                                          ? Colors.green
-                                          : Colors.blue,
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: Text(
-                                      detailReport.status ?? '',
-                                      style: const TextStyle(
-                                        fontFamily: 'Lato',
-                                        fontSize: 12,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                  const EdgeInsets.only(left: 16, top: 10),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '${detailReport.title ?? ''}',
-                                        style: const TextStyle(
-                                          fontFamily: 'Lato',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: Color(0xFF9CA356),
-                                        ),
-                                      ),
-                                      Text(
-                                        'Lokasi: ${detailReport.location ?? ''}',
-                                        style: const TextStyle(
-                                          fontFamily: 'Lato',
-                                          fontSize: 14,
-                                          color: Color(0xFF9CA356),
-                                        ),
-                                      ),
-                                      Text(
-                                        'Tanggal ditemukan: ${DateFormat.yMMMMEEEEd('id_ID').add_Hms().format(DateTime.parse(detailReport.createdAt!).toLocal()) ?? ''}',
-                                        style: const TextStyle(
-                                          fontFamily: 'Lato',
-                                          fontSize: 14,
-                                          color: Color(0xFF9CA356),
-                                        ),
-                                      )
                                     ],
                                   ),
-                                ),
-                              ],
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 16),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 4),
+                                      decoration: BoxDecoration(
+                                        color: detailReport.status == 'Terkirim'
+                                            ? Colors.green
+                                            : Colors.blue,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Text(
+                                        detailReport.status ?? '',
+                                        style: const TextStyle(
+                                          fontFamily: 'Lato',
+                                          fontSize: 12,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                    const EdgeInsets.only(left: 16, top: 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${detailReport.title ?? ''}',
+                                          style: const TextStyle(
+                                            fontFamily: 'Lato',
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            color: Color(0xFF9CA356),
+                                          ),
+                                        ),
+                                        Text(
+                                          'Lokasi: ${detailReport.location ?? ''}',
+                                          style: const TextStyle(
+                                            fontFamily: 'Lato',
+                                            fontSize: 14,
+                                            color: Color(0xFF9CA356),
+                                          ),
+                                        ),
+                                        Text(
+                                          'Tanggal ditemukan: ${DateFormat.yMMMMEEEEd('id_ID').add_Hms().format(DateTime.parse(detailReport.createdAt!).toLocal()) ?? ''}',
+                                          style: const TextStyle(
+                                            fontFamily: 'Lato',
+                                            fontSize: 14,
+                                            color: Color(0xFF9CA356),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            );
-          }
-        },
+                      ],
+                    ),
+                  );
+                },
+              );
+            }
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF58A356),
         shape: CircleBorder(),
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          final result = await Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const InsertPage(),
             ),
           );
+          if (result == true) {
+            // Re-fetch the reports when coming back from InsertPage
+            checkInternetConnectionAndSaveData();
+          }
         },
         child: Image.asset('assets/images/plus.png'),
       ),
@@ -396,9 +401,7 @@ class _ReportPage extends State<ReportPage> {
         report.createdAt,
       );
       _deleteReportDatabase(report.id.toString(), true);
-      setState(() {
-        futureReport = DatabaseHelper().fetchReports();
-      });
+      await checkInternetConnectionAndSaveData();
 
       _showDialogSuccessSend();
     } catch (e) {
@@ -444,11 +447,7 @@ class _ReportPage extends State<ReportPage> {
                 ),
               ),
               onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  HomePage.routeName,
-                  arguments: 1,
-                );
+                Navigator.of(context).pop();
               },
             ),
           ],

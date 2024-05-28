@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:silangka/presentation/models/animals_model.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:silangka/config/resources/app_colors.dart';
-import 'package:silangka/config/resources/app_resources.dart';
 import 'package:silangka/presentation/widgets/indicator.dart';
 import 'package:silangka/config/config.dart';
+
 
 class AnimalDetailPage extends StatefulWidget {
   final Animal animal;
@@ -20,13 +19,26 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
   int touchedIndex = -1;
 
   final List<Color> pieColors = [
-    AppColors.contentColorPurple,
-    AppColors.contentColorYellow,
-    AppColors.contentColorBlue,
-    AppColors.contentColorGreen,
-    AppColors.contentColorRed,
-    AppColors.contentColorPink,
-    AppColors.contentColorCyan,
+    Colors.red,
+    Colors.blue,
+    Colors.green,
+    Colors.yellow,
+    Colors.orange,
+    Colors.purple,
+    Colors.brown,
+    Colors.cyan,
+    Colors.indigo,
+    Colors.lime,
+    Colors.pink,
+    Colors.teal,
+    Colors.amber,
+    Colors.deepOrange,
+    Colors.deepPurple,
+    Colors.lightBlue,
+    Colors.lightGreen,
+    Colors.black,
+    Colors.grey,
+    Colors.blueGrey,
   ];
 
   @override
@@ -300,6 +312,15 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
               ),
               const SizedBox(height: 16.0),
               if (widget.animal.estimationAmounts != null && widget.animal.estimationAmounts!.isNotEmpty) ...[
+                const Text(
+                  'Jumlah Estimasi Sebaran',
+                  style: TextStyle(
+                    fontFamily: 'Nexa',
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF9CA356),
+                  ),
+                ),
                 AspectRatio(
                   aspectRatio: 1.0,
                   child: PieChart(
