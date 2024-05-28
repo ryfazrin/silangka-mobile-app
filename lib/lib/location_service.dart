@@ -46,14 +46,15 @@ class LocationService {
   Future<void> _showDialogOpenLocationSettings(BuildContext context) async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // Dialog tidak bisa ditutup dengan klik di luar
+      barrierDismissible:
+          false, // Dialog tidak bisa ditutup dengan klik di luar
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Location Services Disabled'),
+          title: Text('Lokasi Tidak Aktif'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Location services are disabled. Please enable the services.'),
+                Text('Layanan lokasi tidak aktif. Silakan aktifkan lokasi.'),
               ],
             ),
           ),

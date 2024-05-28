@@ -46,7 +46,9 @@ class _InsertPage extends State<InsertPage> {
     _getCurrentPosition();
     _checkConnectivity();
 
-    _connectivitySubscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+    _connectivitySubscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
       if (mounted) {
         setState(() {
           isOnline = result != ConnectivityResult.none;
@@ -73,7 +75,9 @@ class _InsertPage extends State<InsertPage> {
   File? image;
   Future pickImageFromGallery() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final image = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+      );
       if (image == null) return;
       final imageTemp = File(image.path);
       if (mounted) {
@@ -188,7 +192,7 @@ class _InsertPage extends State<InsertPage> {
         setState(() {
           _currentPosition = position;
           _lokasiController.text =
-          '${_currentPosition!.latitude},${_currentPosition!.longitude}';
+              '${_currentPosition!.latitude},${_currentPosition!.longitude}';
         });
       }
     }).catchError((e) {
@@ -512,7 +516,8 @@ class _InsertPage extends State<InsertPage> {
         //ketika perangkat online
         try {
           DateTime now = DateTime.now().toUtc();
-          String formattedDate = DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(now);
+          String formattedDate =
+              DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(now);
           await AddAnimal().handleReport(
             image!,
             _judulLaporanController.text,
@@ -565,7 +570,7 @@ class _InsertPage extends State<InsertPage> {
       'categoryId': selectedCategoryId,
       'desc': _informasiLainlain.text,
       'status': 'Draft',
-      'createdAt':formattedDate,
+      'createdAt': formattedDate,
     };
     await databaseHelper.insert(report);
   }
@@ -603,7 +608,9 @@ class _InsertPage extends State<InsertPage> {
                 ),
               ),
               onPressed: () {
-                Navigator.of(context)..pop()..pop();
+                Navigator.of(context)
+                  ..pop()
+                  ..pop();
                 // Navigator.pushNamed(
                 //   context,
                 //   HomePage.routeName,
@@ -650,7 +657,9 @@ class _InsertPage extends State<InsertPage> {
                 ),
               ),
               onPressed: () {
-                Navigator.of(context)..pop()..pop();
+                Navigator.of(context)
+                  ..pop()
+                  ..pop();
                 // Navigator.pushNamed(
                 //   context,
                 //   HomePage.routeName,

@@ -53,8 +53,8 @@ class _ListAnimalPageState extends State<ListAnimalPage> {
         } else if (snapshot.hasError) {
           return _isConnected
               ? Center(
-            child: Text('${snapshot.error}'),
-          )
+                  child: Text('${snapshot.error}'),
+                )
               : _buildNoConnectionMessage();
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const Center(
@@ -69,7 +69,8 @@ class _ListAnimalPageState extends State<ListAnimalPage> {
               itemBuilder: (context, index) {
                 final animal = animals[index];
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(
                       maxWidth: 345,
@@ -94,14 +95,17 @@ class _ListAnimalPageState extends State<ListAnimalPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AnimalDetailPage(animal: animal),
+                              builder: (context) =>
+                                  AnimalDetailPage(animal: animal),
                             ),
                           );
                         },
                         leading: ClipRRect(
-                          borderRadius: BorderRadius.circular(8), // Border radius 8.0
+                          borderRadius:
+                              BorderRadius.circular(8), // Border radius 8.0
                           child: Image.network(
                             '$baseUrl/animals/images/${animal.imageUrl}',
+                            width: 80,
                             errorBuilder: (context, error, stackTrace) {
                               // Gambar dari assets sebagai pengganti
                               return Image.asset(
@@ -158,14 +162,12 @@ class _ListAnimalPageState extends State<ListAnimalPage> {
           ElevatedButton(
             onPressed: _refreshAnimals,
             style: ButtonStyle(
-              shape: MaterialStateProperty.all<
-                  RoundedRectangleBorder>(
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(36),
                 ),
               ),
-              fixedSize:
-              MaterialStateProperty.all(const Size(130, 54)),
+              fixedSize: MaterialStateProperty.all(const Size(130, 54)),
               // backgroundColor:
               //     MaterialStateProperty.all(Color(0xFF58A356)),
             ),

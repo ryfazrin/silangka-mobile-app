@@ -316,7 +316,7 @@ class _RegisterPage extends State<RegisterPage> {
                               const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8),
                                 child: Text(
-                                  'Confirm Password',
+                                  'Konfirmasi Password',
                                   style: TextStyle(
                                     fontFamily: 'Lato',
                                     fontSize: 16,
