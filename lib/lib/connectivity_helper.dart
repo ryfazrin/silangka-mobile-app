@@ -42,16 +42,16 @@ class ConnectivityHelper {
         return AlertDialog(
           backgroundColor: const Color(0xFFD4F3C4),
           title: const Text(
-            'No Internet Connection',
+            'Tidak Ada Koneksi Internet',
             style: TextStyle(
               color: Color(0xFF58A356),
             ),
           ),
-          content:const SingleChildScrollView(
+          content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('You are not connected to the internet.'),
-                Text('Please check your connection and try again.'),
+                Text('Anda tidak terhubung dengan internet.'),
+                Text('Silakan cek koneksi anda dan coba lagi.'),
               ],
             ),
           ),

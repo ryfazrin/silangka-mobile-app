@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:silangka/config/API/API-GetAnimalsandImage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:geocoding/geocoding.dart';
@@ -8,8 +10,11 @@ import 'package:geolocator/geolocator.dart';
 import 'package:flutter/services.dart';
 import 'package:silangka/config/API/API-PostAddAnimal.dart';
 import 'package:silangka/presentation/models/animals_model.dart';
+import 'package:silangka/presentation/pages/home_page.dart';
 import 'package:silangka/presentation/pages/report_page.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:silangka/lib/database_helper.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:silangka/config/API/API-GetAnimalsandImage.dart';
 
 class InsertPage extends StatefulWidget {
   const InsertPage({Key? key}) : super(key: key);
@@ -30,21 +35,54 @@ class _InsertPage extends State<InsertPage> {
   List<Animal> categories = [];
   Position? _currentPosition;
   String? _currentAddress;
+  bool isOnline = true;
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   @override
   void initState() {
     super.initState();
+    _loadCategories();
     fetchCategories();
     _getCurrentPosition();
+    _checkConnectivity();
+
+    _connectivitySubscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      if (mounted) {
+        setState(() {
+          isOnline = result != ConnectivityResult.none;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> _checkConnectivity() async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (mounted) {
+      setState(() {
+        isOnline = connectivityResult != ConnectivityResult.none;
+      });
+    }
   }
 
   File? image;
   Future pickImageFromGallery() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final image = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+      );
       if (image == null) return;
       final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
+      if (mounted) {
+        setState(() => this.image = imageTemp);
+      }
     } on PlatformException catch (e) {
       print('Gagal memuat gambar');
     }
@@ -55,7 +93,9 @@ class _InsertPage extends State<InsertPage> {
       final image = await ImagePicker().pickImage(source: ImageSource.camera);
       if (image == null) return;
       final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
+      if (mounted) {
+        setState(() => this.image = imageTemp);
+      }
     } on PlatformException catch (e) {
       print('Gagal memuat gambar dari kamera');
     }
@@ -95,16 +135,16 @@ class _InsertPage extends State<InsertPage> {
     try {
       final animals = await ApiAnimal.fetchAnimals();
       final List<Animal> animalCategories = animals;
-      setState(() {
-        print(categories);
-        categories = animalCategories;
-      });
+      if (mounted) {
+        setState(() {
+          categories = animalCategories;
+        });
+      }
     } catch (e) {
       print('Error fetching categories: $e');
     }
   }
 
-//teks longtitude dan latitude-nya dihapus, dan latitude sebelah kiri dan longtitude sebalah kanan
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -133,40 +173,66 @@ class _InsertPage extends State<InsertPage> {
     return true;
   }
 
+  void _loadCategories() async {
+    final dbHelper = DatabaseHelper();
+    final categoriesFromDb = await dbHelper.getCategories();
+    if (mounted) {
+      setState(() {
+        categories = categoriesFromDb;
+      });
+    }
+  }
+
   Future<void> _getCurrentPosition() async {
     final hasPermission = await _handleLocationPermission();
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-        _lokasiController.text =
-            '${_currentPosition!.longitude},${_currentPosition!.latitude}';
-      });
+      if (mounted) {
+        setState(() {
+          _currentPosition = position;
+          _lokasiController.text =
+              '${_currentPosition!.latitude},${_currentPosition!.longitude}';
+        });
+      }
     }).catchError((e) {
       debugPrint(e);
     });
   }
 
-  Future<void> _getAddressFromLatLng(Position position) async {
-    await placemarkFromCoordinates(
-            _currentPosition!.latitude, _currentPosition!.longitude)
-        .then((List<Placemark> placemarks) {
-      Placemark place = placemarks[0];
-      setState(() {
-        _currentAddress =
-            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
-      });
-    }).catchError((e) {
-      debugPrint(e);
-    });
-  }
+  // Future<void> _getAddressFromLatLng(Position position) async {
+  //   await placemarkFromCoordinates(
+  //           _currentPosition!.latitude, _currentPosition!.longitude)
+  //       .then((List<Placemark> placemarks) {
+  //     Placemark place = placemarks[0];
+  //     setState(() {
+  //       _currentAddress =
+  //           '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+  //     });
+  //   }).catchError((e) {
+  //     debugPrint(e);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF58A356),
+        foregroundColor: const Color(0xFFF8ED8E),
+        automaticallyImplyLeading: true,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            color: Color(0xFF58A356),
+          ),
+        ),
+        title: const Text(
+          'Masukan Laporan',
+          style: TextStyle(
+            fontFamily: 'Nexa',
+            fontWeight: FontWeight.bold,
+            color: Color(0xFFF8ED8E),
+          ),
+        ),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -410,11 +476,11 @@ class _InsertPage extends State<InsertPage> {
                             fixedSize:
                                 MaterialStateProperty.all(const Size(345, 60)),
                             backgroundColor: MaterialStateProperty.all(
-                                const Color(0xFF58A356)),
+                                isOnline ? Color(0xFF58A356) : Colors.blue),
                           ),
-                          child: const Text(
-                            'Kirim',
-                            style: TextStyle(
+                          child: Text(
+                            isOnline ? 'Kirim' : 'Simpan ke Draft',
+                            style: const TextStyle(
                               fontFamily: 'Nexa',
                               color: Colors.white,
                               fontSize: 20,
@@ -437,24 +503,36 @@ class _InsertPage extends State<InsertPage> {
     );
   }
 
-// desc tidak wajib
   void _handleSendReport() async {
     if (formKey.currentState!.validate()) {
       if (image != null) {
+        final connectivity = await Connectivity().checkConnectivity();
+        //ketika perangkat offline
+        if (connectivity == ConnectivityResult.none) {
+          await _saveDraftReport();
+          _showDialogSuccessSendtoDraft();
+          return;
+        }
+        //ketika perangkat online
         try {
-          final reportData = await AddAnimal().handleReport(
+          DateTime now = DateTime.now().toUtc();
+          String formattedDate =
+              DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(now);
+          await AddAnimal().handleReport(
             image!,
             _judulLaporanController.text,
             _lokasiController.text,
             int.parse(_jumlahHewanController.text),
             _informasiLainlain.text,
             selectedCategoryId,
+            formattedDate,
           );
-          Navigator.pushNamed(
-            context,
-            ReportPage.routeName,
-            arguments: reportData,
-          );
+          _showDialogSuccessSend();
+          // Navigator.pushNamed(
+          //   context,
+          //   HomePage.routeName,
+          //   arguments: 1,
+          // );
         } catch (e) {
           print('Gagal mengirim laporan: $e');
           ScaffoldMessenger.of(context).showSnackBar(
@@ -477,5 +555,121 @@ class _InsertPage extends State<InsertPage> {
         ),
       );
     }
+  }
+
+  Future<void> _saveDraftReport() async {
+    final databaseHelper = DatabaseHelper();
+    DateTime now = DateTime.now().toUtc();
+    String formattedDate = DateFormat("yyyy-MM-ddTHH:mm:ss.SSS'Z'").format(now);
+    print('debug:$formattedDate');
+    final report = {
+      'title': _judulLaporanController.text,
+      'location': _lokasiController.text,
+      'animalCount': _jumlahHewanController.text,
+      'image': image?.path,
+      'categoryId': selectedCategoryId,
+      'desc': _informasiLainlain.text,
+      'status': 'Draft',
+      'createdAt': formattedDate,
+    };
+    await databaseHelper.insert(report);
+  }
+
+  Future<void> _showDialogSuccessSendtoDraft() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFFD4F3C4),
+          title: const Text(
+            'Sukses',
+            style: TextStyle(
+              color: Color(0xFF58A356),
+            ),
+          ),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  'Data Berhasil Dikirim di Draft.',
+                  style: TextStyle(color: Color(0xFF58A356)),
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context)
+                  ..pop()
+                  ..pop();
+                // Navigator.pushNamed(
+                //   context,
+                //   HomePage.routeName,
+                //   arguments: 1,
+                // );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showDialogSuccessSend() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFFD4F3C4),
+          title: const Text(
+            'Sukses',
+            style: TextStyle(
+              color: Color(0xFF58A356),
+            ),
+          ),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  'Data Berhasil Dikirim.',
+                  style: TextStyle(color: Color(0xFF58A356)),
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context)
+                  ..pop()
+                  ..pop();
+                // Navigator.pushNamed(
+                //   context,
+                //   HomePage.routeName,
+                //   arguments: 1,
+                // );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

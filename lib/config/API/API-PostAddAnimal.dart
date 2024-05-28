@@ -2,15 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:silangka/config/config.dart';
 
 class AddAnimal {
+  static String baseUrl = Config.baseUrl;
+
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
   }
 
   Future<dynamic> handleReport(File image, String title, String location,
-      int animalCount, String desc, int? animalId) async {
+      int animalCount, String desc, int? animalId, String? createdAt) async {
     final token = await getToken();
     if (token == null) {
       throw Exception('Token tidak ditemukan');
@@ -18,7 +21,7 @@ class AddAnimal {
     try {
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse('https://api-arutmin.up.railway.app/reports/add-report'),
+        Uri.parse('$baseUrl/reports/add-report'),
       );
       request.headers.addAll({
         'Authorization': 'Bearer $token',
@@ -29,6 +32,9 @@ class AddAnimal {
       request.fields['desc'] = desc;
       if (animalId != null) {
         request.fields['animalId'] = animalId.toString();
+      }
+      if(createdAt != null){
+        request.fields['created_at'] = createdAt;
       }
 
       if (image != null) {

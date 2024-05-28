@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:silangka/config/config.dart';
 import 'package:silangka/presentation/models/animals_model.dart';
 
 class ApiAnimal {
-  static const String baseUrl = 'https://arutmin-api.up.railway.app/animals';
+  static String baseUrl = Config.baseUrl;
 
   static Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -13,7 +14,7 @@ class ApiAnimal {
 
   static Future<List<Animal>> fetchAnimals() async {
     final String token = await getToken() ?? '';
-    final String url = '$baseUrl';
+    final String url = '$baseUrl/animals';
     final response = await http.get(
       Uri.parse(url),
       headers: {

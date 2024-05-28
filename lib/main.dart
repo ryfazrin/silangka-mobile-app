@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silangka/presentation/pages/home_page.dart';
 import 'package:silangka/presentation/pages/welcome_page.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -14,6 +15,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sharedPreferences = await SharedPreferences.getInstance();
   final isLoggedIn = sharedPreferences.getString('token') != null;
+
+  // Initialize locale data for `id_ID`
+  await initializeDateFormatting('id_ID', null);
 
   if (isLoggedIn) {
     runApp(MyApp(

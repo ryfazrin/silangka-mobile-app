@@ -1,18 +1,23 @@
 class Report {
   final int id;
+  final int? idBE;
   final String userId;
   final String title;
-  final Animal animal;
+  final AnimalReport animal;
   final String imageUrl;
   final String location;
   final int animalCount;
   final String desc;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final DateTime deletedAt;
-
+  final String? createdAt;
+  final String? updatedAt;
+  final String? deletedAt;
+  // final DateTime? createdAt;
+  // final DateTime? updatedAt;
+  // final DateTime? deletedAt; // nullable DateTime
+  final String? status;
   Report({
     required this.id,
+    this.idBE,
     required this.userId,
     required this.title,
     required this.animal,
@@ -20,40 +25,42 @@ class Report {
     required this.location,
     required this.animalCount,
     required this.desc,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
+     this.createdAt,
+     this.updatedAt,
+    this.deletedAt, // nullable parameter
+    this.status,
   });
 
   factory Report.fromJson(Map<String, dynamic> json) {
     return Report(
       id: json['id'] as int,
+      idBE:  json['idBE'] as int? ?? 0,
       userId: json['userId'] as String,
       title: json['title'] as String,
-      animal: Animal.fromJson(json['animal']),
-      imageUrl: json['imageUrl'] as String,
-      location: json['location'] as String,
+      animal: AnimalReport.fromJson(json['animal'] as Map<String, dynamic>),
+      imageUrl: json['imageUrl'] as String? ?? '',
+      location: json['location'] as String? ?? '',
       animalCount: json['animalCount'] as int,
-      desc: json['desc'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: DateTime.parse(json['updatedAt'] as String),
-      deletedAt: json['deletedAt'] != null
-          ? DateTime.parse(json['deletedAt'] as String)
-          : DateTime.now(),
+      desc: json['desc'] as String? ?? '',
+      createdAt:json['createdAt'] != null ? json['createdAt'] as String : null,
+        updatedAt:json['updatedAt'] != null ? json['updatedAt'] as String : null,
+        deletedAt:json['deletedAt'] != null ? json['deletedAt'] as String : null,
+      // createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt'] as String) : null,
+      // updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt'] as String) : null,
+      // deletedAt: json['deletedAt'] != null ? DateTime.parse(json['deletedAt'] as String) : null,
+      // status: json['status'] as String? ?? '',
     );
   }
 }
-
-class Animal {
+class AnimalReport {
+  final int id;
   final String name;
 
-  Animal({required this.name});
-  String getName() {
-    return name;
-  }
+  AnimalReport({required this.name, required this.id});
 
-  factory Animal.fromJson(Map<String, dynamic> json) {
-    return Animal(
+  factory AnimalReport.fromJson(Map<String, dynamic> json) {
+    return AnimalReport(
+      id: json['id'] as int,
       name: json['name'] as String,
     );
   }

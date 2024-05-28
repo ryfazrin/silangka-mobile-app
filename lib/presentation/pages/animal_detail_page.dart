@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:silangka/config/resources/app_colors.dart';
 import 'package:silangka/config/resources/app_resources.dart';
 import 'package:silangka/presentation/widgets/indicator.dart';
+import 'package:silangka/config/config.dart';
 
 class AnimalDetailPage extends StatefulWidget {
   final Animal animal;
@@ -15,6 +16,7 @@ class AnimalDetailPage extends StatefulWidget {
 }
 
 class _AnimalDetailPageState extends State<AnimalDetailPage> {
+  final String baseUrl = Config.baseUrl;
   int touchedIndex = -1;
 
   final List<Color> pieColors = [
@@ -36,11 +38,9 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
           style: const TextStyle(
             fontFamily: 'Nexa',
             fontWeight: FontWeight.bold,
-            // color: Color(0xFF58A356),
             color: Color(0xFFF8ED8E),
           ),
         ),
-        // backgroundColor: const Color(0xFFD4F3C4),
         backgroundColor: const Color(0xFF58A356),
         foregroundColor: const Color(0xFFF8ED8E),
         scrolledUnderElevation: 0.0,
@@ -56,8 +56,14 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8), // Border radius 8.0
                     child: Image.network(
-                      'https://arutmin-api.up.railway.app/animals/images/${widget.animal.imageUrl}',
+                      '$baseUrl/animals/images/${widget.animal.imageUrl}',
                       fit: BoxFit.cover,
+                      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                        return Image.asset(
+                          'assets/images/image-not-found.png', // Path to your placeholder image
+                          fit: BoxFit.cover,
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -72,7 +78,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                         fontFamily: 'Nexa',
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: const Color(0xFF9CA356),
+                        color: Color(0xFF9CA356),
                       ),
                     ),
                     TextSpan(
@@ -97,7 +103,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                         fontFamily: 'Nexa',
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: const Color(0xFF9CA356),
+                        color: Color(0xFF9CA356),
                       ),
                     ),
                     TextSpan(
@@ -106,7 +112,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                         fontSize: 14,
                         fontFamily: 'Lato',
                         fontWeight: FontWeight.bold,
-                        color: const Color(0xFF9CA356),
+                        color: Color(0xFF9CA356),
                       ),
                     ),
                   ],
@@ -120,7 +126,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                     text: const TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Distribusi: ',
+                          text: 'Distribusi',
                           style: TextStyle(
                             fontFamily: 'Nexa',
                             fontSize: 16,
@@ -150,7 +156,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                     text: const TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Karakteristik: ',
+                          text: 'Karakteristik',
                           style: TextStyle(
                             fontFamily: 'Nexa',
                             fontSize: 16,
@@ -180,7 +186,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                     text: const TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Habitat: ',
+                          text: 'Habitat',
                           style: TextStyle(
                             fontFamily: 'Nexa',
                             fontSize: 16,
@@ -210,7 +216,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                     text: const TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Jenis Makanan: ',
+                          text: 'Jenis Makanan',
                           style: TextStyle(
                             fontFamily: 'Nexa',
                             fontSize: 16,
@@ -240,7 +246,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                     text: const TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Perilaku Unik: ',
+                          text: 'Perilaku Unik',
                           style: TextStyle(
                             fontFamily: 'Nexa',
                             fontSize: 16,
@@ -270,7 +276,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                     text: const TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Periode Kehamilan: ',
+                          text: 'Periode Kehamilan',
                           style: TextStyle(
                             fontFamily: 'Nexa',
                             fontSize: 16,
@@ -293,42 +299,52 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                 ],
               ),
               const SizedBox(height: 16.0),
-              AspectRatio(
-                aspectRatio: 1.0,
-                child: PieChart(
-                  PieChartData(
-                    sections: showingSections(widget.animal.estimationAmounts),
-                    centerSpaceRadius: 80,
-                    sectionsSpace: 0,
-                    pieTouchData: PieTouchData(
-                      touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                        setState(() {
-                          if (!event.isInterestedForInteractions ||
-                              pieTouchResponse == null ||
-                              pieTouchResponse.touchedSection == null) {
-                            touchedIndex = -1;
-                            return;
-                          }
-                          touchedIndex = pieTouchResponse
-                              .touchedSection!.touchedSectionIndex;
-                        });
-                      },
+              if (widget.animal.estimationAmounts != null && widget.animal.estimationAmounts!.isNotEmpty) ...[
+                AspectRatio(
+                  aspectRatio: 1.0,
+                  child: PieChart(
+                    PieChartData(
+                      sections: showingSections(widget.animal.estimationAmounts!),
+                      centerSpaceRadius: 80,
+                      sectionsSpace: 0,
+                      pieTouchData: PieTouchData(
+                        touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                          setState(() {
+                            if (!event.isInterestedForInteractions ||
+                                pieTouchResponse == null ||
+                                pieTouchResponse.touchedSection == null) {
+                              touchedIndex = -1;
+                              return;
+                            }
+                            touchedIndex = pieTouchResponse
+                                .touchedSection!.touchedSectionIndex;
+                          });
+                        },
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 16.0),
-              Column(
-                children: List.generate(widget.animal.estimationAmounts.length,
-                    (index) {
-                  return Indicator(
-                    color: pieColors[index % pieColors.length],
-                    text:
-                        'Area: ${widget.animal.estimationAmounts[index].area ?? '-'}',
-                    isSquare: true,
-                  );
-                }),
-              ),
+                const SizedBox(height: 16.0),
+                Column(
+                  children: List.generate(widget.animal.estimationAmounts!.length, (index) {
+                    return Indicator(
+                      color: pieColors[index % pieColors.length],
+                      text: 'Area: ${widget.animal.estimationAmounts![index].area ?? '-'}',
+                      isSquare: true,
+                    );
+                  }),
+                ),
+              ] else ...[
+                const Text(
+                    'Tidak ada jumlah estimasi yang tersedia.',
+                    style: TextStyle(
+                      fontFamily: 'Nexa',
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF9CA356),
+                    ),
+                ),
+              ],
             ],
           ),
         ),

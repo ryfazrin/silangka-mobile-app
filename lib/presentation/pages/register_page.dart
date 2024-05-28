@@ -35,7 +35,7 @@ class _RegisterPage extends State<RegisterPage> {
     return Scaffold(
       backgroundColor: const Color(0xFFD4F3C4),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             color: const Color(0xFFD4F3C4),
@@ -316,7 +316,7 @@ class _RegisterPage extends State<RegisterPage> {
                               const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8),
                                 child: Text(
-                                  'Confirm Password',
+                                  'Konfirmasi Password',
                                   style: TextStyle(
                                     fontFamily: 'Lato',
                                     fontSize: 16,
