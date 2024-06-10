@@ -40,6 +40,12 @@ class _ReportPage extends State<ReportPage> {
     checkInternetConnection();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    checkInternetConnection();
+  }
+
   Future<void> checkInternetConnection() async {
     var connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult != ConnectivityResult.none) {
@@ -123,7 +129,8 @@ class _ReportPage extends State<ReportPage> {
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        futureReport = DatabaseHelper().fetchReports();// Replace with your actual method to reload data
+                        futureReport = DatabaseHelper()
+                            .fetchReports(); // Replace with your actual method to reload data
                       });
                     },
                     child: Text("Reload"),
@@ -141,18 +148,17 @@ class _ReportPage extends State<ReportPage> {
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        futureReport = DatabaseHelper().fetchReports(); // Replace with your actual method to reload data
+                        futureReport = DatabaseHelper()
+                            .fetchReports(); // Replace with your actual method to reload data
                       });
                     },
                     style: ButtonStyle(
-                      shape: MaterialStateProperty.all<
-                          RoundedRectangleBorder>(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(36),
                         ),
                       ),
-                      fixedSize:
-                      MaterialStateProperty.all(const Size(130, 54)),
+                      fixedSize: MaterialStateProperty.all(const Size(130, 54)),
                       // backgroundColor:
                       //     MaterialStateProperty.all(Color(0xFF58A356)),
                     ),
@@ -210,8 +216,8 @@ class _ReportPage extends State<ReportPage> {
                                     Expanded(
                                       child: ListTile(
                                         contentPadding:
-                                        const EdgeInsets.symmetric(
-                                            horizontal: 16),
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 16),
                                         title: Text(
                                           detailReport.animal.name,
                                           style: const TextStyle(
@@ -272,10 +278,10 @@ class _ReportPage extends State<ReportPage> {
                                 ),
                                 Padding(
                                   padding:
-                                  const EdgeInsets.only(left: 16, top: 10),
+                                      const EdgeInsets.only(left: 16, top: 10),
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         '${detailReport.title ?? ''}',
@@ -553,99 +559,113 @@ class _ReportPage extends State<ReportPage> {
                 Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min, // Use min to let the content dictate the size
+                    mainAxisSize: MainAxisSize
+                        .min, // Use min to let the content dictate the size
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Center(
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8), // Border radius 8.0
+                            borderRadius:
+                                BorderRadius.circular(8), // Border radius 8.0
                             child: detailReport.imageUrl.startsWith('/data')
                                 ? Stack(
-                              children: [
-                                if (_isLoadingImage)
-                                  Shimmer.fromColors(
-                                    baseColor: Colors.grey[300]!,
-                                    highlightColor: Colors.grey[100]!,
-                                    child: Container(
-                                      width: 300,
-                                      height: 100,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                Image.file(
-                                  File(detailReport.imageUrl),
-                                  width: 300,
-                                  fit: BoxFit.cover,
-                                  frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
-                                    if (wasSynchronouslyLoaded || frame != null) {
-                                      WidgetsBinding.instance!.addPostFrameCallback((_) {
-                                        if (mounted) {
-                                          setState(() {
-                                            _isLoadingImage = false;
-                                          });
-                                        }
-                                      });
-                                    }
-                                    return child;
-                                  },
-                                ),
-                              ],
-                            )
+                                    children: [
+                                      if (_isLoadingImage)
+                                        Shimmer.fromColors(
+                                          baseColor: Colors.grey[300]!,
+                                          highlightColor: Colors.grey[100]!,
+                                          child: Container(
+                                            width: 300,
+                                            height: 100,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      Image.file(
+                                        File(detailReport.imageUrl),
+                                        width: 300,
+                                        fit: BoxFit.cover,
+                                        frameBuilder: (BuildContext context,
+                                            Widget child,
+                                            int? frame,
+                                            bool wasSynchronouslyLoaded) {
+                                          if (wasSynchronouslyLoaded ||
+                                              frame != null) {
+                                            WidgetsBinding.instance!
+                                                .addPostFrameCallback((_) {
+                                              if (mounted) {
+                                                setState(() {
+                                                  _isLoadingImage = false;
+                                                });
+                                              }
+                                            });
+                                          }
+                                          return child;
+                                        },
+                                      ),
+                                    ],
+                                  )
                                 : Stack(
-                              children: [
-                                if (_isLoadingImage)
-                                  Shimmer.fromColors(
-                                    baseColor: Colors.grey[300]!,
-                                    highlightColor: Colors.grey[100]!,
-                                    child: Container(
-                                      width: 300,
-                                      height: 100,
-                                      color: Colors.white,
-                                    ),
+                                    children: [
+                                      if (_isLoadingImage)
+                                        Shimmer.fromColors(
+                                          baseColor: Colors.grey[300]!,
+                                          highlightColor: Colors.grey[100]!,
+                                          child: Container(
+                                            width: 300,
+                                            height: 100,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      Image.network(
+                                        '$baseUrl/reports/images/${detailReport.imageUrl}',
+                                        width: 300,
+                                        fit: BoxFit.cover,
+                                        loadingBuilder: (BuildContext context,
+                                            Widget child,
+                                            ImageChunkEvent? loadingProgress) {
+                                          if (loadingProgress == null) {
+                                            WidgetsBinding.instance
+                                                .addPostFrameCallback((_) {
+                                              if (mounted) {
+                                                setState(() {
+                                                  _isLoadingImage = false;
+                                                });
+                                              }
+                                            });
+                                            return child;
+                                          } else {
+                                            return Stack(
+                                              children: [
+                                                if (_isLoadingImage)
+                                                  Shimmer.fromColors(
+                                                    baseColor:
+                                                        Colors.grey[300]!,
+                                                    highlightColor:
+                                                        Colors.grey[100]!,
+                                                    child: Container(
+                                                      width: 300,
+                                                      height: 200,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                child,
+                                              ],
+                                            );
+                                          }
+                                        },
+                                        errorBuilder: (BuildContext context,
+                                            Object error,
+                                            StackTrace? stackTrace) {
+                                          return Image.asset(
+                                            'assets/images/image-not-found.jpg', // Path to your placeholder image
+                                            width: 300,
+                                            fit: BoxFit.cover,
+                                          );
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                Image.network(
-                                  '$baseUrl/reports/images/${detailReport.imageUrl}',
-                                  width: 300,
-                                  fit: BoxFit.cover,
-                                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null) {
-                                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                                        if (mounted) {
-                                          setState(() {
-                                            _isLoadingImage = false;
-                                          });
-                                        }
-                                      });
-                                      return child;
-                                    } else {
-                                      return Stack(
-                                        children: [
-                                          if (_isLoadingImage)
-                                            Shimmer.fromColors(
-                                              baseColor: Colors.grey[300]!,
-                                              highlightColor: Colors.grey[100]!,
-                                              child: Container(
-                                                width: 300,
-                                                height: 200,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          child,
-                                        ],
-                                      );
-                                    }
-                                  },
-                                  errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                                    return Image.asset(
-                                      'assets/images/image-not-found.jpg', // Path to your placeholder image
-                                      width: 300,
-                                      fit: BoxFit.cover,
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
                           ),
                         ),
                       ),
@@ -694,8 +714,10 @@ class _ReportPage extends State<ReportPage> {
                             ),
                             const TableRow(
                               children: [
-                                SizedBox(height: 20), // Adding space between rows
-                                SizedBox(height: 20), // Adding space between rows
+                                SizedBox(
+                                    height: 20), // Adding space between rows
+                                SizedBox(
+                                    height: 20), // Adding space between rows
                               ],
                             ),
                             TableRow(
@@ -723,8 +745,10 @@ class _ReportPage extends State<ReportPage> {
                             ),
                             const TableRow(
                               children: [
-                                SizedBox(height: 20), // Adding space between rows
-                                SizedBox(height: 20), // Adding space between rows
+                                SizedBox(
+                                    height: 20), // Adding space between rows
+                                SizedBox(
+                                    height: 20), // Adding space between rows
                               ],
                             ),
                             TableRow(
@@ -755,7 +779,8 @@ class _ReportPage extends State<ReportPage> {
                       ),
                       const SizedBox(height: 20),
                       Padding(
-                        padding: const EdgeInsets.only(right: 15, left: 15, bottom: 10),
+                        padding: const EdgeInsets.only(
+                            right: 15, left: 15, bottom: 10),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Column(
@@ -793,7 +818,7 @@ class _ReportPage extends State<ReportPage> {
         );
       },
     ).whenComplete(() => setState(() {
-      _isLoadingImage = true;
-    }));
+          _isLoadingImage = true;
+        }));
   }
 }

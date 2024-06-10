@@ -197,7 +197,7 @@ class _RegisterPage extends State<RegisterPage> {
                               const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8),
                                 child: Text(
-                                  'Whatsapp',
+                                  'Hp',
                                   style: TextStyle(
                                     fontFamily: 'Lato',
                                     fontSize: 16,
@@ -229,15 +229,15 @@ class _RegisterPage extends State<RegisterPage> {
                                     ),
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Masukan nomor Whatsapp Anda';
+                                        return 'Masukan Nomor Hp Anda';
                                       }
                                       if (!RegExp(
                                               r'^\+?[0-9]{1,3}[0-9]{10,13}$')
                                           .hasMatch(value)) {
-                                        return 'Nomor Whatsapp tidak valid';
+                                        return 'Nomor Hp tidak valid';
                                       }
                                       if (!_isWhatsAppNumberAvailable) {
-                                        return 'Nomor Whatsapp sudah digunakan';
+                                        return 'Nomor Hp sudah digunakan';
                                       }
                                       return null;
                                     },
