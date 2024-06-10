@@ -10,7 +10,7 @@ class LocationService {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     while (!serviceEnabled) {
       // Jika layanan lokasi tidak aktif, tampilkan dialog
-      await _showDialogOpenLocationSettings(context);
+      await showDialogOpenLocationSettings(context);
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
     }
 
@@ -43,7 +43,7 @@ class LocationService {
     return true;
   }
 
-  Future<void> _showDialogOpenLocationSettings(BuildContext context) async {
+  Future<void> showDialogOpenLocationSettings(BuildContext context) async {
     return showDialog<void>(
       context: context,
       barrierDismissible:

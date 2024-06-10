@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silangka/lib/database_helper.dart';
 import 'package:silangka/lib/location_service.dart';
@@ -21,20 +22,19 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State<HomePage> {
   final LocationService _locationService = LocationService();
+  StreamSubscription<ServiceStatus>? _serviceStatusStreamSubscription;
+  bool _isLocationServiceEnabled = false;
 
   List<Map<String, String>> _animals = [];
   String? _token;
   int _selectedIndex = 0;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _checkLocationPermission();
-  }
-
-  @override
   void initState() {
     super.initState();
+
+    _checkLocationPermission();
+    _initializeLocationServiceListener();
 
     SharedPreferences.getInstance().then((prefs) {
       bool isDataFetched = prefs.getBool('isDataFetched') ?? false;
@@ -45,6 +45,31 @@ class _HomePage extends State<HomePage> {
         });
       }
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _checkLocationPermission();
+  }
+
+  @override
+  void dispose() {
+    _serviceStatusStreamSubscription?.cancel();
+    super.dispose();
+  }
+
+  void _initializeLocationServiceListener() {
+    _serviceStatusStreamSubscription = Geolocator.getServiceStatusStream().listen(
+          (ServiceStatus status) {
+        setState(() {
+          _isLocationServiceEnabled = status == ServiceStatus.enabled;
+          if (!_isLocationServiceEnabled) {
+            _locationService.showDialogOpenLocationSettings(context);
+          }
+        });
+      },
+    );
   }
 
   Future<void> _checkLocationPermission() async {

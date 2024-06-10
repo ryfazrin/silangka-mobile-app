@@ -9,6 +9,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/services.dart';
 import 'package:silangka/config/API/API-PostAddAnimal.dart';
+import 'package:silangka/lib/location_service.dart';
 import 'package:silangka/presentation/models/animals_model.dart';
 import 'package:silangka/presentation/pages/home_page.dart';
 import 'package:silangka/presentation/pages/report_page.dart';
@@ -36,7 +37,10 @@ class _InsertPage extends State<InsertPage> {
   Position? _currentPosition;
   String? _currentAddress;
   bool isOnline = true;
+  final LocationService _locationService = LocationService();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  StreamSubscription<ServiceStatus>? _serviceStatusStreamSubscription;
+  bool _isLocationServiceEnabled = false;
 
   @override
   void initState() {
@@ -45,6 +49,7 @@ class _InsertPage extends State<InsertPage> {
     fetchCategories();
     _getCurrentPosition();
     _checkConnectivity();
+    _initializeLocationServiceListener();
 
     _connectivitySubscription = Connectivity()
         .onConnectivityChanged
@@ -60,7 +65,21 @@ class _InsertPage extends State<InsertPage> {
   @override
   void dispose() {
     _connectivitySubscription.cancel();
+    _serviceStatusStreamSubscription?.cancel();
     super.dispose();
+  }
+
+  void _initializeLocationServiceListener() {
+    _serviceStatusStreamSubscription = Geolocator.getServiceStatusStream().listen(
+          (ServiceStatus status) {
+        setState(() {
+          _isLocationServiceEnabled = status == ServiceStatus.enabled;
+          if (!_isLocationServiceEnabled) {
+            _locationService.showDialogOpenLocationSettings(context);
+          }
+        });
+      },
+    );
   }
 
   Future<void> _checkConnectivity() async {
@@ -608,9 +627,7 @@ class _InsertPage extends State<InsertPage> {
                 ),
               ),
               onPressed: () {
-                Navigator.of(context)
-                  ..pop()
-                  ..pop();
+                Navigator.of(context)..pop(true)..pop(true); // Ensure you navigate correctly
                 // Navigator.pushNamed(
                 //   context,
                 //   HomePage.routeName,
